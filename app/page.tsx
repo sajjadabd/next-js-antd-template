@@ -2,8 +2,10 @@
 
 import React , { useState } from 'react';
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Menu } from 'antd';
+import type { MenuProps, MenuTheme } from 'antd';
+import { Menu, Switch } from 'antd';
+
+import Link from 'next/link'
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -13,6 +15,7 @@ function getItem(
   icon?: React.ReactNode,
   children?: MenuItem[],
   type?: 'group',
+  theme?: 'light' | 'dark',
 ): MenuItem {
   return {
     key,
@@ -20,6 +23,7 @@ function getItem(
     children,
     label,
     type,
+    theme,
   } as MenuItem;
 }
 
@@ -30,8 +34,12 @@ const items: MenuProps['items'] = [
   ]),
 
   getItem('Navigation Two', 'sub2', <AppstoreOutlined />, [
-    getItem('Option 5', '5'),
-    getItem('Option 6', '6'),
+    getItem( <Link href="/login">
+        Login
+    </Link>, '5'),
+    getItem(<Link href="/management">
+        Management
+    </Link>, '6'),
     getItem('Submenu', 'sub3', null, [getItem('Option 7', '7'), getItem('Option 8', '8')]),
   ]),
 
@@ -48,6 +56,12 @@ const items: MenuProps['items'] = [
 ];
 
 export default function App () {
+
+  const [theme, setTheme] = useState<MenuTheme>('light');
+
+  const changeTheme = (value: boolean) => {
+    setTheme(value ? 'dark' : 'light');
+  };
 
   const onClick: MenuProps['onClick'] = (e) => {
     console.log('click ', e);
@@ -68,16 +82,25 @@ export default function App () {
   };
   */
   return (
-    <Menu
-      onClick={onClick}
-      style={{ width: 256 , minHeight : '100vh' }}
-      //openKeys={openKeys}
-      //onOpenChange={onOpenChange}
-      defaultSelectedKeys={['1']}
-      defaultOpenKeys={['sub1']}
-      mode="inline"
-      items={items}
-    />
+    <>
+      {/* <Switch
+        checked={theme === 'dark'}
+        onChange={changeTheme}
+        checkedChildren="Dark"
+        unCheckedChildren="Light"
+      /> */}
+      <Menu
+        onClick={onClick}
+        style={{ width: 256 , minHeight : '100vh' }}
+        //openKeys={openKeys}
+        //onOpenChange={onOpenChange}
+        defaultSelectedKeys={['1']}
+        defaultOpenKeys={['sub1']}
+        mode="inline"
+        theme={theme}
+        items={items}
+      />
+    </>
   );
 };
 
