@@ -7,9 +7,10 @@
 
 .content {
   flex : 1;
-  display : grid;
-  grid-template-rows: 50px 1fr;
-  min-height: 100vh;
+  display : flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height : 100vh;
 }
 
 .content .gadgets {
@@ -25,28 +26,50 @@
 }
 
 .content .mainContent {
-  display : grid;
-  place-items: center;
+  display : flex;
+  flex-direction: column;
+  flex : 1;
+  justify-content: center;
+  align-items: center;
 }
 
 
 .navigation {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  overflow-y: scroll;
+  max-height: 100vh;
 }
 
+.navigation::-webkit-scrollbar {
+  display: none;
+}
+
+.navigation::-webkit-scrollbar-track {
+  display : none;
+}
 
 .navigationResponsiveButton {
   right : 10px;
+  top : 10px;
 }
 
 .switch {
   align-self: flex-start;
   right : 20px;
+  top : 10px;
 }
 
 
+.menu {
+  font-family: shabnam !important;
+}
+
+.menudark {
+  font-family: shabnam !important;
+  background-color: indigo;
+  color : white;
+}
 
 /*
 
