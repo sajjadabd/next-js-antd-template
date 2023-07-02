@@ -1,11 +1,19 @@
 "use client"
 
 import React , { useState } from 'react';
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import { 
+  AppstoreOutlined,
+  MailOutlined, 
+  SettingOutlined ,
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+} from '@ant-design/icons';
 import type { MenuProps, MenuTheme } from 'antd';
-import { Menu, Switch } from 'antd';
+import { Button, Menu, Switch } from 'antd';
 
 import Link from 'next/link'
+
+import styles from './page.module.css';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -57,6 +65,14 @@ const items: MenuProps['items'] = [
 
 export default function App () {
 
+  const [collapsed, setCollapsed] = useState(false);
+  const [menuWidth, setMenuWidth] = useState(256);
+
+  const toggleCollapsed = () => {
+    setCollapsed(!collapsed);
+    {collapsed ? setMenuWidth(256) : setMenuWidth(56)}
+  };
+
   const [theme, setTheme] = useState<MenuTheme>('light');
 
   const changeTheme = (value: boolean) => {
@@ -82,25 +98,49 @@ export default function App () {
   };
   */
   return (
-    <>
-      {/* <Switch
-        checked={theme === 'dark'}
-        onChange={changeTheme}
-        checkedChildren="Dark"
-        unCheckedChildren="Light"
-      /> */}
-      <Menu
-        onClick={onClick}
-        style={{ width: 256 , minHeight : '100vh' }}
-        //openKeys={openKeys}
-        //onOpenChange={onOpenChange}
-        defaultSelectedKeys={['1']}
-        defaultOpenKeys={['sub1']}
-        mode="inline"
-        theme={theme}
-        items={items}
-      />
-    </>
+    <div className={styles.wrapper}>
+      {/*  */}
+      <nav className={styles.navigation}>
+        {/* <Switch
+          checked={theme === 'dark'}
+          onChange={changeTheme}
+          checkedChildren="Dark"
+          unCheckedChildren="Light"
+          className={styles.switch}
+        /> */}
+        <Menu
+          onClick={onClick}
+          style={{ width : menuWidth , minHeight : '100vh' }}
+          //openKeys={openKeys}
+          //onOpenChange={onOpenChange}
+          defaultSelectedKeys={['1']}
+          defaultOpenKeys={['sub1']}
+          mode="inline"
+          theme={theme}
+          inlineCollapsed={collapsed}
+          // theme="dark"
+          items={items}
+        />
+      </nav>
+
+      <div className={styles.content}>
+        <div className={styles.gadgets}>
+        <Button className={styles.navigationResponsiveButton} type={collapsed ? "primary" : "secondary"} onClick={toggleCollapsed} style={{ marginBottom: 16 }}>
+          {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+        </Button>
+        <Switch
+          checked={theme === 'dark'}
+          onChange={changeTheme}
+          checkedChildren="Dark"
+          unCheckedChildren="Light"
+          className={styles.switch}
+        />
+        </div>
+        <div className={styles.mainContent}>
+          main content
+        </div>
+      </div>
+    </div>
   );
 };
 
