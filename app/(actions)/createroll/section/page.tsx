@@ -39,6 +39,9 @@ const FormItem = styled.div`
 `
 
 export default function App () {
+
+  const [numberOfCalibres , setNumberOfCalibres] = useState(0);
+
   return (
     <Wrapper>
         <Form
@@ -63,11 +66,30 @@ export default function App () {
                 <Input placeholder='متن' />
               </Form.Item>
             </FormItem>
+
+
+            <FormItem>
+              <label htmlFor="">عرض غلطک : </label>
+              <Form.Item>
+                <InputNumber 
+                onChange={ (value) => {} } 
+                placeholder='عرض' 
+                dir="ltr" 
+                style={{ paddingLeft : '15px' }} 
+                />
+              </Form.Item>
+            </FormItem>
+
             
             <FormItem>
               <label htmlFor="">تعداد کالیبر : </label>
               <Form.Item>
-                <InputNumber onChange={(value) => console.log(value)} placeholder='تعداد' dir="ltr" style={{ paddingLeft : '15px' }} />
+                <InputNumber 
+                onChange={(value) => setNumberOfCalibres(Number(value))} 
+                placeholder='تعداد' 
+                dir="ltr" 
+                style={{ paddingLeft : '15px' }} 
+                />
               </Form.Item>
             </FormItem>
 
@@ -80,7 +102,7 @@ export default function App () {
         </Form>
 
         <Preview>
-          roll
+          {numberOfCalibres}
         </Preview>
     </Wrapper>
   );
