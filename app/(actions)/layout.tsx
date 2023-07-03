@@ -155,7 +155,7 @@ const items: MenuProps['items'] = [
   //getItem('Group', 'grp', null, [getItem('Option 13', '13'), getItem('Option 14', '14')], 'group'),
 ];
 
-export default function RootLayout ({
+export default function MainLayout({
     children,
 }: {
     children: React.ReactNode
