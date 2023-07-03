@@ -107,9 +107,7 @@ function getItem(
   } as MenuItem;
 }
 
-const section = 'سکشن'
-
-const barmill = 'بار میل'
+import { section , barmill } from '../../components/lines/page';
 
 const items: MenuProps['items'] = [
   // getItem('Navigation One', 'sub1', <MailOutlined />, [

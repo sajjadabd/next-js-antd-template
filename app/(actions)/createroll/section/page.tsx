@@ -18,6 +18,10 @@ import {
 
 import styled from 'styled-components'
 
+
+import { section , barmill } from '../../../../components/lines/page';
+
+
 const FormItem = styled.div`
   margin-bottom : 30px;
 `
@@ -35,7 +39,8 @@ export default function App () {
               <label htmlFor="">انتخاب کنید : </label>
               <Form.Item>
                 <Select>
-                  <Select.Option value="demo">Demo</Select.Option>
+                  <Select.Option value="section">{section}</Select.Option>
+                  <Select.Option value="barmill">{barmill}</Select.Option>
                 </Select>
               </Form.Item>
             </FormItem>
@@ -50,7 +55,7 @@ export default function App () {
             <FormItem>
               <label htmlFor="">شماره : </label>
               <Form.Item>
-                <InputNumber placeholder='شماره' />
+                <InputNumber placeholder='شماره' dir="ltr" style={{ paddingLeft : '15px' }} />
               </Form.Item>
             </FormItem>
 
