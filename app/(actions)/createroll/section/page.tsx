@@ -20,7 +20,6 @@ import styled from 'styled-components'
 
 
 import { section , barmill } from '../../../../components/lines/page';
-import { valueType } from 'antd/es/statistic/utils';
 
 
 const Wrapper = styled.div`
@@ -41,6 +40,8 @@ const FormItem = styled.div`
 export default function App () {
 
   const [numberOfCalibres , setNumberOfCalibres] = useState(0);
+  const [rollWidth , setRollWidth] = useState(0);
+  const [rollDiameter , setRollDiameter] = useState(0);
 
   return (
     <Wrapper>
@@ -61,9 +62,33 @@ export default function App () {
             </FormItem>
 
             <FormItem>
-              <label>متن ورودی : </label>
+              <label>کد غلطک : </label>
               <Form.Item>
-                <Input placeholder='متن' />
+                <Input placeholder='کد' />
+              </Form.Item>
+            </FormItem>
+
+            
+            <Form.Item name="size">
+              <label>جایگاه غلطک : </label>
+              <Radio.Group  style={{ display : 'flex' , flexDirection : 'row'}}>
+                <Radio.Button value="small">مقدماتی</Radio.Button>
+                <Radio.Button value="default">میانی</Radio.Button>
+                <Radio.Button value="large">پایانی</Radio.Button>
+              </Radio.Group>
+            </Form.Item> 
+
+
+
+            <FormItem>
+              <label htmlFor="">قطر غلطک : </label>
+              <Form.Item>
+                <InputNumber 
+                onChange={ (value) => setRollDiameter(Number(value)) } 
+                placeholder='قطر' 
+                dir="ltr" 
+                style={{ paddingLeft : '15px' }} 
+                />
               </Form.Item>
             </FormItem>
 
@@ -72,7 +97,7 @@ export default function App () {
               <label htmlFor="">عرض غلطک : </label>
               <Form.Item>
                 <InputNumber 
-                onChange={ (value) => {} } 
+                onChange={ (value) => setRollWidth(Number(value)) } 
                 placeholder='عرض' 
                 dir="ltr" 
                 style={{ paddingLeft : '15px' }} 
@@ -95,7 +120,12 @@ export default function App () {
 
 
             <Form.Item>
-              <Button type="primary">ایجاد غلطک</Button>
+              <Button 
+              onClick={() => console.log('clicked')} 
+              type="primary"
+              >
+                ایجاد غلطک
+              </Button>
             </Form.Item>
 
 

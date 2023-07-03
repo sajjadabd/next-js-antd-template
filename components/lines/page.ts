@@ -1,3 +1,3 @@
-export const section = 'سکشن'
+export const section = 'سکشن';
 
-export const barmill = 'بار میل'
+export const barmill = 'بار میل';

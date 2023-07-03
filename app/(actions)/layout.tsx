@@ -41,11 +41,18 @@ import Link from 'next/link'
 import styled from 'styled-components'
 
 
+import { section , barmill } from '../../components/lines/page';
+
+
+
+
 const Wrapper = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
+    overflow-y: scroll;
+    max-height: 100vh;
 `
 
 
@@ -63,7 +70,8 @@ const Content = styled.div`
     display : flex;
     flex-direction: column;
     justify-content: flex-start;
-    min-height : 100vh;
+    max-height : 100vh;
+    overflow-y: scroll; 
 `
 
 
@@ -90,7 +98,7 @@ type MenuItem = Required<MenuProps>['items'][number];
 
 function getItem(
   label: React.ReactNode,
-  key: React.Key,
+  key: React.Key,  
   icon?: React.ReactNode,
   children?: MenuItem[],
   type?: 'group',
@@ -106,7 +114,6 @@ function getItem(
   } as MenuItem;
 }
 
-import { section , barmill } from '../../components/lines/page';
 
 const items: MenuProps['items'] = [
   // getItem('Navigation One', 'sub1', <MailOutlined />, [
@@ -158,6 +165,8 @@ export default function MainLayout({
     children: React.ReactNode
 }) {
 
+
+
   const [collapsed, setCollapsed] = useState(false);
   const [menuWidth, setMenuWidth] = useState(256);
 
@@ -173,7 +182,7 @@ export default function MainLayout({
   };
 
   const onClick: MenuProps['onClick'] = (e) => {
-    console.log('click ', e);
+    //console.log('click ', e);
   };
 
 
