@@ -51,8 +51,8 @@ const Wrapper = styled.div`
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
-    overflow-y: scroll;
     max-height: 100vh;
+    min-height : 100vh;
 `
 
 
@@ -62,6 +62,7 @@ const Navigation = styled.div`
     flex-direction: column;
     overflow-y: scroll;
     max-height: 100vh;
+    min-height : 100vh;
 `
 
 
@@ -71,6 +72,7 @@ const Content = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     max-height : 100vh;
+    min-height : 100vh;
     overflow-y: scroll; 
 `
 
