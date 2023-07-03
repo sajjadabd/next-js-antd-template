@@ -82,8 +82,7 @@ const MainContent = styled.div`
     display : flex;
     flex-direction: column;
     flex : 1;
-    justify-content: center;
-    align-items: center;
+    margin : 20px;
 `
 
 
@@ -227,7 +226,7 @@ export default function MainLayout({
                 <Content>
                     <Gadgets>
                         <NavigationResponsiveButton>
-                            <Button type={collapsed ? "primary" : "text"} onClick={toggleCollapsed} style={{ marginBottom: 16 }}>
+                            <Button type={"text"} onClick={toggleCollapsed} style={{ marginBottom: 16 }}>
                             {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
                             </Button>
                         </NavigationResponsiveButton>

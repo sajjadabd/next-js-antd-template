@@ -20,7 +20,19 @@ import styled from 'styled-components'
 
 
 import { section , barmill } from '../../../../components/lines/page';
+import { valueType } from 'antd/es/statistic/utils';
 
+
+const Wrapper = styled.div`
+  display : flex;
+`
+
+const Preview = styled.div`
+  display : flex;
+  justify-content : center;
+  align-items : center;
+  flex : 1;
+`
 
 const FormItem = styled.div`
   margin-bottom : 30px;
@@ -28,7 +40,7 @@ const FormItem = styled.div`
 
 export default function App () {
   return (
-    <div>
+    <Wrapper>
         <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 14 }}
@@ -53,9 +65,9 @@ export default function App () {
             </FormItem>
             
             <FormItem>
-              <label htmlFor="">شماره : </label>
+              <label htmlFor="">تعداد کالیبر : </label>
               <Form.Item>
-                <InputNumber placeholder='شماره' dir="ltr" style={{ paddingLeft : '15px' }} />
+                <InputNumber onChange={(value) => console.log(value)} placeholder='تعداد' dir="ltr" style={{ paddingLeft : '15px' }} />
               </Form.Item>
             </FormItem>
 
@@ -66,7 +78,11 @@ export default function App () {
 
 
         </Form>
-    </div>
+
+        <Preview>
+          roll
+        </Preview>
+    </Wrapper>
   );
 };
 
