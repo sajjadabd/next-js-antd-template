@@ -1,0 +1,37 @@
+
+.navigation {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    max-height: 100vh;
+  }
+  
+  .navigation::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .navigation::-webkit-scrollbar-track {
+    display : none;
+  }
+  
+  .navigationResponsiveButton {
+    right : 10px;
+    top : 10px;
+  }
+  
+  .switch {
+    align-self: flex-start;
+    right : 20px;
+    top : 10px;
+  }
+  
+  
+  .menu {
+    font-family: shabnam !important;
+  }
+  
+  .menudark {
+    font-family: shabnam !important;
+    background-color: indigo;
+    color : white;
+  }

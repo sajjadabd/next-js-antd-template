@@ -1,11 +1,19 @@
 "use client"
 
-import './globals.css'
 
-import React , { useState , useEffect } from 'react';
-
-
+import React , { useState } from 'react';
 import { Inter } from 'next/font/google'
+
+
+import styled from 'styled-components'
+
+
+const Center = styled.div`
+    position : absolute;
+    top : 50%;
+    left : 50%;
+    transform : translate(-50%,-50%);
+`
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,13 +27,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-
-
   return (
-    <html lang="en" dir="rtl">
-      <body className={inter.className}>
+    <Center>
         {children}
-      </body>
-    </html>
+    </Center>
   )
 }

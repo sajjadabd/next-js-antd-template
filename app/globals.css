@@ -107,6 +107,10 @@ a {
 }
 
 
+.ant-menu-title-content {
+    font-family : shabnam !important;
+}
+
 
 @media (prefers-color-scheme: dark) {
   html {
