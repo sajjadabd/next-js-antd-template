@@ -52,70 +52,70 @@ export default function App () {
           style={{ maxWidth: 600 }}
         >
             <FormItem>
-              <label htmlFor="">انتخاب کنید : </label>
-              <Form.Item>
-                <Select>
-                  <Select.Option value="section">{section}</Select.Option>
-                  <Select.Option value="barmill">{barmill}</Select.Option>
-                </Select>
-              </Form.Item>
+                <label htmlFor="">انتخاب کنید : </label>
+                <Form.Item>
+                    <Select>
+                        <Select.Option value="section">{section}</Select.Option>
+                        <Select.Option value="barmill">{barmill}</Select.Option>
+                    </Select>
+                </Form.Item>
             </FormItem>
 
             <FormItem>
-              <label>کد غلطک : </label>
-              <Form.Item>
-                <Input placeholder='کد' />
-              </Form.Item>
+                <label>کد غلطک : </label>
+                <Form.Item>
+                    <Input placeholder='کد' />
+                </Form.Item>
             </FormItem>
 
             
             <Form.Item name="size">
-              <label>جایگاه غلطک : </label>
-              <Radio.Group  style={{ display : 'flex' , flexDirection : 'row'}}>
-                <Radio.Button value="small">مقدماتی</Radio.Button>
-                <Radio.Button value="default">میانی</Radio.Button>
-                <Radio.Button value="large">پایانی</Radio.Button>
-              </Radio.Group>
+                <label>جایگاه غلطک : </label>
+                <Radio.Group  style={{ display : 'flex' , flexDirection : 'row'}}>
+                    <Radio.Button value="small">مقدماتی</Radio.Button>
+                    <Radio.Button value="default">میانی</Radio.Button>
+                    <Radio.Button value="large">پایانی</Radio.Button>
+                </Radio.Group>
             </Form.Item> 
 
 
 
             <FormItem>
-              <label htmlFor="">قطر غلطک : </label>
-              <Form.Item>
-                <InputNumber 
-                onChange={ (value) => setRollDiameter(Number(value)) } 
-                placeholder='قطر' 
-                dir="ltr" 
-                style={{ paddingLeft : '15px' }} 
-                />
-              </Form.Item>
+                <label htmlFor="">قطر غلطک : </label>
+                <Form.Item>
+                    <InputNumber 
+                    onChange={ (value) => setRollDiameter(Number(value)) } 
+                    placeholder='قطر' 
+                    dir="ltr" 
+                    style={{ paddingLeft : '15px' }} 
+                    />
+                </Form.Item>
             </FormItem>
 
 
             <FormItem>
-              <label htmlFor="">عرض غلطک : </label>
-              <Form.Item>
-                <InputNumber 
-                onChange={ (value) => setRollWidth(Number(value)) } 
-                placeholder='عرض' 
-                dir="ltr" 
-                style={{ paddingLeft : '15px' }} 
-                />
-              </Form.Item>
+                <label htmlFor="">عرض غلطک : </label>
+                <Form.Item>
+                    <InputNumber 
+                    onChange={ (value) => setRollWidth(Number(value)) } 
+                    placeholder='عرض' 
+                    dir="ltr" 
+                    style={{ paddingLeft : '15px' }} 
+                    />
+                </Form.Item>
             </FormItem>
 
             
             <FormItem>
-              <label htmlFor="">تعداد کالیبر : </label>
-              <Form.Item>
-                <InputNumber 
-                onChange={(value) => setNumberOfCalibres(Number(value))} 
-                placeholder='تعداد' 
-                dir="ltr" 
-                style={{ paddingLeft : '15px' }} 
-                />
-              </Form.Item>
+                <label htmlFor="">تعداد کالیبر : </label>
+                <Form.Item>
+                    <InputNumber 
+                    onChange={(value) => setNumberOfCalibres(Number(value))} 
+                    placeholder='تعداد' 
+                    dir="ltr" 
+                    style={{ paddingLeft : '15px' }} 
+                    />
+                </Form.Item>
             </FormItem>
 
 
