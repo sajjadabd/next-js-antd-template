@@ -66,6 +66,7 @@ const Navigation = styled.div`
     overflow-y: scroll;
     max-height: 100vh;
     min-height : 100vh;
+    background-color : white;
 `
 
 
