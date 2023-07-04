@@ -3,6 +3,8 @@
 import '../globals.css'
 import { Inter } from 'next/font/google'
 
+
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
@@ -40,6 +42,7 @@ import Link from 'next/link'
 
 import styled from 'styled-components'
 
+import { useRouter } from 'next/navigation';
 
 import { section , barmill } from '../../components/lines/page';
 
@@ -117,6 +120,36 @@ function getItem(
 }
 
 
+const routeLinks = [
+
+    "/createroll/section" ,
+    "/createroll/barmill" ,
+
+    "/defineline/section" ,
+    "/defineline/barmill" ,
+
+    "/manageline/section" ,
+    "/manageline/barmill" ,
+
+    "/calibrtonag/section" ,
+    "/calibrtonag/barmill" ,
+
+    "/tarashroll/section" ,
+    "/tarashroll/barmill" ,
+
+    "/changeroll/section" ,
+    "/changeroll/barmill" ,
+
+    "/rollstatus/section" ,
+    "/rollstatus/barmill" ,
+
+    "/managestand/section" ,
+    "/managestand/barmill" ,
+
+]
+
+
+
 const items: MenuProps['items'] = [
   // getItem('Navigation One', 'sub1', <MailOutlined />, [
   //   getItem('Item 1', 'g1', null, [getItem('Option 1', '1'), getItem('Option 2', '2')], 'group'),
@@ -124,37 +157,49 @@ const items: MenuProps['items'] = [
   // ]),
 
   getItem('ایجاد غلطک', 'sub1', <AppstoreOutlined />, [
-    getItem( <Link href="/createroll/section">{section}</Link>, '1'),
-    getItem(<Link href="/createroll/barmill">{barmill}</Link>, '2'),
+    getItem(<Link href={routeLinks[0]}>{section}</Link>, '0'),
+    getItem(<Link href={routeLinks[1]}>{barmill}</Link>, '1'),
     // getItem('Submenu', 'sub3', null, [getItem('Option 7', '7'), getItem('Option 8', '8')]),
   ]),
 
   // { type: 'divider' },
 
   getItem('تعریف خط', 'sub2', <SettingOutlined />, [
-    getItem(<Link href="/defineline/section">{section}</Link>, '3'),
-    getItem(<Link href="/defineline/barmill">{barmill}</Link>, '4'),
+    getItem(<Link href={routeLinks[2]}>{section}</Link>, '2'),
+    getItem(<Link href={routeLinks[3]}>{barmill}</Link>, '3'),
   ]),
 
   getItem('مدیریت خط', 'sub3', <SettingOutlined />, [
-    getItem(<Link href="/manageline/section">{section}</Link>, '5'),
-    getItem(<Link href="/manageline/barmill">{barmill}</Link>, '6'),
+    getItem(<Link href={routeLinks[4]}>{section}</Link>, '4'),
+    getItem(<Link href={routeLinks[5]}>{barmill}</Link>, '5'),
   ]),
 
-  getItem('ثبت تراش غلطک ها', 'sub4', <SettingOutlined />, [
-    getItem(<Link href="/tarashroll/section">{section}</Link>, '7'),
-    getItem(<Link href="/tarashroll/barmill">{barmill}</Link>, '8'),
+  getItem('ثبت تناژ کارکرد کالیبر ها', 'sub4', <SettingOutlined />, [
+    getItem(<Link href={routeLinks[6]}>{section}</Link>, '6'),
+    getItem(<Link href={routeLinks[7]}>{barmill}</Link>, '7'),
   ]),
 
-  getItem('تغییر وضعیت غلطک ها', 'sub5', <SettingOutlined />, [
-    getItem(<Link href="/changeroll/section">{section}</Link>, '9'),
-    getItem(<Link href="/changeroll/barmill">{barmill}</Link>, '10'),
+  getItem('ثبت تراش غلطک ها', 'sub5', <SettingOutlined />, [
+    getItem(<Link href={routeLinks[8]}>{section}</Link>, '8'),
+    getItem(<Link href={routeLinks[9]}>{barmill}</Link>, '9'),
   ]),
 
-  getItem('مدیریت استند ها', 'sub6', <SettingOutlined />, [
-    getItem(<Link href="/managestand/section">{section}</Link>, '11'),
-    getItem(<Link href="/managestand/barmill">{barmill}</Link>, '12'),
+  getItem('تغییر وضعیت غلطک ها', 'sub6', <SettingOutlined />, [
+    getItem(<Link href={routeLinks[10]}>{section}</Link>, '10'),
+    getItem(<Link href={routeLinks[11]}>{barmill}</Link>, '11'),
   ]),
+
+  getItem('وضعیت غلطک ها', 'sub7', <SettingOutlined />, [
+    getItem(<Link href={routeLinks[12]}>{section}</Link>, '12'),
+    getItem(<Link href={routeLinks[13]}>{barmill}</Link>, '13'),
+  ]),
+
+  getItem('مدیریت استند ها', 'sub8', <SettingOutlined />, [
+    getItem(<Link href={routeLinks[14]}>{section}</Link>, '14'),
+    getItem(<Link href={routeLinks[15]}>{barmill}</Link>, '15'),
+  ]),
+
+
 
 
 
@@ -167,6 +212,8 @@ export default function MainLayout({
     children: React.ReactNode
 }) {
 
+
+  const router = useRouter();
 
 
   const [collapsed, setCollapsed] = useState(false);
