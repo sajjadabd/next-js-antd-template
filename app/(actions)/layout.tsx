@@ -42,7 +42,7 @@ import Link from 'next/link'
 
 import styled from 'styled-components'
 
-import { useRouter } from 'next/navigation';
+import { useRouter , usePathname } from 'next/navigation';
 
 import { section , barmill } from '../../components/lines/page';
 
@@ -149,6 +149,17 @@ const routeLinks = [
 ]
 
 
+const findRouteMatch = (route : string) => {
+    for(let i=0;i<routeLinks.length;i++) {
+        if(routeLinks[i] == route) {
+            return i.toString();
+        }
+    }
+
+    return '1';
+}
+
+
 
 const items: MenuProps['items'] = [
   // getItem('Navigation One', 'sub1', <MailOutlined />, [
@@ -214,7 +225,10 @@ export default function MainLayout({
 
 
   const router = useRouter();
+  const routePath = usePathname();
 
+
+  
 
   const [collapsed, setCollapsed] = useState(false);
   const [menuWidth, setMenuWidth] = useState(256);
@@ -271,8 +285,8 @@ export default function MainLayout({
                     style={{ width : menuWidth , minHeight : '100vh' }}
                     //openKeys={openKeys}
                     //onOpenChange={onOpenChange}
-                    defaultSelectedKeys={['1']}
-                    defaultOpenKeys={['sub1']}
+                    defaultSelectedKeys={[findRouteMatch(routePath.toString())]}
+                    defaultOpenKeys={['sub' + ( Number( findRouteMatch(routePath)) / 2 + 1 )  ]}
                     mode="inline"
                     // theme={theme}
                     inlineCollapsed={collapsed}
