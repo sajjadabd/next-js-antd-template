@@ -1,8 +1,6 @@
-"use client"
-
 import './globals.css'
 
-import React , { useState , useEffect } from 'react';
+import React  from 'react';
 
 
 import { Inter } from 'next/font/google'
