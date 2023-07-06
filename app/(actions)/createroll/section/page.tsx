@@ -51,7 +51,88 @@ export default function App () {
   const [rollWidth , setRollWidth] = useState(0);
   const [numberOfCalibres , setNumberOfCalibres] = useState(0);
   const [calibreWidth , setCalibreWidth] = useState(0);
+
+
+
+  const drawCalibres = () => {
+    let result = Array.from(Array(numberOfCalibres)).map( (value , index) => {
+    let calibrWidthVariable ;
+
+    if( calibreWidth != undefined && calibreWidth != 0 ) {
+      calibrWidthVariable = calibreWidth;
+    } else {
+      calibrWidthVariable = rollWidth/(6 + (numberOfCalibres / 2))
+    }
+
+      return (
+        <div
+        style={{
+          'width' : `${calibrWidthVariable}px` ,
+          'height' : `${rollDiameter+40}px` ,
+          borderWidth : `1` ,
+          borderColor : 'black' ,
+          borderStyle : 'solid' ,
+          zIndex : 10,
+          backgroundColor : 'white',
+        }}
+        >
+
+        </div>
+      )
+    } )
+
+    return result;
+  }
   
+
+  const drawRoll = () => {
+    if(rollWidth == 0 && rollDiameter == 0 ) 
+      return '';
+
+    return (
+      <>
+          { /* head */  } 
+          <div 
+          style={{ 
+            'width' : `${rollWidth/6}px` ,
+            'height' : `${rollDiameter/3}px` ,
+            borderWidth : `1` ,
+            borderColor : 'black' ,
+            borderStyle : 'solid' ,
+            borderLeftWidth : 0 ,
+          }}
+          ></div>
+          { /* body */  } 
+          <div
+          style={{ 
+            'width' : `${rollWidth}px` ,
+            'height' : `${rollDiameter}px` ,
+            borderWidth : `1` ,
+            borderColor : 'black' ,
+            borderStyle : 'solid' ,
+            position : 'relative' ,
+            display : 'flex' ,
+            justifyContent : 'space-evenly',
+            alignItems : 'center',
+          }}
+          >
+            {drawCalibres()}
+          </div>
+          { /* tail */  } 
+          <div 
+          style={{ 
+            'width' : `${rollWidth/6}px` ,
+            'height' : `${rollDiameter/3}px` ,
+            borderWidth : `1` ,
+            borderColor : 'black' ,
+            borderStyle : 'solid' ,
+            borderRightWidth : 0 ,
+          }}
+          ></div>
+        </>
+    )
+  }
+
 
   return (
     <Wrapper>
@@ -62,7 +143,7 @@ export default function App () {
           style={{ maxWidth: 600 }}
         >
             <FormItem>
-                <label htmlFor="">انتخاب کنید : </label>
+                <label htmlFor="">تیپ غلطک : </label>
                 <Form.Item>
                     <Select onChange={(value) => setRollType(value)}>
                         <Select.Option value="section">{section}</Select.Option>
@@ -176,43 +257,9 @@ export default function App () {
         </Form>
 
         <Preview>
-          
-          { /* head */  } 
-          <div 
-          style={{ 
-            'width' : `${rollWidth/6}px` ,
-            'height' : `${rollDiameter/3}px` ,
-            borderWidth : `1` ,
-            borderColor : 'black' ,
-            borderStyle : 'solid' ,
-            borderLeftWidth : 0 ,
-          }}
-          ></div>
-          { /* body */  } 
-          <div
-          style={{ 
-            'width' : `${rollWidth}px` ,
-            'height' : `${rollDiameter}px` ,
-            borderWidth : `1` ,
-            borderColor : 'black' ,
-            borderStyle : 'solid' ,
-            position : 'relative' ,
-          }}
-          >
-
-
-          </div>
-          { /* tail */  } 
-          <div 
-          style={{ 
-            'width' : `${rollWidth/6}px` ,
-            'height' : `${rollDiameter/3}px` ,
-            borderWidth : `1` ,
-            borderColor : 'black' ,
-            borderStyle : 'solid' ,
-            borderRightWidth : 0 ,
-          }}
-          ></div>
+          {
+            drawRoll()
+          }
         </Preview>
 
     </Wrapper>
