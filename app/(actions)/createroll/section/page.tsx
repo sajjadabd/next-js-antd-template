@@ -32,7 +32,10 @@ const Preview = styled.div`
   align-items : center;
   flex : 1;
   max-height : 100vh;
-  overflow : hidden;
+  position : fixed;
+  left : 30%;
+  top : 50%;
+  transform : translate(-50% , -50%);
 `
 
 const FormItem = styled.div`
@@ -56,16 +59,17 @@ export default function App () {
 
   const drawCalibres = () => {
     let result = Array.from(Array(numberOfCalibres)).map( (value , index) => {
-    let calibrWidthVariable ;
+		let calibrWidthVariable ;
 
-    if( calibreWidth != undefined && calibreWidth != 0 ) {
-      calibrWidthVariable = calibreWidth;
-    } else {
-      calibrWidthVariable = rollWidth/(6 + (numberOfCalibres / 2))
-    }
+		if( calibreWidth != undefined && calibreWidth != 0 ) {
+		  calibrWidthVariable = calibreWidth;
+		} else {
+		  calibrWidthVariable = rollWidth/(6 + (numberOfCalibres / 2))
+		}
 
       return (
         <div
+		key={index}
         style={{
           'width' : `${calibrWidthVariable}px` ,
           'height' : `${rollDiameter+40}px` ,
