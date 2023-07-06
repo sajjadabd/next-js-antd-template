@@ -31,6 +31,8 @@ const Preview = styled.div`
   justify-content : center;
   align-items : center;
   flex : 1;
+  max-height : 100vh;
+  overflow : hidden;
 `
 
 const FormItem = styled.div`
@@ -39,9 +41,17 @@ const FormItem = styled.div`
 
 export default function App () {
 
-  const [numberOfCalibres , setNumberOfCalibres] = useState(0);
-  const [rollWidth , setRollWidth] = useState(0);
+  const [rollType , setRollType] = useState(0);
+  const [rollModel , setRollModel] = useState(0);
+  const [rollCode , setRollCode] = useState("");
+  const [rollPosition , setRollPosition] = useState("");
+
+  const [rollGender , setRollGender] = useState("");
   const [rollDiameter , setRollDiameter] = useState(0);
+  const [rollWidth , setRollWidth] = useState(0);
+  const [numberOfCalibres , setNumberOfCalibres] = useState(0);
+  const [calibreWidth , setCalibreWidth] = useState(0);
+  
 
   return (
     <Wrapper>
@@ -54,7 +64,7 @@ export default function App () {
             <FormItem>
                 <label htmlFor="">انتخاب کنید : </label>
                 <Form.Item>
-                    <Select>
+                    <Select onChange={(value) => setRollType(value)}>
                         <Select.Option value="section">{section}</Select.Option>
                         <Select.Option value="barmill">{barmill}</Select.Option>
                     </Select>
@@ -64,19 +74,37 @@ export default function App () {
             <FormItem>
                 <label>کد غلطک : </label>
                 <Form.Item>
-                    <Input placeholder='کد' />
+                    <Input 
+                    onChange={(e) => setRollCode(e.target.value)}
+                    placeholder='کد'
+                     />
                 </Form.Item>
             </FormItem>
 
             
             <Form.Item name="size">
                 <label>جایگاه غلطک : </label>
-                <Radio.Group  style={{ display : 'flex' , flexDirection : 'row'}}>
-                    <Radio.Button value="small">مقدماتی</Radio.Button>
-                    <Radio.Button value="default">میانی</Radio.Button>
-                    <Radio.Button value="large">پایانی</Radio.Button>
+                <Radio.Group  
+                onChange={(e) => setRollPosition(e.target.value)}
+                style={{ display : 'flex' , flexDirection : 'row'}}>
+                    <Radio.Button value="beginning">مقدماتی</Radio.Button>
+                    <Radio.Button value="intermediate">میانی</Radio.Button>
+                    <Radio.Button value="finishing">پایانی</Radio.Button>
                 </Radio.Group>
             </Form.Item> 
+
+
+            <FormItem>
+                <label htmlFor="">جنسیت غلطک : </label>
+                <Form.Item>
+                    <Select 
+                    onChange={(value) => setRollGender(value)}
+                    >
+                        <Select.Option value="male">نری</Select.Option>
+                        <Select.Option value="female">مادگی</Select.Option>
+                    </Select>
+                </Form.Item>
+            </FormItem>
 
 
 
@@ -119,6 +147,22 @@ export default function App () {
             </FormItem>
 
 
+
+            <FormItem>
+                <label htmlFor="">عرض کالیبر : </label>
+                <Form.Item>
+                    <InputNumber 
+                    onChange={ (value) => setCalibreWidth(Number(value)) } 
+                    placeholder='عرض' 
+                    dir="ltr" 
+                    style={{ paddingLeft : '15px' }} 
+                    />
+                </Form.Item>
+            </FormItem>
+
+
+
+
             <Form.Item>
               <Button 
               onClick={() => console.log('clicked')} 
@@ -132,8 +176,45 @@ export default function App () {
         </Form>
 
         <Preview>
-          {numberOfCalibres}
+          
+          { /* head */  } 
+          <div 
+          style={{ 
+            'width' : `${rollWidth/6}px` ,
+            'height' : `${rollDiameter/3}px` ,
+            borderWidth : `1` ,
+            borderColor : 'black' ,
+            borderStyle : 'solid' ,
+            borderLeftWidth : 0 ,
+          }}
+          ></div>
+          { /* body */  } 
+          <div
+          style={{ 
+            'width' : `${rollWidth}px` ,
+            'height' : `${rollDiameter}px` ,
+            borderWidth : `1` ,
+            borderColor : 'black' ,
+            borderStyle : 'solid' ,
+            position : 'relative' ,
+          }}
+          >
+
+
+          </div>
+          { /* tail */  } 
+          <div 
+          style={{ 
+            'width' : `${rollWidth/6}px` ,
+            'height' : `${rollDiameter/3}px` ,
+            borderWidth : `1` ,
+            borderColor : 'black' ,
+            borderStyle : 'solid' ,
+            borderRightWidth : 0 ,
+          }}
+          ></div>
         </Preview>
+
     </Wrapper>
   );
 };
