@@ -1,11 +1,6 @@
 "use client"
 
 import '../globals.css'
-import { Inter } from 'next/font/google'
-
-
-
-const inter = Inter({ subsets: ['latin'] })
 
 
 
@@ -122,6 +117,15 @@ const routeLinks = [
     "/createroll/section" ,
     "/createroll/barmill" ,
 
+    "/createstand/section" ,
+    "/createstand/barmill" ,
+
+    "/listroll/section" ,
+    "/listroll/barmill" ,
+
+    "/liststand/section" ,
+    "/liststand/barmill" ,
+
     "/defineline/section" ,
     "/defineline/barmill" ,
 
@@ -170,41 +174,62 @@ const items: MenuProps['items'] = [
     // getItem('Submenu', 'sub3', null, [getItem('Option 7', '7'), getItem('Option 8', '8')]),
   ]),
 
-  // { type: 'divider' },
 
-  getItem('تعریف خط', 'sub2', <SettingOutlined />, [
+  getItem('ایجاد استند', 'sub2', <AppstoreOutlined />, [
     getItem(<Link href={routeLinks[2]}>{section}</Link>, '2'),
     getItem(<Link href={routeLinks[3]}>{barmill}</Link>, '3'),
+    // getItem('Submenu', 'sub3', null, [getItem('Option 7', '7'), getItem('Option 8', '8')]),
   ]),
 
-  getItem('مدیریت خط', 'sub3', <SettingOutlined />, [
+
+  getItem('لیست غلطک ها', 'sub3', <AppstoreOutlined />, [
     getItem(<Link href={routeLinks[4]}>{section}</Link>, '4'),
     getItem(<Link href={routeLinks[5]}>{barmill}</Link>, '5'),
+    // getItem('Submenu', 'sub3', null, [getItem('Option 7', '7'), getItem('Option 8', '8')]),
   ]),
 
-  getItem('ثبت تناژ کارکرد کالیبر ها', 'sub4', <SettingOutlined />, [
+
+  getItem('لیست استند ها', 'sub4', <AppstoreOutlined />, [
     getItem(<Link href={routeLinks[6]}>{section}</Link>, '6'),
     getItem(<Link href={routeLinks[7]}>{barmill}</Link>, '7'),
+    // getItem('Submenu', 'sub3', null, [getItem('Option 7', '7'), getItem('Option 8', '8')]),
   ]),
 
-  getItem('ثبت تراش غلطک ها', 'sub5', <SettingOutlined />, [
+  // { type: 'divider' },
+
+  getItem('تعریف خط', 'sub5', <SettingOutlined />, [
     getItem(<Link href={routeLinks[8]}>{section}</Link>, '8'),
     getItem(<Link href={routeLinks[9]}>{barmill}</Link>, '9'),
   ]),
 
-  getItem('تغییر وضعیت غلطک ها', 'sub6', <SettingOutlined />, [
+  getItem('مدیریت خط', 'sub6', <SettingOutlined />, [
     getItem(<Link href={routeLinks[10]}>{section}</Link>, '10'),
     getItem(<Link href={routeLinks[11]}>{barmill}</Link>, '11'),
   ]),
 
-  getItem('وضعیت غلطک ها', 'sub7', <SettingOutlined />, [
+  getItem('ثبت تناژ کارکرد کالیبر ها', 'sub7', <SettingOutlined />, [
     getItem(<Link href={routeLinks[12]}>{section}</Link>, '12'),
     getItem(<Link href={routeLinks[13]}>{barmill}</Link>, '13'),
   ]),
 
-  getItem('مدیریت استند ها', 'sub8', <SettingOutlined />, [
+  getItem('ثبت تراش غلطک ها', 'sub8', <SettingOutlined />, [
     getItem(<Link href={routeLinks[14]}>{section}</Link>, '14'),
     getItem(<Link href={routeLinks[15]}>{barmill}</Link>, '15'),
+  ]),
+
+  getItem('تغییر وضعیت غلطک ها', 'sub9', <SettingOutlined />, [
+    getItem(<Link href={routeLinks[16]}>{section}</Link>, '16'),
+    getItem(<Link href={routeLinks[17]}>{barmill}</Link>, '17'),
+  ]),
+
+  getItem('وضعیت غلطک ها', 'sub10', <SettingOutlined />, [
+    getItem(<Link href={routeLinks[18]}>{section}</Link>, '18'),
+    getItem(<Link href={routeLinks[19]}>{barmill}</Link>, '19'),
+  ]),
+
+  getItem('مدیریت استند ها', 'sub11', <SettingOutlined />, [
+    getItem(<Link href={routeLinks[20]}>{section}</Link>, '20'),
+    getItem(<Link href={routeLinks[21]}>{barmill}</Link>, '21'),
   ]),
 
 

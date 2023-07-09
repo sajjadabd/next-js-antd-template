@@ -1,7 +1,6 @@
 "use client"
 
 import React from 'react';
-import { Inter } from 'next/font/google'
 
 
 import styled from 'styled-components'
@@ -14,7 +13,6 @@ const Center = styled.div`
     transform : translate(-50%,-50%);
 `
 
-const inter = Inter({ subsets: ['latin'] })
 
 
 export default function LoginLayout({
