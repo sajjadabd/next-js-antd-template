@@ -138,8 +138,8 @@ const routeLinks = [
     "/tarashroll/section" ,
     "/tarashroll/barmill" ,
 
-    "/changeroll/section" ,
-    "/changeroll/barmill" ,
+    // "/changeroll/section" ,
+    // "/changeroll/barmill" ,
 
     "/rollstatus/section" ,
     "/rollstatus/barmill" ,
@@ -217,19 +217,19 @@ const items: MenuProps['items'] = [
     getItem(<Link href={routeLinks[15]}>{barmill}</Link>, '15'),
   ]),
 
-  getItem('تغییر وضعیت غلطک ها', 'sub9', <SettingOutlined />, [
+//   getItem('تغییر وضعیت غلطک ها', 'sub9', <SettingOutlined />, [
+//     getItem(<Link href={routeLinks[16]}>{section}</Link>, '16'),
+//     getItem(<Link href={routeLinks[17]}>{barmill}</Link>, '17'),
+//   ]),
+
+  getItem('وضعیت غلطک ها', 'sub10', <SettingOutlined />, [
     getItem(<Link href={routeLinks[16]}>{section}</Link>, '16'),
     getItem(<Link href={routeLinks[17]}>{barmill}</Link>, '17'),
   ]),
 
-  getItem('وضعیت غلطک ها', 'sub10', <SettingOutlined />, [
+  getItem('مدیریت استند ها', 'sub11', <SettingOutlined />, [
     getItem(<Link href={routeLinks[18]}>{section}</Link>, '18'),
     getItem(<Link href={routeLinks[19]}>{barmill}</Link>, '19'),
-  ]),
-
-  getItem('مدیریت استند ها', 'sub11', <SettingOutlined />, [
-    getItem(<Link href={routeLinks[20]}>{section}</Link>, '20'),
-    getItem(<Link href={routeLinks[21]}>{barmill}</Link>, '21'),
   ]),
 
 
