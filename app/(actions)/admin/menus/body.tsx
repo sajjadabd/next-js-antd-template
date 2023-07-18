@@ -102,19 +102,13 @@ export default function Body () {
 
   if (error) return 'An error has occurred: ' + error
 
-  console.log(data)
-
-
-
-
+  
 
 
   return (
     <div>
         admin / menus
-        <div>
-          {data.message}
-        </div>
+        
 
         <div>
           <div style={{ marginBottom: 16 }}>
