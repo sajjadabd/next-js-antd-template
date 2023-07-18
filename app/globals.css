@@ -118,6 +118,12 @@ a {
 }
 
 
+
+.ant-tree-list-holder {
+  direction : ltr;
+}
+
+
 /* .ant-form-item {
   margin-bottom : 0 !important;
 } */
