@@ -252,7 +252,7 @@ export default function Body () {
             <Input placeholder="عنوان منو" />
           </Form.Item>
           <Form.Item label="مسیر">
-            <Input placeholder="مسیر" />
+            <Input placeholder="path" style={{ direction : 'ltr' }} />
           </Form.Item>
           <Form.Item {...buttonItemLayout}>
             <Button type="primary">ایجاد منو</Button>

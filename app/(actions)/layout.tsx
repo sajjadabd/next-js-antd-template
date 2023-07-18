@@ -155,7 +155,7 @@ const routeLinks = [
 const findRouteMatch = (route : string) => {
     for(let i=0;i<routeLinks.length;i++) {
         if(routeLinks[i] == route) {
-            console.log('route : ' ,  i);
+            //console.log('route : ' ,  i);
             return i.toString();
         }
     }
