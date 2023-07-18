@@ -147,15 +147,12 @@ const routeLinks = [
     "/managestand/section" ,
     "/managestand/barmill" ,
 
-    "/admin/menus" ,
-
 ]
 
 
 const findRouteMatch = (route : string) => {
     for(let i=0;i<routeLinks.length;i++) {
         if(routeLinks[i] == route) {
-            console.log('route : ' ,  i);
             return i.toString();
         }
     }
@@ -225,22 +222,16 @@ const items: MenuProps['items'] = [
 //     getItem(<Link href={routeLinks[17]}>{barmill}</Link>, '17'),
 //   ]),
 
-  getItem('وضعیت غلطک ها', 'sub9', <SettingOutlined />, [
+  getItem('وضعیت غلطک ها', 'sub10', <SettingOutlined />, [
     getItem(<Link href={routeLinks[16]}>{section}</Link>, '16'),
     getItem(<Link href={routeLinks[17]}>{barmill}</Link>, '17'),
   ]),
 
-  getItem('مدیریت استند ها', 'sub10', <SettingOutlined />, [
+  getItem('مدیریت استند ها', 'sub11', <SettingOutlined />, [
     getItem(<Link href={routeLinks[18]}>{section}</Link>, '18'),
     getItem(<Link href={routeLinks[19]}>{barmill}</Link>, '19'),
   ]),
 
-
-
-  
-  getItem('ادمین', 'sub11', <SettingOutlined />, [
-    getItem(<Link href={routeLinks[20]}>مدیریت منوها</Link>, '20'),
-  ]),
 
 
 
