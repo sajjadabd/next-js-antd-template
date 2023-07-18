@@ -30,33 +30,33 @@ const dataSource = [
     key: '1',
     name: 'John Doe',
     age: 25,
-    address: '123 ABC Street',
+    // address: '123 ABC Street',
   },
   {
     key: '2',
     name: 'Jane Smith',
     age: 32,
-    address: '456 XYZ Street',
+    // address: '456 XYZ Street',
   },
 ];
 
 
 const columns = [
   {
-    title: 'Name',
+    title: 'عنوان منو',
     dataIndex: 'name',
     key: 'name',
   },
   {
-    title: 'Age',
+    title: 'مسیر',
     dataIndex: 'age',
     key: 'age',
   },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  },
+  // {
+  //   title: 'Address',
+  //   dataIndex: 'address',
+  //   key: 'address',
+  // },
 ];
 
 
@@ -204,9 +204,9 @@ export default function Body () {
             {/* <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading}>
               Reload
             </Button> */}
-            <span style={{ marginLeft: 8 }}>
+            {/* <span style={{ marginLeft: 8 }}>
               {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
-            </span>
+            </span> */}
           </div>  
           <Table rowSelection={rowSelection} dataSource={dataSource} columns={columns} />
         </div>
