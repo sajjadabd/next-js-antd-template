@@ -113,6 +113,11 @@ a {
 }
 
 
+.ant-table-pagination {
+    direction : ltr;
+}
+
+
 /* .ant-form-item {
   margin-bottom : 0 !important;
 } */
