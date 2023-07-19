@@ -19,6 +19,8 @@ import type { DataNode, TreeProps } from 'antd/es/tree';
 import axios, {isCancel, AxiosError} from 'axios';
 
 
+import { MenuCreationPath , getAllMenusPath } from '../../../../api/request';
+
 
 type LayoutType = Parameters<typeof Form>[0]['layout'];
 
@@ -51,13 +53,13 @@ const dataSource = [
 const columns = [
   {
     title: 'عنوان منو',
-    dataIndex: 'name',
-    key: 'name',
+    dataIndex: 'title',
+    key: 'title',
   },
   {
     title: 'مسیر',
-    dataIndex: 'age',
-    key: 'age',
+    dataIndex: 'path',
+    key: 'path',
   },
   // {
   //   title: 'Address',
@@ -143,6 +145,36 @@ const treeData: DataNode[] = [
 
 export default function Body () {
 
+  const getAllMenus = () => {
+    axios.get(getAllMenusPath)
+    .then(function (response) {
+      // handle success
+      //setMenus();
+      
+      console.log(response);
+
+      response.data.forEach( (value : any) => 
+        value.key = value.id  
+      )
+
+      console.log(response.data);
+
+      setMenus(response.data)
+      setTreeData(response.data);
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+    .finally(function () {
+      // always executed
+    });
+  }
+
+  useEffect( () => {
+    console.log(`running useEffect ...`);
+    getAllMenus();
+  } , [] );
 
 
   /*
@@ -151,6 +183,9 @@ export default function Body () {
 
   const [menuTitle , setMenuTitle] = useState("");
   const [menuPath , setMenuPath] = useState("");
+
+  const [menus , setMenus] = useState([]);
+  const [treeData , setTreeData] = useState([]);
 
 
   const [form] = Form.useForm();
@@ -233,12 +268,16 @@ export default function Body () {
       menuPath 
     });
 
-    axios.post('http://127.0.0.1:8000/menu/create', {
+    axios.post(MenuCreationPath, {
       title: menuTitle,
       path: menuPath
     })
     .then(function (response) {
       console.log(response);
+      getAllMenus();
+
+      setMenuTitle('');
+      setMenuPath('');
     })
     .catch(function (error) {
       console.log(error);
@@ -307,7 +346,7 @@ export default function Body () {
               {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
             </span> */}
           </div>
-          <Table rowSelection={rowSelection} dataSource={dataSource} columns={columns} />
+          <Table rowSelection={rowSelection} dataSource={menus} columns={columns} />
         </div>
         
 

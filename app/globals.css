@@ -128,6 +128,10 @@ a {
   margin-bottom : 0 !important;
 } */
 
+.ant-table-row .ant-table-cell:last-child {
+  direction : ltr;
+}
+
 ul {
     margin-top : 20px;
     list-style-type: none;
