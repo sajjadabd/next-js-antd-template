@@ -16,6 +16,8 @@ import { Tree } from 'antd';
 import type { DataNode, TreeProps } from 'antd/es/tree';
 
 
+import axios, {isCancel, AxiosError} from 'axios';
+
 
 
 type LayoutType = Parameters<typeof Form>[0]['layout'];
@@ -147,6 +149,9 @@ export default function Body () {
     form
   */
 
+  const [menuTitle , setMenuTitle] = useState("");
+  const [menuPath , setMenuPath] = useState("");
+
 
   const [form] = Form.useForm();
   const [formLayout, setFormLayout] = useState<LayoutType>('horizontal');
@@ -219,16 +224,36 @@ export default function Body () {
   if (error) return 'An error has occurred: ' + error
 
 
-
-
   
+
+
+  const handleForm = () => {
+    console.log({
+      menuTitle ,
+      menuPath 
+    });
+
+    axios.post('http://127.0.0.1:8000/menu/create', {
+      title: menuTitle,
+      path: menuPath
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+
 
 
   return (
     <div>
-        admin / menus
+        
 
-
+        <div>
+          admin / menus
+        </div>
 
 
         <div>
@@ -240,6 +265,7 @@ export default function Body () {
           initialValues={{ layout: formLayout }}
           onValuesChange={onFormLayoutChange}
           style={{ maxWidth: formLayout === 'inline' ? 'none' : 600 , marginTop : '20px' }}
+          autoComplete="off"
         >
           {/* <Form.Item label="Form Layout" name="layout">
             <Radio.Group value={formLayout}>
@@ -248,15 +274,25 @@ export default function Body () {
               <Radio.Button value="inline">Inline</Radio.Button>
             </Radio.Group>
           </Form.Item> */}
+
+
           <Form.Item label="عنوان منو">
-            <Input placeholder="عنوان منو" />
+            <Input placeholder="عنوان منو" value={menuTitle} onChange={(e) => setMenuTitle(e.target.value)} />
           </Form.Item>
+
+
           <Form.Item label="مسیر">
-            <Input placeholder="path" style={{ direction : 'ltr' }} />
+            <Input placeholder="path" value={menuPath} onChange={(e) => setMenuPath(e.target.value)}  style={{ direction : 'ltr' }} />
           </Form.Item>
+
+
           <Form.Item {...buttonItemLayout}>
-            <Button type="primary">ایجاد منو</Button>
+            <Button onClick={handleForm} type="primary">
+              ایجاد منو
+            </Button>
           </Form.Item>
+
+
         </Form>
 
         </div>
@@ -270,7 +306,7 @@ export default function Body () {
             {/* <span style={{ marginLeft: 8 }}>
               {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
             </span> */}
-          </div>  
+          </div>
           <Table rowSelection={rowSelection} dataSource={dataSource} columns={columns} />
         </div>
         
