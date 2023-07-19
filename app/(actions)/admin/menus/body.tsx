@@ -19,7 +19,7 @@ import type { DataNode, TreeProps } from 'antd/es/tree';
 import axios, {isCancel, AxiosError} from 'axios';
 
 
-import { MenuCreationPath , getAllMenusPath } from '../../../../api/request';
+import URL , { MenuCreationPath , getAllMenusPath } from '../../../../api/request';
 
 
 type LayoutType = Parameters<typeof Form>[0]['layout'];
@@ -244,7 +244,7 @@ export default function Body () {
 
 
   const { isLoading, error, data } = useQuery('repoData', () => 
-    fetch('http://127.0.0.1:8000').then(res =>
+    fetch(URL).then(res =>
       res.json()
     )
   )

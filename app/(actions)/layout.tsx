@@ -256,7 +256,13 @@ const routeLinks = [
 */
 
 
+const menuItemList  = [
 
+  getItem('ادمین', 'sub1', <SettingOutlined />, [
+    getItem(<Link href={routeLinks[0]}>مدیریت منوها</Link>, '0'),
+  ]),
+
+];
 
 
 
@@ -266,8 +272,6 @@ export default function MainLayout({
     children: React.ReactNode
 }) {
 
-
-  let menuItemList : any = [];
 
 
   const router = useRouter();
@@ -282,17 +286,13 @@ export default function MainLayout({
 
   useEffect( () => {
 
-    menuItemList = [
-
-      getItem('ادمین', 'sub1', <SettingOutlined />, [
-        getItem(<Link href={routeLinks[0]}>مدیریت منوها</Link>, '0'),
-      ]),
     
-    ];
 
     axios.get(getAllMenusPath)
     .then(function (response) {
       // handle success
+
+      console.log(menuItemList);
 
       response.data.forEach( (value : any) => {
         routeLinks.push(value.path);
@@ -301,16 +301,7 @@ export default function MainLayout({
           getItem(<Link href={value.path}> {value.title} </Link> , 'sub' + (Number(value.id) + 1), <SettingOutlined />)
         );
 
-        setMenuItems(menuItemList);
-        
-
       } ); 
-
-      setMenuRouteLinks( routeLinks );
-
-      console.log(menuRouteLinks);
-
-      console.log(menuItems);
 
       
     })
@@ -320,6 +311,13 @@ export default function MainLayout({
     })
     .finally(function () {
       // always executed
+      setMenuItems( menuItemList );
+        
+      setMenuRouteLinks( routeLinks );
+
+      console.log( menuRouteLinks );
+
+      console.log( menuItems );
     });
   } , [] );
 
