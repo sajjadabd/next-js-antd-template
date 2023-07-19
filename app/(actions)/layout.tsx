@@ -18,7 +18,7 @@ import '../globals.css'
 // }
 
 
-import React , { useState } from 'react';
+import React , { useState , useEffect } from 'react';
 import { 
   AppstoreOutlined,
   MailOutlined, 
@@ -37,6 +37,11 @@ import { useRouter , usePathname } from 'next/navigation';
 
 import { section , barmill } from '../../components/lines/page';
 
+
+import { MenuCreationPath , getAllMenusPath } from '../../api/request';
+
+
+import axios, {isCancel, AxiosError} from 'axios';
 
 
 
@@ -93,6 +98,8 @@ const MainContent = styled.div`
 
 type MenuItem = Required<MenuProps>['items'][number];
 
+
+
 function getItem(
   label: React.ReactNode,
   key: React.Key,  
@@ -113,6 +120,11 @@ function getItem(
 
 
 const routeLinks = [
+  "/admin/menus" ,
+];
+
+/*
+= [
 
     "/createroll/section" ,
     "/createroll/barmill" ,
@@ -150,22 +162,18 @@ const routeLinks = [
     "/admin/menus" ,
 
 ]
-
-
-const findRouteMatch = (route : string) => {
-    for(let i=0;i<routeLinks.length;i++) {
-        if(routeLinks[i] == route) {
-            //console.log('route : ' ,  i);
-            return i.toString();
-        }
-    }
-
-    return '1';
-}
+*/
 
 
 
-const items: MenuProps['items'] = [
+
+
+
+
+
+
+/*
+[
   // getItem('Navigation One', 'sub1', <MailOutlined />, [
   //   getItem('Item 1', 'g1', null, [getItem('Option 1', '1'), getItem('Option 2', '2')], 'group'),
   //   getItem('Item 2', 'g2', null, [getItem('Option 3', '3'), getItem('Option 4', '4')], 'group'),
@@ -242,11 +250,15 @@ const items: MenuProps['items'] = [
     getItem(<Link href={routeLinks[20]}>مدیریت منوها</Link>, '20'),
   ]),
 
-
-
-
   //getItem('Group', 'grp', null, [getItem('Option 13', '13'), getItem('Option 14', '14')], 'group'),
 ];
+
+*/
+
+
+
+
+
 
 export default function MainLayout({
     children,
@@ -255,9 +267,61 @@ export default function MainLayout({
 }) {
 
 
+  let menuItemList : any = [];
+
+
   const router = useRouter();
   const routePath = usePathname();
 
+
+
+
+  const [menuRouteLinks , setMenuRouteLinks] = useState(routeLinks);
+  const [menuItems , setMenuItems] = useState(menuItemList);
+
+
+  useEffect( () => {
+
+    menuItemList = [
+
+      getItem('ادمین', 'sub1', <SettingOutlined />, [
+        getItem(<Link href={routeLinks[0]}>مدیریت منوها</Link>, '0'),
+      ]),
+    
+    ];
+
+    axios.get(getAllMenusPath)
+    .then(function (response) {
+      // handle success
+
+      response.data.forEach( (value : any) => {
+        routeLinks.push(value.path);
+
+        menuItemList.push( 
+          getItem(<Link href={value.path}> {value.title} </Link> , 'sub' + (Number(value.id) + 1), <SettingOutlined />)
+        );
+
+        setMenuItems(menuItemList);
+        
+
+      } ); 
+
+      setMenuRouteLinks( routeLinks );
+
+      console.log(menuRouteLinks);
+
+      console.log(menuItems);
+
+      
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+    .finally(function () {
+      // always executed
+    });
+  } , [] );
 
   
 
@@ -282,7 +346,16 @@ export default function MainLayout({
 
   
 
+  const findRouteMatch = (route : string) => {
+    for(let i=0;i<routeLinks.length;i++) {
+        if(routeLinks[i] == route) {
+            //console.log('route : ' ,  i);
+            return i.toString();
+        }
+    }
 
+    return '1';
+  }
 
 
   /*
@@ -322,7 +395,7 @@ export default function MainLayout({
                     // theme={theme}
                     inlineCollapsed={collapsed}
                     theme="light"
-                    items={items}
+                    items={menuItems}
                     />
                 </Navigation>
 
