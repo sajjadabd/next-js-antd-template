@@ -254,45 +254,6 @@ function getItem(
 
 
 
-export async function getData() {
-  // Fetch data from an API or any data source
-  const [routeLinks , setRouteLinks] = useState([
-    "/admin/menus" ,
-  ]);
-
-  const [menuItemList , setMenuItemList]  = useState([
-    getItem('ادمین', 'sub1', <SettingOutlined />, [
-      getItem(<Link href={routeLinks[0]}>مدیریت منوها</Link>, '0'),
-    ]),
-  ]);
-
-  const res = await fetch(getAllMenusPath);
-  const data = await res.json();
-
-  let addedRoutes : string[] = [];
-  let addedMenuLinks : any = [];
-
-  data.forEach( (value : any) => {
-    addedRoutes.push(value.path);
-
-    addedMenuLinks.push( 
-      getItem(<Link href={value.path}> {value.title} </Link> , 'sub' + (Number(value.id) + 1), <SettingOutlined />)
-    );
-
-  } ); 
-
-  setRouteLinks([ ...routeLinks , ...addedRoutes ]);
-  setMenuItemList([ ...menuItemList , ...addedMenuLinks ]);
-
-
-
-  return {
-      routeLinks ,
-      menuItemList 
-  };
-}
-
-
 
 
 
