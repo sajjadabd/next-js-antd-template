@@ -297,14 +297,44 @@ export default function MainLayout({
           let children : any[] = [];
 
           value.children.forEach( (child : any) => {
-            children.push(
-              getItem(<Link href={child.path}> {child.title} </Link> , 'sub' + (Number(child.id) + 1), <SettingOutlined />)
-            );
+            if(child.path != null) {
+              children.push(
+                getItem(<Link href={child.path}> {child.title} </Link> , 'sub' + (Number(child.id) + 1), <SettingOutlined />)
+              );
+            } else {
+              children.push(
+                getItem(child.title , 'sub' + (Number(child.id) + 1), <SettingOutlined />)
+              );
+            }
+            
           } ) 
-      
-          addedMenuLinks.push( 
-            getItem(<Link href={value.path}> {value.title} </Link> , 'sub' + (Number(value.id) + 1), <SettingOutlined /> , [...children])
-          )
+          
+
+          if( value.path != null ) {
+            if( children.length > 0 ) {
+              addedMenuLinks.push( 
+                getItem(<Link href={value.path}> {value.title} </Link> , 'sub' + (Number(value.id) + 1), <SettingOutlined /> , [...children])
+              )
+            } else {
+              addedMenuLinks.push( 
+                getItem(<Link href={value.path}> {value.title} </Link> , 'sub' + (Number(value.id) + 1), <SettingOutlined /> )
+              )
+            }
+            
+          } else {
+            if( children.length > 0 ) {
+              addedMenuLinks.push( 
+                getItem(value.title , 'sub' + (Number(value.id) + 1), <SettingOutlined /> , [...children])
+              )
+            } else {
+              addedMenuLinks.push( 
+                getItem(value.title , 'sub' + (Number(value.id) + 1), <SettingOutlined /> )
+              )
+            }
+            
+            
+          }
+          
       
         } ); 
       

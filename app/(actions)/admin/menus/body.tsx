@@ -200,11 +200,17 @@ export default function Body () {
       // handle success
       //setMenus();
       
-      console.log(response);
+      console.log(response.data);
 
       response.data.forEach( (value : any) => 
         value.key = value.id 
       )
+
+      response.data.forEach( (value : any) => {
+        if(value.children.length == 0) {
+          delete value.children;
+        }
+      })
 
 
       response.data.forEach( (value : any) => 
@@ -215,11 +221,12 @@ export default function Body () {
 
       //let tempTreeData = response.data;
 
-      
 
       response.data = response.data.filter( (value : any) => 
         value.parent == '-' 
       )
+
+
 
       setMenus(response.data);
       setTreeData(response.data);
