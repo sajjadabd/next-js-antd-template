@@ -42,7 +42,7 @@ import styled from 'styled-components'
 
 
 
-const Wrapper = styled.div`
+const FormWrapper = styled.div`
   margin-top : 2em;
   margin-bottom : 2em;
 `
@@ -410,7 +410,7 @@ export default function Body () {
 
         {
           selectedRowKeys.length > 0 ?
-          <Wrapper>
+          <FormWrapper>
             <div className="deleteForm">
               <Button 
               onClick={() => handleDelete()}
@@ -420,7 +420,7 @@ export default function Body () {
                 حذف
               </Button>
             </div>
-          </Wrapper>
+          </FormWrapper>
           : ""
         }
         
