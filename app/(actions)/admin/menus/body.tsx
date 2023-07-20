@@ -21,6 +21,14 @@ import type { DataNode, TreeProps } from 'antd/es/tree';
 import axios, {isCancel, AxiosError} from 'axios';
 
 
+
+import { useSelector, useDispatch } from 'react-redux';
+
+import { updateMenu } from '../../../../store/actions';
+
+
+
+
 import URL , { 
   MenuCreationPath , 
   getAllMenusPath ,
@@ -29,10 +37,18 @@ import URL , {
 
 import styled from 'styled-components'
 
+
+
+
+
+
 const Wrapper = styled.div`
   margin-top : 2em;
   margin-bottom : 2em;
 `
+
+
+
 
 type LayoutType = Parameters<typeof Form>[0]['layout'];
 
@@ -156,6 +172,14 @@ const treeData: DataNode[] = [
 
 
 export default function Body () {
+
+
+
+  //const data : string = useSelector((state : any) => state.data);
+
+  const dispatch = useDispatch();
+
+
 
   const getAllMenus = () => {
     axios.get(getAllMenusPath)
@@ -284,6 +308,7 @@ export default function Body () {
     .then(function (response) {
       console.log(response);
       getAllMenus();
+      dispatch(updateMenu(''));
     })
     .catch(function (error) {
       console.log(error);

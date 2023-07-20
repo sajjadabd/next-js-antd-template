@@ -2,6 +2,9 @@ import './globals.css'
 
 import React  from 'react';
 
+import { Provider } from 'react-redux';
+import store from '../store/store';
+
 
 export const metadata = {
   title: 'Create Next App',
@@ -18,7 +21,9 @@ export default function RootLayout({
   return (
     <html lang="en" dir="rtl">
       <body>
-        {children}
+        <Provider store={store}>
+          {children}
+        </Provider>
       </body>
     </html>
   )

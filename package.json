@@ -12,6 +12,7 @@
     "deploy:prod": "next build && pm2 startOrRestart ecosystem.config.js --env production"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.5",
     "@types/node": "20.3.1",
     "@types/react": "18.2.13",
     "@types/react-dom": "18.2.6",
@@ -23,6 +24,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-query": "^3.39.3",
+    "react-redux": "^8.1.1",
+    "redux": "^4.2.1",
     "styled-components": "^6.0.2",
     "typescript": "5.1.3"
   }
