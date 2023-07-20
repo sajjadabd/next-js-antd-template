@@ -22,9 +22,9 @@ import axios, {isCancel, AxiosError} from 'axios';
 
 
 
-import { useSelector, useDispatch } from 'react-redux';
+// import { useSelector, useDispatch } from 'react-redux';
 
-import { updateMenu } from '../../../../store/actions';
+// import { updateMenu } from '../../../../store/actions';
 
 
 
@@ -177,8 +177,6 @@ export default function Body () {
 
   //const data : string = useSelector((state : any) => state.data);
 
-  const dispatch = useDispatch();
-
 
 
   const getAllMenus = () => {
@@ -206,6 +204,7 @@ export default function Body () {
       // always executed
     });
   }
+
 
   useEffect( () => {
     console.log(`running useEffect ...`);
@@ -242,6 +241,7 @@ export default function Body () {
   /*
   for Tree
   */
+
 
   const onSelect: TreeProps['onSelect'] = (selectedKeys, info) => {
     console.log('selected', selectedKeys, info);
@@ -308,7 +308,7 @@ export default function Body () {
     .then(function (response) {
       console.log(response);
       getAllMenus();
-      dispatch(updateMenu(''));
+      // dispatch(updateMenu(''));
     })
     .catch(function (error) {
       console.log(error);
