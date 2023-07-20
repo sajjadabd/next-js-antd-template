@@ -20,14 +20,12 @@ export default function RootLayout({
   
 
   return (
-    <html lang="en" dir="rtl">
-      <body>
-        <Provider store={store}>
-          
-              {children}
-
-        </Provider>
-      </body>
-    </html>
+    <Provider store={store}>
+      <html lang="en" dir="rtl">
+        <body>
+          {children}
+        </body>
+      </html>
+    </Provider>
   )
 }
