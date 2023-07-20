@@ -2,12 +2,14 @@
 
 import React , { useEffect, useState } from 'react';
 
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
+import {  useQuery } from 'react-query';
 
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 
 import { Button, Form, Input, Radio } from 'antd';
+
+import { Space } from 'antd';
 
 
 
@@ -19,8 +21,18 @@ import type { DataNode, TreeProps } from 'antd/es/tree';
 import axios, {isCancel, AxiosError} from 'axios';
 
 
-import URL , { MenuCreationPath , getAllMenusPath } from '../../../../api/request';
+import URL , { 
+  MenuCreationPath , 
+  getAllMenusPath ,
+  deleteMenuPath ,
+} from '../../../../api/request';
 
+import styled from 'styled-components'
+
+const Wrapper = styled.div`
+  margin-top : 2em;
+  margin-bottom : 2em;
+`
 
 type LayoutType = Parameters<typeof Form>[0]['layout'];
 
@@ -234,12 +246,14 @@ export default function Body () {
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
     console.log('selectedRowKeys changed: ', newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
+    
   };
 
   const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange,
+    selectedRowKeys ,
+    onChange: onSelectChange ,
   };
+
   const hasSelected = selectedRowKeys.length > 0;
 
 
@@ -259,6 +273,22 @@ export default function Body () {
 
   if (error) return 'An error has occurred: ' + error
 
+
+
+
+  const handleDelete = () => {
+
+    axios.post(deleteMenuPath, {
+      array : selectedRowKeys
+    })
+    .then(function (response) {
+      console.log(response);
+      getAllMenus();
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
 
   
 
@@ -337,6 +367,8 @@ export default function Body () {
 
         </div>
         
+        
+        
 
         <div>
           <div style={{ marginBottom: 16 }}>
@@ -349,6 +381,23 @@ export default function Body () {
           </div>
           <Table rowSelection={rowSelection} dataSource={menus} columns={columns} />
         </div>
+
+
+        {
+          selectedRowKeys.length > 0 ?
+          <Wrapper>
+            <div className="deleteForm">
+              <Button 
+              onClick={() => handleDelete()}
+              type={"primary"}  
+              danger
+              >
+                حذف
+              </Button>
+            </div>
+          </Wrapper>
+          : ""
+        }
         
 
 

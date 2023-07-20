@@ -3,8 +3,6 @@
 import '../globals.css'
 
 
-
-
 // export default function RootLayout({
 //   children,
 // }: {
@@ -18,7 +16,7 @@ import '../globals.css'
 // }
 
 
-import React , { useState , useEffect } from 'react';
+import React , { useState  } from 'react';
 import { 
   AppstoreOutlined,
   MailOutlined, 
@@ -119,9 +117,7 @@ function getItem(
 }
 
 
-const routeLinks = [
-  "/admin/menus" ,
-];
+
 
 /*
 = [
@@ -256,54 +252,90 @@ const routeLinks = [
 */
 
 
-const menuItemList  = [
 
-  getItem('ادمین', 'sub1', <SettingOutlined />, [
-    getItem(<Link href={routeLinks[0]}>مدیریت منوها</Link>, '0'),
-  ]),
 
-];
+export async function getData() {
+  // Fetch data from an API or any data source
+  const [routeLinks , setRouteLinks] = useState([
+    "/admin/menus" ,
+  ]);
+
+  const [menuItemList , setMenuItemList]  = useState([
+    getItem('ادمین', 'sub1', <SettingOutlined />, [
+      getItem(<Link href={routeLinks[0]}>مدیریت منوها</Link>, '0'),
+    ]),
+  ]);
+
+  const res = await fetch(getAllMenusPath);
+  const data = await res.json();
+
+  let addedRoutes : string[] = [];
+  let addedMenuLinks : any = [];
+
+  data.forEach( (value : any) => {
+    addedRoutes.push(value.path);
+
+    addedMenuLinks.push( 
+      getItem(<Link href={value.path}> {value.title} </Link> , 'sub' + (Number(value.id) + 1), <SettingOutlined />)
+    );
+
+  } ); 
+
+  setRouteLinks([ ...routeLinks , ...addedRoutes ]);
+  setMenuItemList([ ...menuItemList , ...addedMenuLinks ]);
+
+
+
+  return {
+      routeLinks ,
+      menuItemList 
+  };
+}
+
+
+
+
 
 
 
 export default function MainLayout({
-    children,
+    children 
 }: {
-    children: React.ReactNode
+    children: React.ReactNode 
 }) {
 
 
 
-  const router = useRouter();
-  const routePath = usePathname();
+  const [routeLinks , setRouteLinks] = useState([
+    "/admin/menus" ,
+  ]);
+
+  const [menuItemList , setMenuItemList]  = useState([
+    getItem('ادمین', 'sub1', <SettingOutlined />, [
+      getItem(<Link href={routeLinks[0]}>مدیریت منوها</Link>, '0'),
+    ]),
+  ]);
 
 
-
-
-  const [menuRouteLinks , setMenuRouteLinks] = useState(routeLinks);
-  const [menuItems , setMenuItems] = useState(menuItemList);
-
-
-  useEffect( () => {
-
-    
-
+  if( routeLinks.length == 1 ) {
     axios.get(getAllMenusPath)
     .then(function (response) {
-      // handle success
-
-      console.log(menuItemList);
-
+      
+      let addedRoutes : string[] = [];
+      let addedMenuLinks : any = [];
+    
       response.data.forEach( (value : any) => {
-        routeLinks.push(value.path);
-
-        menuItemList.push( 
+        addedRoutes.push(value.path);
+    
+        addedMenuLinks.push( 
           getItem(<Link href={value.path}> {value.title} </Link> , 'sub' + (Number(value.id) + 1), <SettingOutlined />)
         );
-
+    
       } ); 
-
-      
+    
+      setRouteLinks([ ...routeLinks , ...addedRoutes ]);
+      setMenuItemList([ ...menuItemList , ...addedMenuLinks ]);
+  
     })
     .catch(function (error) {
       // handle error
@@ -311,16 +343,21 @@ export default function MainLayout({
     })
     .finally(function () {
       // always executed
-      setMenuItems( menuItemList );
-        
-      setMenuRouteLinks( routeLinks );
-
-      console.log( menuRouteLinks );
-
-      console.log( menuItems );
     });
-  } , [] );
+  }
+  
 
+
+  
+
+
+  //const { routeLinks , menuItemList } = await getData();
+
+  //const [menuRouteLinks , setMenuRouteLinks] = useState(routeLinks);
+  //const [menuItems , setMenuItems] = useState(menuItemList);
+
+  const router = useRouter();
+  const routePath = usePathname();
   
 
   const [collapsed, setCollapsed] = useState(false);
@@ -343,7 +380,7 @@ export default function MainLayout({
 
 
   
-
+  
   const findRouteMatch = (route : string) => {
     for(let i=0;i<routeLinks.length;i++) {
         if(routeLinks[i] == route) {
@@ -354,6 +391,7 @@ export default function MainLayout({
 
     return '1';
   }
+  
 
 
   /*
@@ -393,7 +431,7 @@ export default function MainLayout({
                     // theme={theme}
                     inlineCollapsed={collapsed}
                     theme="light"
-                    items={menuItems}
+                    items={menuItemList}
                     />
                 </Navigation>
 
@@ -420,3 +458,5 @@ export default function MainLayout({
 
   );
 };
+
+
