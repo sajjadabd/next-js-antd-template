@@ -16,7 +16,7 @@ import '../globals.css'
 // }
 
 
-import React , { useState  } from 'react';
+import React , { useEffect, useState  } from 'react';
 import { 
   AppstoreOutlined,
   MailOutlined, 
@@ -279,34 +279,53 @@ export default function MainLayout({
   ]);
 
 
-  if( routeLinks.length == 1 ) {
-    axios.get(getAllMenusPath)
-    .then(function (response) {
+  useEffect( () => {
+    if( routeLinks.length == 1 ) {
+      axios.get(getAllMenusPath)
+      .then(function (response) {
+        
+        let addedRoutes : string[] = [];
+        let addedMenuLinks : any = [];
+
+        response.data = response.data.filter( (value : any) => 
+          value.parent == null
+        )
       
-      let addedRoutes : string[] = [];
-      let addedMenuLinks : any = [];
+        response.data.forEach( (value : any) => {
+          addedRoutes.push(value.path);
+
+          let children : any[] = [];
+
+          value.children.forEach( (child : any) => {
+            children.push(
+              getItem(<Link href={child.path}> {child.title} </Link> , 'sub' + (Number(child.id) + 1), <SettingOutlined />)
+            );
+          } ) 
+      
+          addedMenuLinks.push( 
+            getItem(<Link href={value.path}> {value.title} </Link> , 'sub' + (Number(value.id) + 1), <SettingOutlined /> , [...children])
+          )
+      
+        } ); 
+      
+        setRouteLinks([ ...routeLinks , ...addedRoutes ]);
+        setMenuItemList([ ...menuItemList , ...addedMenuLinks ]);
     
-      response.data.forEach( (value : any) => {
-        addedRoutes.push(value.path);
-    
-        addedMenuLinks.push( 
-          getItem(<Link href={value.path}> {value.title} </Link> , 'sub' + (Number(value.id) + 1), <SettingOutlined />)
-        );
-    
-      } ); 
-    
-      setRouteLinks([ ...routeLinks , ...addedRoutes ]);
-      setMenuItemList([ ...menuItemList , ...addedMenuLinks ]);
-  
-    })
-    .catch(function (error) {
-      // handle error
-      console.log(error);
-    })
-    .finally(function () {
-      // always executed
-    });
-  }
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .finally(function () {
+        // always executed
+      });
+    }
+
+    return () => {
+      // Clean up resources or cancel any pending operations.
+    };
+
+  } , []);
   
 
 

@@ -166,9 +166,9 @@ export default function App () {
                 </Form.Item>
             </FormItem>
 
-            
+            <FormItem>
+            <label>جایگاه غلطک : </label>
             <Form.Item name="size">
-                <label>جایگاه غلطک : </label>
                 <Radio.Group  
                 onChange={(e) => setRollPosition(e.target.value)}
                 style={{ display : 'flex' , flexDirection : 'row'}}>
@@ -177,6 +177,7 @@ export default function App () {
                     <Radio.Button value="finishing">پایانی</Radio.Button>
                 </Radio.Group>
             </Form.Item> 
+            </FormItem>
 
 
             <FormItem>

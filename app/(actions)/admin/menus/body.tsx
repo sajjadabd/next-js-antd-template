@@ -7,7 +7,7 @@ import {  useQuery } from 'react-query';
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 
-import { Button, Form, Input, Radio } from 'antd';
+import { Button, Form, Input, Radio , InputNumber } from 'antd';
 
 import { Space } from 'antd';
 
@@ -49,6 +49,11 @@ const FormWrapper = styled.div`
 
 
 
+const MarginBottomDIV = styled.div`
+  margin-bottom : 6em;
+`
+
+
 
 type LayoutType = Parameters<typeof Form>[0]['layout'];
 
@@ -79,6 +84,16 @@ const dataSource = [
 
 
 const columns = [
+  {
+    title: 'شماره',
+    dataIndex: 'id',
+    key: 'id',
+  },
+  {
+    title: 'والد',
+    dataIndex: 'parent',
+    key: 'parent',
+  },
   {
     title: 'عنوان منو',
     dataIndex: 'title',
@@ -188,13 +203,28 @@ export default function Body () {
       console.log(response);
 
       response.data.forEach( (value : any) => 
-        value.key = value.id  
+        value.key = value.id 
       )
 
-      console.log(response.data);
 
-      setMenus(response.data)
+      response.data.forEach( (value : any) => 
+        value.parent = (value.parent == null ? '-' : value.parent)
+      )
+
+      
+
+      //let tempTreeData = response.data;
+
+      
+
+      response.data = response.data.filter( (value : any) => 
+        value.parent == '-' 
+      )
+
+      setMenus(response.data);
       setTreeData(response.data);
+
+
     })
     .catch(function (error) {
       // handle error
@@ -209,6 +239,11 @@ export default function Body () {
   useEffect( () => {
     console.log(`running useEffect ...`);
     getAllMenus();
+
+    return () => {
+      // Clean up resources or cancel any pending operations.
+    };
+
   } , [] );
 
 
@@ -216,6 +251,7 @@ export default function Body () {
     form
   */
 
+  const [parent, setParent] = useState(0);
   const [menuTitle , setMenuTitle] = useState("");
   const [menuPath , setMenuPath] = useState("");
 
@@ -320,11 +356,13 @@ export default function Body () {
 
   const handleForm = () => {
     console.log({
+      parent ,
       menuTitle ,
       menuPath 
     });
 
     axios.post(MenuCreationPath, {
+      parent : parent ,
       title: menuTitle,
       path: menuPath
     })
@@ -332,6 +370,7 @@ export default function Body () {
       console.log(response);
       getAllMenus();
 
+      
       setMenuTitle('');
       setMenuPath('');
     })
@@ -343,7 +382,7 @@ export default function Body () {
 
 
   return (
-    <div>
+    <MarginBottomDIV>
         
 
         <div>
@@ -370,6 +409,9 @@ export default function Body () {
             </Radio.Group>
           </Form.Item> */}
 
+          <Form.Item label="والد">
+            <InputNumber placeholder="والد" value={parent} onChange={(value) => setParent(Number(value))} />
+          </Form.Item>
 
           <Form.Item label="عنوان منو">
             <Input placeholder="عنوان منو" value={menuTitle} onChange={(e) => setMenuTitle(e.target.value)} />
@@ -431,13 +473,13 @@ export default function Body () {
           <Tree
             showLine
             switcherIcon={<DownOutlined />}
-            defaultExpandedKeys={['0-0-0']}
+            //defaultExpandedKeys={['0-0-0']}
             onSelect={onSelect}
             treeData={treeData}
           />
         </div>
 
 
-    </div>
+    </MarginBottomDIV>
   );
 };
