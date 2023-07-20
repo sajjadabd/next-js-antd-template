@@ -11,15 +11,18 @@ import type { ColumnsType } from 'antd/es/table';
 import Body from './body';
 
 
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 
 
 
 export default function App() {
 
-  
+  const queryClient = new QueryClient()
 
   return (
-    <Body />
+    <QueryClientProvider client={queryClient}>
+      <Body />
+    </QueryClientProvider>
   )
 }
 
