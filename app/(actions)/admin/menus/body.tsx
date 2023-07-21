@@ -44,7 +44,7 @@ import styled from 'styled-components'
 
 const FormWrapper = styled.div`
   margin-top : 2em;
-  margin-bottom : 2em;
+  margin-bottom : 6em;
 `
 
 
@@ -406,7 +406,7 @@ export default function Body () {
 
 
   return (
-    <MarginBottomDIV>
+    <FormWrapper>
         
 
         <div>
@@ -504,6 +504,6 @@ export default function Body () {
         </div>
 
 
-    </MarginBottomDIV>
+    </FormWrapper>
   );
 };
