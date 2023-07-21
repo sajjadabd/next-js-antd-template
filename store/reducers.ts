@@ -1,80 +1,52 @@
-import axios from 'axios';
 
-import URL , { getAllMenusPath } from '../api/request';
+import { createSlice } from '@reduxjs/toolkit'
 
-import { 
-  AppstoreOutlined,
-  MailOutlined, 
-  SettingOutlined ,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-} from '@ant-design/icons';
-
-import type { MenuProps, MenuTheme } from 'antd';
-
-type MenuItem = Required<MenuProps>['items'][number];
-
-
-
-function getItem(
-  label: React.ReactNode,
-  key: React.Key,  
-  icon?: React.ReactNode,
-  children?: MenuItem[],
-  type?: 'group',
-  theme?: 'light' | 'dark',
-): MenuItem {
-  return {
-    key,
-    icon,
-    children,
-    label,
-    type,
-    theme,
-  } as MenuItem;
+interface eachItem {
+  id : number ,
+  key : number ,
+  title : string ,
+  path : string ,
+  parent : number ,
+  created_at ?: string ,
+  updated_at ?: string ,
+  children ?: eachItem[]
 }
-
 
 interface AppState {
-  routeLinks : string[] ,
-  menuItems : any[] ,
+  menuItems : eachItem[] ,
 }
 
 
-const initialState : AppState = {
-  routeLinks : [ "/admin/menus" ] ,
-  menuItems : [ 
-    { id : 1 , key : 1 , title : "admin" , path : "/admin/menus" , parent : 0 }
-  ]
-};
-
-
+export type {AppState , eachItem};
 
 
 interface Action {
   type : string ,
-  payload : {
-    routeLinks : string[] ,
-    menuItems : any[],
-  }
+  payload : any[],
 };
 
 
 
-const rootReducer = (state = initialState, action : Action) => {
-  switch (action.type) {
-    case 'UPDATE_MENU':
+
+const todosSlice = createSlice({
+  name: 'menuItems',
+  initialState : {
+    menuItems : [ { } ]  
+  },
+  reducers: {
+    updateMenuItems : ( state , action ) => {
+      console.log('inside redux');
+      console.log(`state.menuItems` , state.menuItems);
+      console.log(`action.payload` , action.payload);
+      let newMenuItems = [];
+      newMenuItems = [ ...action.payload.payload ]
       return {
-        ...state,
-        routeLinks : action.payload.routeLinks ,
-        menuItems : action.payload.menuItems 
-      };
-    default:
-      return state;
+        menuItems : newMenuItems
+      }
+    }
   }
-};
+})
 
+export const { updateMenuItems } = todosSlice.actions
 
-
-
-export default rootReducer;
+export default todosSlice.reducer

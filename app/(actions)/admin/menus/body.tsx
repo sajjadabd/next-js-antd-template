@@ -22,9 +22,9 @@ import axios, {isCancel, AxiosError} from 'axios';
 
 
 
-// import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
-// import { updateMenu } from '../../../../store/actions';
+import { updateMenuItems } from '../../../../store/reducers';
 
 
 
@@ -181,9 +181,11 @@ const treeData: DataNode[] = [
 
 
 
+import { AppState , eachItem } from '../../../../store/reducers';
 
-
-
+interface StateType {
+  menuItems : eachItem[]
+}
 
 
 export default function Body () {
@@ -192,6 +194,20 @@ export default function Body () {
 
   //const data : string = useSelector((state : any) => state.data);
 
+  let menuItemList = useSelector((state : StateType) => state.menuItems);
+
+  menuItemList = menuItemList.filter( (value , index) => {
+    if ('id' in value) {
+      return value;
+    }
+  })
+
+  
+  
+
+  const dispatch = useDispatch();
+
+  console.log(`body : ` , menuItemList);
 
 
   const getAllMenus = () => {
@@ -217,11 +233,6 @@ export default function Body () {
         value.parent = (value.parent == null ? '-' : value.parent)
       )
 
-      
-
-      //let tempTreeData = response.data;
-
-
       response.data = response.data.filter( (value : any) => 
         value.parent == '-' 
       )
@@ -229,7 +240,10 @@ export default function Body () {
 
 
       setMenus(response.data);
+
       setTreeData(response.data);
+
+      dispatch(updateMenuItems({ payload : response.data }))
 
 
     })
@@ -244,8 +258,11 @@ export default function Body () {
 
 
   useEffect( () => {
-    console.log(`running useEffect ...`);
+    //console.log(`running useEffect ...`);
     getAllMenus();
+    
+    console.log(`body : ` , menuItemList);
+
 
     return () => {
       // Clean up resources or cancel any pending operations.
@@ -262,8 +279,8 @@ export default function Body () {
   const [menuTitle , setMenuTitle] = useState("");
   const [menuPath , setMenuPath] = useState("");
 
-  const [menus , setMenus] = useState([]);
-  const [treeData , setTreeData] = useState([]);
+  const [menus , setMenus] = useState<eachItem[]>(menuItemList);
+  const [treeData , setTreeData] = useState<eachItem[]>(menuItemList);
 
 
   const [form] = Form.useForm();
