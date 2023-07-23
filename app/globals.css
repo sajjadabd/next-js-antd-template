@@ -132,6 +132,10 @@ a {
   direction : ltr;
 }
 
+.ant-select-item-option-content {
+  direction : ltr;
+}
+
 ul {
     margin-top : 20px;
     list-style-type: none;

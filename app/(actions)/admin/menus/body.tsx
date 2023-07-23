@@ -11,10 +11,11 @@ import { Button, Form, Input, Radio , InputNumber } from 'antd';
 
 import { Space } from 'antd';
 
-
+import { AutoComplete } from 'antd';
 
 import { DownOutlined } from '@ant-design/icons';
 import { Tree } from 'antd';
+
 import type { DataNode, TreeProps } from 'antd/es/tree';
 
 
@@ -186,6 +187,45 @@ import { AppState , eachItem } from '../../../../store/reducers';
 interface StateType {
   menuItems : eachItem[]
 }
+
+
+
+
+const options = [
+  { value: "/createroll/section" },
+  { value: "/createroll/barmill" },
+
+  { value: "/createstand/section" },
+  { value: "/createstand/barmill" },
+
+  { value: "/listroll/section" },
+  { value: "/listroll/barmill" },
+
+  { value: "/liststand/section" },
+  { value: "/liststand/barmill" },
+
+  { value: "/defineline/section" },
+  { value: "/defineline/barmill" },
+
+  { value: "/manageline/section" },
+  { value: "/manageline/barmill" },
+
+  { value: "/calibrtonag/section" },
+  { value: "/calibrtonag/barmill" },
+
+  { value: "/tarashroll/section" },
+  { value: "/tarashroll/barmill" },
+
+  { value: "/rollstatus/section" },
+  { value: "/rollstatus/barmill" },
+
+  { value: "/managestand/section" },
+  { value: "/managestand/barmill" },
+
+
+];
+
+
 
 
 export default function Body () {
@@ -443,7 +483,17 @@ export default function Body () {
 
 
           <Form.Item label="مسیر">
-            <Input placeholder="path" value={menuPath} onChange={(e) => setMenuPath(e.target.value)}  style={{ direction : 'ltr' }} />
+            {/* <Input placeholder="path" value={menuPath} onChange={(e) => setMenuPath(e.target.value)}  style={{ direction : 'ltr' }} /> */}
+            <AutoComplete
+              options={options}
+              value={menuPath}
+              onChange={(value) => setMenuPath(value)}  
+              style={{ width: 200 , direction : 'ltr' }}
+              placeholder="path"
+              filterOption={(inputValue, option) =>
+                option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+              }
+            />
           </Form.Item>
 
 
