@@ -17,13 +17,29 @@ import '../globals.css'
 
 
 import React , { useEffect, useState  } from 'react';
+
+
+
 import { 
-  AppstoreOutlined,
-  MailOutlined, 
+  AppstoreOutlined ,
+  MailOutlined , 
   SettingOutlined ,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
+  MenuUnfoldOutlined ,
+  DownOutlined ,
+  MenuFoldOutlined ,
+  InfoCircleOutlined ,
+  FormOutlined ,
+  UnorderedListOutlined ,
+  AreaChartOutlined ,
+  CodepenOutlined ,
+  SlackOutlined ,
+  ApartmentOutlined ,
+  CalculatorOutlined ,
+  CloudDownloadOutlined ,
+  GlobalOutlined ,
 } from '@ant-design/icons';
+
+
 import type { MenuProps, MenuTheme } from 'antd';
 import { Button, Menu, Switch } from 'antd';
 
@@ -273,6 +289,45 @@ type Action = {
 
 
 
+
+
+const iconOptions = [
+  { value : 'AppstoreOutlined' , label : <AppstoreOutlined />  } ,
+  { value : 'MailOutlined' , label : <MailOutlined />  } ,
+  { value : 'SettingOutlined' , label : <SettingOutlined /> } ,
+  { value : 'MenuUnfoldOutlined' , label : <MenuUnfoldOutlined />  } ,
+  { value : 'DownOutlined' , label : <DownOutlined /> } ,
+  { value : 'MenuFoldOutlined' , label : <MenuFoldOutlined />} ,
+  { value : 'InfoCircleOutlined' , label : <InfoCircleOutlined /> } ,
+  { value : 'FormOutlined' , label : <FormOutlined /> } ,
+  { value : 'UnorderedListOutlined' , label : <UnorderedListOutlined /> } ,
+  { value : 'AreaChartOutlined' , label : <AreaChartOutlined /> } ,
+  { value : 'CodepenOutlined' , label : <CodepenOutlined />  } ,
+  { value : 'SlackOutlined' , label : <SlackOutlined />  } ,
+  { value : 'ApartmentOutlined' , label : <ApartmentOutlined /> } ,
+  { value : 'CalculatorOutlined' , label : <CalculatorOutlined />  } ,
+  { value : 'CloudDownloadOutlined' , label : <CloudDownloadOutlined /> } ,
+  { value : 'GlobalOutlined' , label : <GlobalOutlined /> } ,
+]
+
+
+
+
+
+const returnIcon = (icon : string) : any => {
+  for(let i=0;i<iconOptions.length;i++) {
+    if(iconOptions[i].value == icon) {
+      return iconOptions[i].label ;
+    }
+  }
+
+  return '';
+}
+
+
+
+
+
 export default function MainLayout({
     children 
 }: {
@@ -284,7 +339,6 @@ export default function MainLayout({
 
   const dispatch = useDispatch();
 
-  console.log(`menuItemList : ` , menuItemList);
 
 
   const [routeLinks , setRouteLinks] = useState([
@@ -302,20 +356,135 @@ export default function MainLayout({
   
 
 
+  const deleteEmptyChildrenRecursively = ( arr : any[] ) => {
+
+    arr.forEach( (value : any) => {
+      if (value.children != undefined) {
+        deleteEmptyChildrenRecursively(value.children);
+        if(value.children.length == 0) {
+          delete value.children;
+        }
+      }
+    })
+
+    return arr;
+  }
+
+  
+
+  let addedRoutes : string[] = [];
+  let addedMenuLinks : any = [];
+
+  
+  let subcategory : any[] = [];
+
+  const createSubCategoriesRecursively = (arr : any[]) => {
+    arr.forEach( (value : any) => {
+
+      addedRoutes.push(value.path);
+
+      let children : any[] = [];
+      //let subcategory : any[] = [];
+      
+      if(value.children != undefined) {
+        createSubCategoriesRecursively(value.children);
+      }
+
+      if(value.children != undefined) {
+        value.children.forEach( (child : any) => {
+          if(child.path != null) {
+            children.push(
+              getItem(<Link href={child.path}> {child.title} </Link> , 'sub' + ( value.id + child.id + 1 ), returnIcon(child.icon) )
+            );
+          } else {
+            children.push(
+              getItem(child.title , 'sub' + (value.id + child.id + 1) , returnIcon(child.icon) )
+            );
+          }
+        }) 
+      }
+
+
+      if( value.children == undefined && value.parent != null ) {
+        return ;
+      }
+
+      
+      if( value.path != null ) {
+        if(children.length > 0) {
+          subcategory.push( 
+            getItem(<Link href={value.path}> {value.title} </Link> , 'sub' + (value.id + 1), returnIcon(value.icon) , [...children])
+          )
+        }
+        else {
+          subcategory.push( 
+            getItem(<Link href={value.path}> {value.title} </Link> , 'sub' + (value.id + 1), returnIcon(value.icon) )
+          )
+        }
+      } else {
+        if(children.length > 0) {
+          subcategory.push( 
+            getItem(value.title , 'sub' + (value.id + 1), returnIcon(value.icon) , [...children])
+          )
+        }
+        else {
+          subcategory.push( 
+            getItem(value.title , 'sub' + (value.id + 1), returnIcon(value.icon) )
+          )
+        }
+      }
+      
+
+
+      /*
+      if(value.parent == null) {
+        if( value.path != null ) {
+          if( subcategory.length > 0 ) {
+            category.push( 
+              getItem(<Link href={value.path}> {value.title} </Link> , 'sub' + (value.id + 1), returnIcon(value.icon) , [...subcategory])
+            )
+          } else {
+            category.push( 
+              getItem(<Link href={value.path}> {value.title} </Link> , 'sub' + (value.id + 1), returnIcon(value.icon) , )
+            )
+          }
+        } else {
+          if( subcategory.length > 0 ) {
+            category.push( 
+              getItem(value.title , 'sub' + (value.id + 1), returnIcon(value.icon) , [...subcategory])
+            )
+          } else {
+            category.push( 
+              getItem(value.title , 'sub' + (value.id + 1), returnIcon(value.icon) , )
+            )
+          }
+        }
+      }
+      */
+
+
+    });
+  }
+
+
+
+
   const queryMenuItems = () => {
     if( routeLinks.length == 1 ) {
       axios.get(getAllMenusPath)
       .then(function (response) {
         
-        let addedRoutes : string[] = [];
-        let addedMenuLinks : any = [];
+        
 
-        console.log(`response data | before` , response.data);
 
         response.data = response.data.filter( (value : any) => 
           value.parent == null
         )
 
+        response.data = deleteEmptyChildrenRecursively(response.data);
+        
+
+        /*
         response.data.map( (value : any) => {
           if (value.children != undefined) {
             if(value.children.length == 0) {
@@ -323,13 +492,17 @@ export default function MainLayout({
             }
           }
         })
+        */
 
 
-        console.log(`response data | after` , response.data);
+        createSubCategoriesRecursively(response.data);
 
         
-      
+        
+
+        /*
         response.data.forEach( (value : any) => {
+
           addedRoutes.push(value.path);
 
           let children : any[] = [];
@@ -338,11 +511,11 @@ export default function MainLayout({
             value.children.forEach( (child : any) => {
               if(child.path != null) {
                 children.push(
-                  getItem(<Link href={child.path}> {child.title} </Link> , 'sub' + (Number(child.id) + 1), <SettingOutlined />)
+                  getItem(<Link href={child.path}> {child.title} </Link> , 'sub' + (Number(child.id) + 1), returnIcon(child.icon) )
                 );
               } else {
                 children.push(
-                  getItem(child.title , 'sub' + (Number(child.id) + 1), <SettingOutlined />)
+                  getItem(child.title , 'sub' + (Number(child.id) + 1), returnIcon(child.icon) )
                 );
               }
             }) 
@@ -353,31 +526,33 @@ export default function MainLayout({
           if( value.path != null ) {
             if( children.length > 0 ) {
               addedMenuLinks.push( 
-                getItem(<Link href={value.path}> {value.title} </Link> , 'sub' + (Number(value.id) + 1), <SettingOutlined /> , [...children])
+                getItem(<Link href={value.path}> {value.title} </Link> , 'sub' + (Number(value.id) + 1), returnIcon(value.icon) , [...children])
               )
             } else {
               addedMenuLinks.push( 
-                getItem(<Link href={value.path}> {value.title} </Link> , 'sub' + (Number(value.id) + 1), <SettingOutlined /> )
+                getItem(<Link href={value.path}> {value.title} </Link> , 'sub' + (Number(value.id) + 1), returnIcon(value.icon) )
               )
             }
             
           } else {
             if( children.length > 0 ) {
               addedMenuLinks.push( 
-                getItem(value.title , 'sub' + (Number(value.id) + 1), <SettingOutlined /> , [...children])
+                getItem(value.title , 'sub' + (Number(value.id) + 1), returnIcon(value.icon) , [...children])
               )
             } else {
               addedMenuLinks.push( 
-                getItem(value.title , 'sub' + (Number(value.id) + 1), <SettingOutlined /> )
+                getItem(value.title , 'sub' + (Number(value.id) + 1), returnIcon(value.icon) )
               )
             }
           }
 
 
         } ); 
+
+        */
       
         setRouteLinks([ ...routeLinks , ...addedRoutes ]);
-        setMenuItemList([ ...menuItemLinks , ...addedMenuLinks ]);
+        setMenuItemList([ ...menuItemLinks , ...subcategory ]);
         
         dispatch(updateMenuItems({ payload : response.data }));
 

@@ -35,9 +35,9 @@ const todosSlice = createSlice({
   },
   reducers: {
     updateMenuItems : ( state , action ) => {
-      console.log('inside redux');
-      console.log(`state.menuItems` , state.menuItems);
-      console.log(`action.payload` , action.payload);
+      //console.log('inside redux');
+      //console.log(`state.menuItems` , state.menuItems);
+      //console.log(`action.payload` , action.payload);
       let newMenuItems = [];
       newMenuItems = [ ...action.payload.payload ]
       return {

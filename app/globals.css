@@ -94,12 +94,19 @@ body {
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
+  /* background: linear-gradient(
       to bottom,
       transparent,
       rgb(var(--background-end-rgb))
     )
-    rgb(var(--background-start-rgb));
+    rgb(var(--background-start-rgb)); */
+
+  background: linear-gradient(
+      to #dad7cd,
+      #ccc5b9
+    );
+
+
 }
 
 a {
@@ -134,6 +141,19 @@ a {
 
 .ant-select-item-option-content {
   direction : ltr;
+}
+
+.allChildrenLeftAlign .ant-select-item-option-content {
+  direction : ltr;
+}
+
+
+.anticon {
+  padding-top: 3px;
+}
+
+.anticon-close-circle {
+  padding-bottom: 3px;
 }
 
 ul {

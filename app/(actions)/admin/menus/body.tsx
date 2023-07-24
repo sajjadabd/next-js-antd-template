@@ -9,12 +9,36 @@ import type { ColumnsType } from 'antd/es/table';
 
 import { Button, Form, Input, Radio , InputNumber } from 'antd';
 
-import { Space } from 'antd';
+import { Modal, Space } from 'antd';
 
 import { AutoComplete } from 'antd';
 
-import { DownOutlined } from '@ant-design/icons';
+
+import { 
+  AppstoreOutlined ,
+  MailOutlined , 
+  SettingOutlined ,
+  MenuUnfoldOutlined ,
+  DownOutlined ,
+  MenuFoldOutlined ,
+  InfoCircleOutlined ,
+  FormOutlined ,
+  UnorderedListOutlined ,
+  AreaChartOutlined ,
+  CodepenOutlined ,
+  SlackOutlined ,
+  ApartmentOutlined ,
+  CalculatorOutlined ,
+  CloudDownloadOutlined ,
+  GlobalOutlined ,
+  LeftOutlined ,
+} from '@ant-design/icons';
+
+
 import { Tree } from 'antd';
+
+import { Select } from 'antd';
+import type { SelectProps } from 'antd';
 
 import type { DataNode, TreeProps } from 'antd/es/tree';
 
@@ -43,10 +67,19 @@ import styled from 'styled-components'
 
 
 
-const FormWrapper = styled.div`
-  margin-top : 2em;
+const ContentWrapper = styled.div`
+  margin-top : 1em;
   margin-bottom : 6em;
 `
+
+
+const FormWrapper = styled.div`
+  display : flex;
+  margin-top : 1em;
+  margin-bottom : 1em;
+`
+
+
 
 
 
@@ -54,6 +87,37 @@ const MarginBottomDIV = styled.div`
   margin-bottom : 6em;
 `
 
+
+const RightToLeft = styled.div`
+  direction : rtl;
+  .ant-select-item-option-content {
+    direction : rtl;
+  }
+`
+
+const LeftToRight = styled.div`
+  direction : ltr;
+  .ant-select-item-option-content {
+    direction : ltr;
+  }
+`
+
+
+const BreadCrumbs = styled.div`
+  margin-bottom : 3em;
+  span {
+    margin-left : 5px;
+    margin-right : 5px
+  }
+`
+
+
+const EditButton = styled(Button)`
+  background-color : #058c42
+  &:hover {
+    background-color : black
+  }
+`
 
 
 type LayoutType = Parameters<typeof Form>[0]['layout'];
@@ -99,6 +163,11 @@ const columns = [
     title: 'عنوان منو',
     dataIndex: 'title',
     key: 'title',
+  },
+  {
+    title: 'نمایه',
+    dataIndex: 'iconXML',
+    key: 'icon',
   },
   {
     title: 'مسیر',
@@ -191,7 +260,33 @@ interface StateType {
 
 
 
-const options = [
+//const parentOptions: SelectProps['options'] = [];
+
+
+
+
+const iconOptions = [
+  { value : 'AppstoreOutlined' , label : <AppstoreOutlined />  } ,
+  { value : 'MailOutlined' , label : <MailOutlined />  } ,
+  { value : 'SettingOutlined' , label : <SettingOutlined /> } ,
+  { value : 'MenuUnfoldOutlined' , label : <MenuUnfoldOutlined />  } ,
+  { value : 'DownOutlined' , label : <DownOutlined /> } ,
+  { value : 'MenuFoldOutlined' , label : <MenuFoldOutlined />} ,
+  { value : 'InfoCircleOutlined' , label : <InfoCircleOutlined /> } ,
+  { value : 'FormOutlined' , label : <FormOutlined /> } ,
+  { value : 'UnorderedListOutlined' , label : <UnorderedListOutlined /> } ,
+  { value : 'AreaChartOutlined' , label : <AreaChartOutlined /> } ,
+  { value : 'CodepenOutlined' , label : <CodepenOutlined />  } ,
+  { value : 'SlackOutlined' , label : <SlackOutlined />  } ,
+  { value : 'ApartmentOutlined' , label : <ApartmentOutlined /> } ,
+  { value : 'CalculatorOutlined' , label : <CalculatorOutlined />  } ,
+  { value : 'CloudDownloadOutlined' , label : <CloudDownloadOutlined /> } ,
+  { value : 'GlobalOutlined' , label : <GlobalOutlined /> } ,
+]
+
+
+
+const routeOptions = [
   { value: "/createroll/section" },
   { value: "/createroll/barmill" },
 
@@ -227,6 +322,23 @@ const options = [
 
 
 
+interface parentType {
+  value : string , 
+  label : string 
+}
+
+
+
+const returnIcon = (icon : string) : any => {
+  for(let i=0;i<iconOptions.length;i++) {
+    if(iconOptions[i].value == icon) {
+      return iconOptions[i].label ;
+    }
+  }
+
+  return '';
+}
+
 
 export default function Body () {
 
@@ -247,7 +359,28 @@ export default function Body () {
 
   const dispatch = useDispatch();
 
-  console.log(`body : ` , menuItemList);
+
+  const setIDandIconsRecursively = (arr : any[]) => {
+
+
+    arr.forEach( (value : any) => {
+      if(value.children != undefined) {
+        setIDandIconsRecursively(value.children);
+      }
+      value.key = value.id 
+      value.iconXML = returnIcon(value.icon);
+    })
+
+    return arr
+
+  }
+
+
+
+  const deleteEmptyChildrenRecursively = ( arr : any[] ) => {
+
+  }
+
 
 
   const getAllMenus = () => {
@@ -256,11 +389,17 @@ export default function Body () {
       // handle success
       //setMenus();
       
-      console.log(response.data);
 
-      response.data.forEach( (value : any) => 
+      response.data = setIDandIconsRecursively(response.data);
+      /*
+      response.data.forEach( (value : any) => {
         value.key = value.id 
-      )
+        value.iconXML = returnIcon(value.icon);
+      })
+      */
+
+
+
 
       response.data.forEach( (value : any) => {
         if(value.children.length == 0) {
@@ -277,13 +416,26 @@ export default function Body () {
         value.parent == '-' 
       )
 
+      let parentArray = response.data.map( (value : any) => {
+        if( value.parent == '-' ) {
+          return {
+            value : value.id + "" ,
+            label : value.title 
+          }
+        } 
+      })
+
+
+
+      setParentOptions(parentArray);
+
 
 
       setMenus(response.data);
 
       setTreeData(response.data);
 
-      dispatch(updateMenuItems({ payload : response.data }))
+      //dispatch(updateMenuItems({ payload : response.data }))
 
 
     })
@@ -301,7 +453,6 @@ export default function Body () {
     //console.log(`running useEffect ...`);
     getAllMenus();
     
-    console.log(`body : ` , menuItemList);
 
 
     return () => {
@@ -316,7 +467,13 @@ export default function Body () {
   */
 
   const [parent, setParent] = useState(0);
+  const [parentText, setParentText] = useState('');
+  const [parentOptions , setParentOptions] = useState<parentType[]>([]);
+
+  const [icon , setIcon]= useState('');
+
   const [menuTitle , setMenuTitle] = useState("");
+
   const [menuPath , setMenuPath] = useState("");
 
   const [menus , setMenus] = useState<eachItem[]>(menuItemList);
@@ -325,6 +482,11 @@ export default function Body () {
 
   const [form] = Form.useForm();
   const [formLayout, setFormLayout] = useState<LayoutType>('horizontal');
+
+
+
+
+  const[deleteLoading , setDeleteLoading] = useState(false);
 
   const formItemLayout =
     formLayout === 'horizontal' ? { labelCol: { span: 4 }, wrapperCol: { span: 14 } } : null;
@@ -399,22 +561,41 @@ export default function Body () {
 
 
 
-
-  const handleDelete = () => {
-
+  const sendDeleteRequest = () : void => {
+    
     axios.post(deleteMenuPath, {
       array : selectedRowKeys
     })
     .then(function (response) {
       console.log(response);
       getAllMenus();
+      setDeleteLoading(false);
+      successMenuDeletion();
       // dispatch(updateMenu(''));
     })
     .catch(function (error) {
       console.log(error);
+      setDeleteLoading(false);
+      errorMenuDeletion();
     });
+
+
   }
 
+  const handleDelete = () => {
+
+    setDeleteLoading(true);
+
+    setTimeout( () => {
+      sendDeleteRequest()
+    } , 1000 )
+
+  }
+
+
+  const handleParentChange = (value: string) => {
+    console.log(`selected ${value}`);
+  };
   
 
 
@@ -422,36 +603,94 @@ export default function Body () {
     console.log({
       parent ,
       menuTitle ,
+      icon ,
       menuPath 
     });
 
     axios.post(MenuCreationPath, {
       parent : parent ,
       title: menuTitle,
+      icon : icon ,
       path: menuPath
     })
     .then(function (response) {
       console.log(response);
       getAllMenus();
 
-      
+      setParent(0);
+      setParentText('');
+      setIcon('');
       setMenuTitle('');
       setMenuPath('');
+
+      successMenuCreation();
     })
     .catch(function (error) {
       console.log(error);
+      errorMenuCreation();
     });
   }
 
 
+  const returnParentText = (id : string) : string => {
+    for(let i=0;i<parentOptions.length;i++) {
+      if(parentOptions[i].value == id) {
+        return parentOptions[i].label;
+      }
+    }
+
+    return '';
+  }
+
+
+
+  const successMenuCreation = () => {
+    Modal.success({
+      title : 'ایجاد منوی جدید' ,
+      content: 'منوی جدید با موفقیت ایجاد شد',
+    });
+  };
+  
+  const errorMenuCreation = () => {
+    Modal.error({
+      title: 'خطا',
+      content: 'مشکلی در ساخت منوی جدید به وجود آمد',
+    });
+  };
+
+
+
+  const successMenuDeletion = () => {
+    Modal.success({
+      title : 'حذف منو' ,
+      content: 'منو با موفقیت حذف شد',
+    });
+  };
+  
+  const errorMenuDeletion = () => {
+    Modal.error({
+      title: 'خطا',
+      content: 'مشکلی در حذف منو به وجود آمد',
+    });
+  };
+
+
 
   return (
-    <FormWrapper>
+    <ContentWrapper>
         
 
-        <div>
-          admin / menus
-        </div>
+        <BreadCrumbs>
+          <span>
+            ادمین
+          </span>
+          <span>
+            &gt;
+          </span>
+          <span>
+            مدیریت منوها
+          </span>
+        </BreadCrumbs>
 
 
         <div>
@@ -474,7 +713,26 @@ export default function Body () {
           </Form.Item> */}
 
           <Form.Item label="والد">
-            <InputNumber placeholder="والد" value={parent} onChange={(value) => setParent(Number(value))} />
+            {/* <InputNumber placeholder="والد" value={parent} onChange={(value) => setParent(Number(value))} /> */}
+              <RightToLeft>
+              <Select
+                allowClear
+                style={{ width: '100%'  }}
+                placeholder="والد را انتخاب کنید"
+                value={parent == 0 ? null : returnParentText(parent.toString())}
+                onChange={(value) => {
+                  console.log(value);
+                  if(value == undefined) {
+                    setParent(0);
+                    setParentText("");
+                  } else {
+                    setParent(Number(value));
+                    setParentText(value + "");
+                  }
+                }}
+                options={parentOptions}
+              />
+              </RightToLeft>
           </Form.Item>
 
           <Form.Item label="عنوان منو">
@@ -482,18 +740,35 @@ export default function Body () {
           </Form.Item>
 
 
+          <Form.Item label="نمایه">
+            {/* <Input placeholder="path" value={menuPath} onChange={(e) => setMenuPath(e.target.value)}  style={{ direction : 'ltr' }} /> */}
+              <div className="allChildrenLeftAlign">
+              <Select
+                allowClear
+                style={{ width: '100%'  }}
+                placeholder="نمایه را انتخاب کنید"
+                value={icon == '' ? null : icon}
+                options={iconOptions}
+                onChange={(value) => setIcon(value)}
+              />
+              </div>
+          </Form.Item>
+
+
           <Form.Item label="مسیر">
             {/* <Input placeholder="path" value={menuPath} onChange={(e) => setMenuPath(e.target.value)}  style={{ direction : 'ltr' }} /> */}
-            <AutoComplete
-              options={options}
-              value={menuPath}
-              onChange={(value) => setMenuPath(value)}  
-              style={{ width: 200 , direction : 'ltr' }}
-              placeholder="path"
-              filterOption={(inputValue, option) =>
-                option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
-              }
-            />
+              <div className="allChildrenLeftAlign">
+              <AutoComplete
+                options={routeOptions}
+                value={menuPath}
+                onChange={(value) => setMenuPath(value)}  
+                style={{ width: 200 , direction : 'ltr' }}
+                placeholder="path"
+                filterOption={(inputValue, option) =>
+                  option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+                }
+              />
+              </div>
           </Form.Item>
 
 
@@ -531,18 +806,35 @@ export default function Body () {
               <Button 
               onClick={() => handleDelete()}
               type={"primary"}  
-              danger
+              style={{ marginRight : '20px' , marginLeft : '20px' }}
+              danger={!deleteLoading}
+              loading={deleteLoading}
+              disabled={deleteLoading}
               >
                 حذف
               </Button>
             </div>
+
+            {
+             selectedRowKeys.length == 1 ?
+            <div className="editForm">
+              <Button 
+              onClick={ () => {} }
+              type={"primary"}  
+              //loading={deleteLoading}
+            >
+                ویرایش
+              </Button>
+            </div> : "" 
+            }
+
           </FormWrapper>
           : ""
         }
         
 
 
-
+      {/* 
         <div>
           <Tree
             showLine
@@ -551,9 +843,9 @@ export default function Body () {
             onSelect={onSelect}
             treeData={treeData}
           />
-        </div>
+        </div> */}
 
 
-    </FormWrapper>
+    </ContentWrapper>
   );
 };
