@@ -439,7 +439,7 @@ export default function Body () {
 
 
 
-
+  const[createLoading , setCreateLoading] = useState(false);
   const[deleteLoading , setDeleteLoading] = useState(false);
 
   const formItemLayout =
@@ -554,6 +554,9 @@ export default function Body () {
 
 
   const handleForm = () => {
+
+    setCreateLoading(true);
+
     console.log({
       parent ,
       menuTitle ,
@@ -578,10 +581,12 @@ export default function Body () {
       setMenuPath('');
 
       successMenuCreation();
+      setCreateLoading(false);
     })
     .catch(function (error) {
       console.log(error);
       errorMenuCreation();
+      setCreateLoading(false);
     });
   }
 
@@ -731,7 +736,12 @@ export default function Body () {
 
 
           <Form.Item {...buttonItemLayout}>
-            <Button onClick={handleForm} type="primary">
+            <Button 
+            onClick={handleForm} 
+            loading={createLoading}
+            disabled={createLoading}
+            type="primary"
+            >
               ایجاد منو
             </Button>
           </Form.Item>
