@@ -60,70 +60,18 @@ import URL , {
   deleteMenuPath ,
 } from '../../../../api/request';
 
-import styled from 'styled-components'
 
 
-
-
-
-
-const ContentWrapper = styled.div`
-  margin-top : 1em;
-  margin-bottom : 6em;
-`
-
-
-const FormWrapper = styled.div`
-  display : flex;
-  margin-top : 1em;
-  margin-bottom : 1em;
-`
-
-
-const MenuCreationFormWrapper = styled.div`
-  background-color : white;
-  padding-top : 10px;
-  padding-bottom : 10px;
-  border-radius : 10px;
-  background-color : #e0e1dd;
-`
-
-
-const MarginBottomDIV = styled.div`
-  margin-bottom : 6em;
-`
-
-
-const RightToLeft = styled.div`
-  direction : rtl;
-  .ant-select-item-option-content {
-    direction : rtl;
-  }
-`
-
-const LeftToRight = styled.div`
-  direction : ltr;
-  .ant-select-item-option-content {
-    direction : ltr;
-  }
-`
-
-
-const BreadCrumbs = styled.div`
-  margin-bottom : 3em;
-  span {
-    margin-left : 5px;
-    margin-right : 5px
-  }
-`
-
-
-const EditButton = styled(Button)`
-  background-color : #058c42
-  &:hover {
-    background-color : black
-  }
-`
+import { 
+  ContentWrapper ,
+  FormWrapper ,
+  MenuCreationFormWrapper ,
+  MarginBottomDIV ,
+  RightToLeft ,
+  LeftToRight ,
+  BreadCrumbs ,
+  EditButton ,
+} from '../../../../components/styled/styled' ;
 
 
 type LayoutType = Parameters<typeof Form>[0]['layout'];

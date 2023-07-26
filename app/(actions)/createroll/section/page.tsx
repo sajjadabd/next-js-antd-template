@@ -16,31 +16,16 @@ import {
 } from 'antd';
 
 
-import styled from 'styled-components'
-
 
 import { section , barmill } from '../../../../components/lines/page';
 
 
-const Wrapper = styled.div`
-  display : flex;
-`
+import {
+  CreateRollWrapper ,
+  Preview ,
+  FormItem ,
+} from '../../../../components/styled/styled';
 
-const Preview = styled.div`
-  display : flex;
-  justify-content : center;
-  align-items : center;
-  flex : 1;
-  max-height : 100vh;
-  position : fixed;
-  left : 30%;
-  top : 50%;
-  transform : translate(-50% , -50%);
-`
-
-const FormItem = styled.div`
-  margin-bottom : 30px;
-`
 
 export default function App () {
 
@@ -139,7 +124,7 @@ export default function App () {
 
 
   return (
-    <Wrapper>
+    <CreateRollWrapper>
         <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 14 }}
@@ -267,7 +252,7 @@ export default function App () {
           }
         </Preview>
 
-    </Wrapper>
+    </CreateRollWrapper>
   );
 };
 

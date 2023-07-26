@@ -47,7 +47,6 @@ import { Button, Menu, Switch } from 'antd';
 
 import Link from 'next/link'
 
-import styled from 'styled-components'
 
 import { useRouter , usePathname } from 'next/navigation';
 
@@ -70,62 +69,16 @@ import { updateMenuItems } from '../../store/reducers';
 import styles from './page.module.css';
 
 
+import {
+  Wrapper ,
+  Navigation ,
+  Content ,
+  Gadgets ,
+  NavigationResponsiveButton ,
+  MainContent
+} from '../../components/styled/styled'
 
 
-
-
-const Wrapper = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
-    max-height: 100vh;
-    min-height : 100vh;
-`
-
-
-
-const Navigation = styled.div`
-    display: flex;
-    flex-direction: column;
-    overflow-y: scroll;
-    scrollbar-width: none;
-    max-height: 100vh;
-    min-height : 100vh;
-    background-color : white;
-`
-
-
-const Content = styled.div`
-    flex : 1;
-    display : flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    max-height : 100vh;
-    min-height : 100vh;
-    overflow-y: scroll; 
-    scrollbar-width: none;
-`
-
-
-const Gadgets = styled.div`
-    display : flex;
-    flex-direction: row;
-    align-items: center;
-    margin : 10px;
-`
-
-const NavigationResponsiveButton = styled.div`
-    position : relative;
-    top : 5px;
-`
-
-const MainContent = styled.div`
-    display : flex;
-    flex-direction: column;
-    flex : 1;
-    margin : 20px;
-`
 
 
 type MenuItem = Required<MenuProps>['items'][number];

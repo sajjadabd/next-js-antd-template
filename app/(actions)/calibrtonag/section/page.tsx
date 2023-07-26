@@ -4,13 +4,9 @@ import React , { useState } from 'react';
 
 import { Select } from 'antd';
 
-import { styled } from 'styled-components';
 
+import { Column } from '../../../../components/styled/styled';
 
-const Column = styled.div`
-    display : flex;
-    flex-direction : column;
-`
 
 export default function App () {
   return (
