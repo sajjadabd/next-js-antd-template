@@ -107,55 +107,6 @@ function getItem(
 
 
 /*
-= [
-
-    "/createroll/section" ,
-    "/createroll/barmill" ,
-
-    "/createstand/section" ,
-    "/createstand/barmill" ,
-
-    "/listroll/section" ,
-    "/listroll/barmill" ,
-
-    "/liststand/section" ,
-    "/liststand/barmill" ,
-
-    "/defineline/section" ,
-    "/defineline/barmill" ,
-
-    "/manageline/section" ,
-    "/manageline/barmill" ,
-
-    "/calibrtonag/section" ,
-    "/calibrtonag/barmill" ,
-
-    "/tarashroll/section" ,
-    "/tarashroll/barmill" ,
-
-    // "/changeroll/section" ,
-    // "/changeroll/barmill" ,
-
-    "/rollstatus/section" ,
-    "/rollstatus/barmill" ,
-
-    "/managestand/section" ,
-    "/managestand/barmill" ,
-
-    "/admin/menus" ,
-
-]
-*/
-
-
-
-
-
-
-
-
-
-/*
 [
   // getItem('Navigation One', 'sub1', <MailOutlined />, [
   //   getItem('Item 1', 'g1', null, [getItem('Option 1', '1'), getItem('Option 2', '2')], 'group'),
@@ -368,7 +319,7 @@ export default function MainLayout({
             );
           } else {
             children.push(
-              getItem(child.title , 'sub' + (value.id + child.id + 1) , returnIcon(child.icon) )
+              getItem(child.title , 'sub' + ( value.id + child.id + 1 ) , returnIcon(child.icon) )
             );
           }
         }) 
@@ -394,12 +345,12 @@ export default function MainLayout({
       } else {
         if(children.length > 0) {
           subcategory.push( 
-            getItem(value.title , 'sub' + (value.id + 1), returnIcon(value.icon) , [...children])
+            getItem(value.title , 'sub' + (value.id + 1) , returnIcon(value.icon) , [...children])
           )
         }
         else {
           subcategory.push( 
-            getItem(value.title , 'sub' + (value.id + 1), returnIcon(value.icon) )
+            getItem(value.title , 'sub' + (value.id + 1) , returnIcon(value.icon) )
           )
         }
       }
@@ -443,8 +394,6 @@ export default function MainLayout({
     if( routeLinks.length == 1 ) {
       axios.get(getAllMenusPath)
       .then(function (response) {
-        
-        
 
 
         response.data = response.data.filter( (value : any) => 
@@ -635,21 +584,23 @@ export default function MainLayout({
     }
   };
   */
+
+
   return (
     <Wrapper>
         {/*  */}
         <Navigation>
             <Menu
-            onClick={onClick}
-            style={{ width : menuWidth , minHeight : '100vh' }}
-            //openKeys={openKeys}
-            //onOpenChange={onOpenChange}
-            //defaultSelectedKeys={[findRouteMatch(routePath.toString())]}
-            //defaultOpenKeys={['sub' + ( Number( findRouteMatch(routePath)) / 2 + 1 )  ]}
-            mode="inline"
-            theme={theme}
-            inlineCollapsed={collapsed}
-            items={menuItemLinks}
+              onClick={onClick}
+              style={{ width : menuWidth , minHeight : '100vh' }}
+              //openKeys={openKeys}
+              //onOpenChange={onOpenChange}
+              //defaultSelectedKeys={[findRouteMatch(routePath.toString())]}
+              //defaultOpenKeys={['sub' + ( Number( findRouteMatch(routePath)) / 2 + 1 )  ]}
+              mode="inline"
+              theme={theme}
+              inlineCollapsed={collapsed}
+              items={menuItemLinks}
             />
         </Navigation>
 
@@ -661,15 +612,18 @@ export default function MainLayout({
                     </Button>
                 </NavigationResponsiveButton>
                 <Switch
-                checked={theme === 'dark'}
-                onChange={changeTheme}
-                checkedChildren="Dark"
-                unCheckedChildren="Light"
-                className={styles.switch}
+                  checked={theme === 'dark'}
+                  onChange={changeTheme}
+                  checkedChildren="Dark"
+                  unCheckedChildren="Light"
+                  className={styles.switch}
                 />
             </Gadgets>
             <MainContent>
                 {children}
+                {/* <Button type="primary" onClick={() => console.log(menuItemLinks)}>
+                  Click
+                </Button> */}
             </MainContent>
         </Content>
     </Wrapper>

@@ -52,8 +52,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updateMenuItems } from '../../../../store/reducers';
 
 
-
-
 import URL , { 
   MenuCreationPath , 
   getAllMenusPath ,
@@ -91,13 +89,11 @@ const dataSource = [
     key: '1',
     name: 'John Doe',
     age: 25,
-    // address: '123 ABC Street',
   },
   {
     key: '2',
     name: 'Jane Smith',
     age: 32,
-    // address: '456 XYZ Street',
   },
 ];
 
@@ -128,78 +124,10 @@ const columns = [
     dataIndex: 'path',
     key: 'path',
   },
-  // {
-  //   title: 'Address',
-  //   dataIndex: 'address',
-  //   key: 'address',
-  // },
 ];
 
 
 
-
-
-
-//  =========================================
-
-
-
-
-const treeData: DataNode[] = [
-  {
-    title: 'parent 1',
-    key: '0-0',
-    children: [
-      {
-        title: 'parent 1-0',
-        key: '0-0-0',
-        children: [
-          {
-            title: 'leaf',
-            key: '0-0-0-0',
-          },
-          {
-            title: 'leaf',
-            key: '0-0-0-1',
-          },
-          {
-            title: 'leaf',
-            key: '0-0-0-2',
-          },
-        ],
-      },
-      {
-        title: 'parent 1-1',
-        key: '0-0-1',
-        children: [
-          {
-            title: 'leaf',
-            key: '0-0-1-0',
-          },
-        ],
-      },
-      {
-        title: 'parent 1-2',
-        key: '0-0-2',
-        children: [
-          {
-            title: 'leaf',
-            key: '0-0-2-0',
-          },
-          {
-            title: 'leaf',
-            key: '0-0-2-1',
-          },
-        ],
-      },
-    ],
-  },
-];
-
-
-
-
-// ================================
 
 
 

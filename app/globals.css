@@ -164,6 +164,11 @@ a {
   background-color: pink; /* Replace with your desired background color */
 }
 
+.ant-menu-item {
+  padding-left : 0 !important;
+  padding-right : 48px !important;
+}
+
 ul {
     margin-top : 20px;
     list-style-type: none;
