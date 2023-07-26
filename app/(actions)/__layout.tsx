@@ -18,6 +18,8 @@ import '../globals.css'
 
 import React , { useEffect, useState  } from 'react';
 
+import { createContext, useContext } from 'react';
+
 
 
 import { 
@@ -64,6 +66,14 @@ import { useSelector , useDispatch  } from 'react-redux';
 
 import { updateMenuItems } from '../../store/reducers';
 
+
+import styles from './page.module.css';
+
+
+
+
+
+
 const Wrapper = styled.div`
     display: flex;
     flex-direction: row;
@@ -79,6 +89,7 @@ const Navigation = styled.div`
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
+    scrollbar-width: none;
     max-height: 100vh;
     min-height : 100vh;
     background-color : white;
@@ -93,6 +104,7 @@ const Content = styled.div`
     max-height : 100vh;
     min-height : 100vh;
     overflow-y: scroll; 
+    scrollbar-width: none;
 `
 
 
@@ -100,11 +112,12 @@ const Gadgets = styled.div`
     display : flex;
     flex-direction: row;
     align-items: center;
+    margin : 10px;
 `
 
 const NavigationResponsiveButton = styled.div`
-    right : 10px;
-    top : 10px;
+    position : relative;
+    top : 5px;
 `
 
 const MainContent = styled.div`
@@ -328,6 +341,7 @@ const returnIcon = (icon : string) : any => {
 
 
 
+
 export default function MainLayout({
     children 
 }: {
@@ -338,6 +352,9 @@ export default function MainLayout({
   const menuItemList = useSelector((state : StateType) => state.menuItems);
 
   const dispatch = useDispatch();
+
+
+  const [darkMode, setDarkMode] = useState(false);
 
 
 
@@ -567,10 +584,21 @@ export default function MainLayout({
     }
   }
 
+
+  const fetchTheme = () => {
+    let themeString = localStorage.getItem('theme') ?? "{}";
+    const themeJson = JSON.parse(themeString);
+    setLayoutTheme(themeJson.darkMode);
+
+    console.log(themeJson);
+  }
+
   
   useEffect( () => {
     
     queryMenuItems();
+
+    fetchTheme();
 
     return () => {
       // Clean up resources or cancel any pending operations.
@@ -594,16 +622,31 @@ export default function MainLayout({
   const [collapsed, setCollapsed] = useState(false);
   const [menuWidth, setMenuWidth] = useState(256);
 
+
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
     {collapsed ? setMenuWidth(256) : setMenuWidth(56)}
   };
 
+
+  
+
   const [theme, setTheme] = useState<MenuTheme>('light');
 
   const changeTheme = (value: boolean) => {
     setTheme(value ? 'dark' : 'light');
+    setDarkMode(!darkMode);
+    localStorage.setItem('theme', JSON.stringify({ darkMode : !darkMode }));
   };
+
+
+  const setLayoutTheme = (value: boolean) => {
+    setTheme(value ? 'dark' : 'light');
+    setDarkMode(value);
+    localStorage.setItem('theme', JSON.stringify({ darkMode : value }));
+  };
+
+
 
   const onClick: MenuProps['onClick'] = (e) => {
     //console.log('click ', e);
@@ -643,13 +686,6 @@ export default function MainLayout({
     <Wrapper>
         {/*  */}
         <Navigation>
-            {/* <Switch
-            checked={theme === 'dark'}
-            onChange={changeTheme}
-            checkedChildren="Dark"
-            unCheckedChildren="Light"
-            className={styles.switch}
-            /> */}
             <Menu
             onClick={onClick}
             style={{ width : menuWidth , minHeight : '100vh' }}
@@ -658,9 +694,8 @@ export default function MainLayout({
             //defaultSelectedKeys={[findRouteMatch(routePath.toString())]}
             //defaultOpenKeys={['sub' + ( Number( findRouteMatch(routePath)) / 2 + 1 )  ]}
             mode="inline"
-            // theme={theme}
+            theme={theme}
             inlineCollapsed={collapsed}
-            theme="light"
             items={menuItemLinks}
             />
         </Navigation>
@@ -668,17 +703,17 @@ export default function MainLayout({
         <Content>
             <Gadgets>
                 <NavigationResponsiveButton>
-                    <Button type={"text"} onClick={toggleCollapsed} style={{ marginBottom: 16 }}>
+                    <Button type={"text"} onClick={toggleCollapsed} >
                     {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
                     </Button>
                 </NavigationResponsiveButton>
-                {/* <Switch
+                <Switch
                 checked={theme === 'dark'}
                 onChange={changeTheme}
                 checkedChildren="Dark"
                 unCheckedChildren="Light"
                 className={styles.switch}
-                /> */}
+                />
             </Gadgets>
             <MainContent>
                 {children}
@@ -687,5 +722,4 @@ export default function MainLayout({
     </Wrapper>
   );
 };
-
 

@@ -38,6 +38,13 @@
   --callout-border-rgb: 172, 175, 176;
   --card-rgb: 180, 185, 188;
   --card-border-rgb: 131, 134, 135;
+
+
+
+  --gradient-start-color: #828282; /* Replace with your desired start color (darker) */
+  --gradient-end-color: #cecece;   /* Replace with your desired end color (darker) */
+
+
 }
 
 @media (prefers-color-scheme: dark) {
@@ -101,10 +108,7 @@ body {
     )
     rgb(var(--background-start-rgb)); */
 
-  background: linear-gradient(
-      to #dad7cd,
-      #ccc5b9
-    );
+  background: linear-gradient(45deg, var(--gradient-start-color), var(--gradient-end-color));
 
 
 }
@@ -154,6 +158,10 @@ a {
 
 .anticon-close-circle {
   padding-bottom: 3px;
+}
+
+.ant-table {
+  background-color: pink; /* Replace with your desired background color */
 }
 
 ul {

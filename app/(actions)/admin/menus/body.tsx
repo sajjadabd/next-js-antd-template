@@ -80,7 +80,13 @@ const FormWrapper = styled.div`
 `
 
 
-
+const MenuCreationFormWrapper = styled.div`
+  background-color : white;
+  padding-top : 10px;
+  padding-bottom : 10px;
+  border-radius : 10px;
+  background-color : #e0e1dd;
+`
 
 
 const MarginBottomDIV = styled.div`
@@ -648,13 +654,15 @@ export default function Body () {
     Modal.success({
       title : 'ایجاد منوی جدید' ,
       content: 'منوی جدید با موفقیت ایجاد شد',
+      okText:"مرسی"
     });
   };
   
   const errorMenuCreation = () => {
     Modal.error({
       title: 'خطا',
-      content: 'مشکلی در ساخت منوی جدید به وجود آمد',
+      content: 'لطفاً فیلد ها را به درستی پر کنید' ,
+      okText:"مرسی"
     });
   };
 
@@ -664,6 +672,7 @@ export default function Body () {
     Modal.success({
       title : 'حذف منو' ,
       content: 'منو با موفقیت حذف شد',
+      okText:"مرسی"
     });
   };
   
@@ -671,6 +680,7 @@ export default function Body () {
     Modal.error({
       title: 'خطا',
       content: 'مشکلی در حذف منو به وجود آمد',
+      okText:"مرسی"
     });
   };
 
@@ -693,7 +703,7 @@ export default function Body () {
         </BreadCrumbs>
 
 
-        <div>
+        <MenuCreationFormWrapper>
 
         <Form
           {...formItemLayout}
@@ -781,7 +791,7 @@ export default function Body () {
 
         </Form>
 
-        </div>
+        </MenuCreationFormWrapper>
         
         
         
