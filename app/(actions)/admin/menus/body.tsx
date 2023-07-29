@@ -603,6 +603,27 @@ export default function Body () {
             </Radio.Group>
           </Form.Item> */}
 
+
+          <Form.Item label="عنوان منو">
+            <Input placeholder="عنوان منو" value={menuTitle} onChange={(e) => setMenuTitle(e.target.value)} />
+          </Form.Item>
+
+
+          <Form.Item label="نمایه">
+            {/* <Input placeholder="path" value={menuPath} onChange={(e) => setMenuPath(e.target.value)}  style={{ direction : 'ltr' }} /> */}
+              <div className="allChildrenLeftAlign">
+              <Select
+                allowClear
+                style={{ width: '100%'  }}
+                placeholder="نمایه را انتخاب کنید"
+                value={icon == '' ? null : icon}
+                options={iconOptions}
+                onChange={(value) => setIcon(value)}
+              />
+              </div>
+          </Form.Item>
+
+
           <Form.Item label="والد">
             {/* <InputNumber placeholder="والد" value={parent} onChange={(value) => setParent(Number(value))} /> */}
               <RightToLeft>
@@ -625,25 +646,7 @@ export default function Body () {
               />
               </RightToLeft>
           </Form.Item>
-
-          <Form.Item label="عنوان منو">
-            <Input placeholder="عنوان منو" value={menuTitle} onChange={(e) => setMenuTitle(e.target.value)} />
-          </Form.Item>
-
-
-          <Form.Item label="نمایه">
-            {/* <Input placeholder="path" value={menuPath} onChange={(e) => setMenuPath(e.target.value)}  style={{ direction : 'ltr' }} /> */}
-              <div className="allChildrenLeftAlign">
-              <Select
-                allowClear
-                style={{ width: '100%'  }}
-                placeholder="نمایه را انتخاب کنید"
-                value={icon == '' ? null : icon}
-                options={iconOptions}
-                onChange={(value) => setIcon(value)}
-              />
-              </div>
-          </Form.Item>
+          
 
 
           <Form.Item label="مسیر">
