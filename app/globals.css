@@ -164,9 +164,13 @@ a {
   background-color: pink; /* Replace with your desired background color */
 }
 
-.ant-menu-item {
+.ant-menu-submenu .ant-menu-item {
   padding-left : 0 !important;
   padding-right : 48px !important;
+}
+
+.ant-menu-item {
+  padding-left : 0 !important;
 }
 
 ul {

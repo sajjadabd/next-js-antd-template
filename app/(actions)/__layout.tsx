@@ -260,7 +260,7 @@ export default function MainLayout({
 
   const [darkMode, setDarkMode] = useState(false);
 
-
+  const [menus , setMenus] = useState<eachItem[]>([]);
 
   const [routeLinks , setRouteLinks] = useState([
     "/admin/menus" ,
@@ -268,7 +268,7 @@ export default function MainLayout({
 
   
   const [menuItemLinks , setMenuItemList]  = useState([
-    getItem('ادمین', 'sub1', <SettingOutlined />, [
+    getItem('ادمین', 'sub0', <SettingOutlined />, [
       getItem(<Link href={routeLinks[0]}>مدیریت منوها</Link>, '0'),
     ]),
   ]);
@@ -306,6 +306,8 @@ export default function MainLayout({
 
       let children : any[] = [];
       //let subcategory : any[] = [];
+
+      
       
       if(value.children != undefined) {
         createSubCategoriesRecursively(value.children);
@@ -313,15 +315,17 @@ export default function MainLayout({
 
       if(value.children != undefined) {
         value.children.forEach( (child : any) => {
+
           if(child.path != null) {
             children.push(
-              getItem(<Link href={child.path}> {child.title} </Link> , 'sub' + ( value.id + child.id + 1 ), returnIcon(child.icon) )
+              getItem(<Link href={child.path}> {child.title} </Link> , 'sub' + value.id + child.id  , returnIcon(child.icon) )
             );
           } else {
             children.push(
-              getItem(child.title , 'sub' + ( value.id + child.id + 1 ) , returnIcon(child.icon) )
+              getItem(child.title , 'sub' + value.id + child.id , returnIcon(child.icon) )
             );
           }
+
         }) 
       }
 
@@ -334,23 +338,23 @@ export default function MainLayout({
       if( value.path != null ) {
         if(children.length > 0) {
           subcategory.push( 
-            getItem(<Link href={value.path}> {value.title} </Link> , 'sub' + (value.id + 1), returnIcon(value.icon) , [...children])
+            getItem(<Link href={value.path}> {value.title} </Link> , 'sub' + value.id , returnIcon(value.icon) , [...children])
           )
         }
         else {
           subcategory.push( 
-            getItem(<Link href={value.path}> {value.title} </Link> , 'sub' + (value.id + 1), returnIcon(value.icon) )
+            getItem(<Link href={value.path}> {value.title} </Link> , 'sub' + value.id , returnIcon(value.icon) )
           )
         }
       } else {
         if(children.length > 0) {
           subcategory.push( 
-            getItem(value.title , 'sub' + (value.id + 1) , returnIcon(value.icon) , [...children])
+            getItem(value.title , 'sub' + value.id  , returnIcon(value.icon) , [...children])
           )
         }
         else {
           subcategory.push( 
-            getItem(value.title , 'sub' + (value.id + 1) , returnIcon(value.icon) )
+            getItem(value.title , 'sub' + value.id  , returnIcon(value.icon) )
           )
         }
       }
@@ -413,7 +417,7 @@ export default function MainLayout({
         })
         */
 
-
+        setMenus(response.data);
         createSubCategoriesRecursively(response.data);
 
         
@@ -472,6 +476,9 @@ export default function MainLayout({
       
         setRouteLinks([ ...routeLinks , ...addedRoutes ]);
         setMenuItemList([ ...menuItemLinks , ...subcategory ]);
+
+
+        //console.log(menuItemLinks);
         
         dispatch(updateMenuItems({ payload : response.data }));
 
@@ -492,7 +499,7 @@ export default function MainLayout({
     const themeJson = JSON.parse(themeString);
     setLayoutTheme(themeJson.darkMode);
 
-    console.log(themeJson);
+    //console.log(themeJson);
   }
 
   
@@ -519,6 +526,8 @@ export default function MainLayout({
 
   const router = useRouter();
   const routePath = usePathname();
+
+  console.log(routePath);
   
 
   const [collapsed, setCollapsed] = useState(false);
@@ -557,11 +566,14 @@ export default function MainLayout({
 
   
   
-  const findRouteMatch = (route : string) => {
-    for(let i=0;i<routeLinks.length;i++) {
-        if(routeLinks[i] == route) {
+  const findRouteMatch = (menusArray : eachItem[] , route : string) : any => {
+
+    for(let i=0;i<menusArray.length;i++) {
+        if(menusArray[i].path == route) {
             //console.log('route : ' ,  i);
-            return i.toString();
+            return menusArray[i].id.toString();
+        } else if ( "children" in menusArray[i] ) {
+            //return menusArray[i].id.toString() + findRouteMatch( menusArray[i].children , route)
         }
     }
 
@@ -596,7 +608,7 @@ export default function MainLayout({
               //openKeys={openKeys}
               //onOpenChange={onOpenChange}
               //defaultSelectedKeys={[findRouteMatch(routePath.toString())]}
-              //defaultOpenKeys={['sub' + ( Number( findRouteMatch(routePath)) / 2 + 1 )  ]}
+              //defaultOpenKeys={['sub' + findRouteMatch(routePath)  ]}
               mode="inline"
               theme={theme}
               inlineCollapsed={collapsed}
@@ -621,7 +633,7 @@ export default function MainLayout({
             </Gadgets>
             <MainContent>
                 {children}
-                {/* <Button type="primary" onClick={() => console.log(menuItemLinks)}>
+                {/* <Button type="primary" onClick={() => console.log(menus)}>
                   Click
                 </Button> */}
             </MainContent>

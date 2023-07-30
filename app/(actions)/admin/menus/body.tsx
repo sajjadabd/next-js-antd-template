@@ -37,6 +37,10 @@ import {
 
 import { Tree } from 'antd';
 
+import type { TablePaginationConfig } from 'antd/es/table';
+import type { FilterValue, SorterResult } from 'antd/es/table/interface';
+
+
 import { Select } from 'antd';
 import type { SelectProps } from 'antd';
 
@@ -72,33 +76,33 @@ import {
 } from '../../../../components/styled/styled' ;
 
 
+
+
+import { MenuOutlined } from '@ant-design/icons';
+import type { DragEndEvent } from '@dnd-kit/core';
+import { DndContext } from '@dnd-kit/core';
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
+import {
+  arrayMove,
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+
+
+
+
 type LayoutType = Parameters<typeof Form>[0]['layout'];
 
 
 
-interface DataType {
-  key: React.Key;
-  name: string;
-  age: number;
-  address: string;
-}
-
-
-const dataSource = [
-  {
-    key: '1',
-    name: 'John Doe',
-    age: 25,
-  },
-  {
-    key: '2',
-    name: 'Jane Smith',
-    age: 32,
-  },
-];
 
 
 const columns = [
+  {
+    key: 'sort',
+  },
   {
     title: 'شماره',
     dataIndex: 'id',
@@ -134,6 +138,8 @@ const columns = [
 
 
 import { AppState , eachItem } from '../../../../store/reducers';
+
+
 
 interface StateType {
   menuItems : eachItem[]
@@ -221,6 +227,13 @@ const returnIcon = (icon : string) : any => {
   return '';
 }
 
+interface TableParams {
+  pagination?: TablePaginationConfig;
+  sortField?: string;
+  sortOrder?: string;
+  filters?: Record<string, FilterValue>;
+}
+
 
 export default function Body () {
 
@@ -235,6 +248,24 @@ export default function Body () {
       return value;
     }
   })
+
+
+
+  
+
+
+
+  const handleTableChange = (
+    pagination: TablePaginationConfig,
+    filters: Record<string, FilterValue>,
+    sorter: SorterResult<eachItem>,
+  ) => {
+    setTableParams({
+      pagination,
+      filters,
+      ...sorter,
+    });
+  }
 
   
   
@@ -360,6 +391,16 @@ export default function Body () {
 
   const [menus , setMenus] = useState<eachItem[]>(menuItemList);
   const [treeData , setTreeData] = useState<eachItem[]>(menuItemList);
+
+  const [pageSize , setPageSize] = useState(3);
+
+
+  const [tableParams, setTableParams] = useState<TableParams>({
+    pagination: {
+      current: 1,
+      pageSize: pageSize,
+    },
+  });
 
 
   const [form] = Form.useForm();
@@ -567,6 +608,76 @@ export default function Body () {
 
 
 
+
+  const handleTablePageSizeChange = (value : string) => {
+    setPageSize(Number(value));
+    //console.log(value);
+  }
+
+
+  interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {
+    'data-row-key': string;
+  }
+
+
+  const Row = ({ children, ...props }: RowProps) => {
+    const {
+      attributes,
+      listeners,
+      setNodeRef,
+      setActivatorNodeRef,
+      transform,
+      transition,
+      isDragging,
+    } = useSortable({
+      id: props['data-row-key'],
+    });
+  
+    const style: React.CSSProperties = {
+      ...props.style,
+      transform: CSS.Transform.toString(transform && { ...transform, scaleY: 1 }),
+      transition,
+      ...(isDragging ? { position: 'relative', zIndex: 9999 } : {}),
+    };
+  
+    return (
+      <tr {...props} ref={setNodeRef} style={style} {...attributes}>
+        {React.Children.map(children, (child) => {
+        
+
+          if ( (child as React.ReactElement).key === 'sort') {
+            return React.cloneElement(child as React.ReactElement, {
+              children: (
+                <MenuOutlined
+                  ref={setActivatorNodeRef}
+                  style={{ touchAction: 'none', cursor: 'move' }}
+                  {...listeners}
+                />
+              ),
+            });
+          }
+          
+          return child;
+        })}
+      </tr>
+    );
+  };
+
+
+
+
+  const onDragEnd = ({ active, over }: DragEndEvent) => {
+    if (active.id !== over?.id) {
+      setMenus((previous) => {
+        const activeIndex = previous.findIndex((i) => i.key === active.id);
+        const overIndex = previous.findIndex((i) => i.key === over?.id);
+        return arrayMove(previous, activeIndex, overIndex);
+      });
+    }
+  };
+
+
+
   return (
     <ContentWrapper>
         
@@ -686,15 +797,62 @@ export default function Body () {
         
 
         <div>
-          <div style={{ marginBottom: 16 }}>
+          <div style={{ marginBottom: 16 , marginTop : 16 , justifyContent : 'flex-start'  }}>
             {/* <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading}>
               Reload
             </Button> */}
             {/* <span style={{ marginLeft: 8 }}>
               {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
             </span> */}
+            <Select
+              labelInValue
+              defaultValue={{ value: '3', label: 'صفحه / 3' }}
+              style={{ width: 120 }}
+              onChange={(e) => handleTablePageSizeChange(e.value)}
+              options={[
+                {
+                  value: '3',
+                  label: 'صفحه / 3',
+                },
+                {
+                  value: '6',
+                  label: 'صفحه / 6',
+                },
+              ]}
+            />
           </div>
-          <Table rowSelection={rowSelection} dataSource={menus} columns={columns} />
+
+
+
+          <DndContext 
+            modifiers={[restrictToVerticalAxis]} 
+            onDragEnd={onDragEnd}
+          >
+            <SortableContext
+              // rowKey array
+              items={menus.map((i) => i.key)}
+              strategy={verticalListSortingStrategy}
+            >
+
+              <Table 
+                rowKey="id"
+                components={{
+                  body: {
+                    row: Row,
+                  },
+                }}
+                rowSelection={rowSelection} 
+                dataSource={menus}
+                columns={columns} 
+                pagination={{ pageSize: pageSize }}
+                
+                //onChange={handleTableChange}
+              />
+            
+            </SortableContext>
+          </DndContext>
+
+          
         </div>
 
 
@@ -743,6 +901,11 @@ export default function Body () {
             treeData={treeData}
           />
         </div> */}
+
+
+      <Button type="primary" onClick={() => console.log(menus)}>
+        Click
+      </Button>
 
 
     </ContentWrapper>
