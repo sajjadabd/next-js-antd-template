@@ -465,23 +465,19 @@ export default function Body () {
 
   const hasSelected = selectedRowKeys.length > 0;
 
-
+  /*
   const { isLoading, error, data } = useQuery('repoData', () => 
     //'admin / menus'
     fetch(URL).then(res =>
       res.json()
     )
   )
-
-
-
-
-
-
+  
   if (isLoading) return 'Loading...'
 
   if (error) return 'An error has occurred: ' + error
 
+  */
 
 
   const sendDeleteRequest = () : void => {
@@ -637,7 +633,7 @@ export default function Body () {
       ...props.style,
       transform: CSS.Transform.toString(transform && { ...transform, scaleY: 1 }),
       transition,
-      ...(isDragging ? { position: 'relative', zIndex: 9999 } : {}),
+      ...(isDragging ? { position: 'relative', zIndex: 3 } : {}),
     };
   
     return (
@@ -706,13 +702,7 @@ export default function Body () {
           style={{ maxWidth: formLayout === 'inline' ? 'none' : 600 , marginTop : '20px' }}
           autoComplete="off"
         >
-          {/* <Form.Item label="Form Layout" name="layout">
-            <Radio.Group value={formLayout}>
-              <Radio.Button value="horizontal">Horizontal</Radio.Button>
-              <Radio.Button value="vertical">Vertical</Radio.Button>
-              <Radio.Button value="inline">Inline</Radio.Button>
-            </Radio.Group>
-          </Form.Item> */}
+
 
 
           <Form.Item label="عنوان منو">

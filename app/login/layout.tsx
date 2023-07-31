@@ -24,7 +24,7 @@ export default function LoginLayout({
     <div style={{ 
         position : 'absolute' , 
         top : '50%' ,  
-        left : '50%' , 
+        //right : '10%' , 
         transform : 'translate(-50%,-50%)' ,
     }}>
         {children}

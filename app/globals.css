@@ -173,6 +173,11 @@ a {
   padding-left : 0 !important;
 }
 
+
+.ant-form-item-explain-error {
+  color : #ae2012 !important;
+}
+
 ul {
     margin-top : 20px;
     list-style-type: none;
