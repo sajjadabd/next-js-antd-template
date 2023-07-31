@@ -106,7 +106,7 @@ interface User {
 export default function App () {
 
 
-
+  const [mounted , setMounted] = useState(false);
   const [users , setUsers] = useState<User[]>([]);
 
 
@@ -127,27 +127,32 @@ export default function App () {
   }
 
 
-  useEffect( () => {
-    //console.log(`running useEffect ...`);
-    
-    
-    //getAllUsers();
-    
-
-
-    return () => {
-      // Clean up resources or cancel any pending operations.
-    };
-
-  } , [] );
-
-
-
 
 
   const [username , setUsername] = useState("");
   const [password , setPassword] = useState("");
 
+  const [role , setRole] = useState("");
+
+
+  const roleOptions = [
+    {
+      label : "ادمین",
+      value : "1"
+    },
+    {
+      label : "مدیر سکشن",
+      value : "2"
+    },
+    {
+      label : "مدیر بارمیل",
+      value : "3"
+    },
+    {
+      label : "تراشکاری",
+      value : "4"
+    },
+  ]
 
   const [form] = Form.useForm();
   const [formLayout, setFormLayout] = useState<LayoutType>('horizontal');
@@ -242,7 +247,18 @@ export default function App () {
   }
 
 
+  useEffect( () => {
+    
+    setMounted(true);
 
+    return () => {
+      // Clean up resources or cancel any pending operations.
+    };
+
+  } , [] );
+
+
+  if(mounted == false) return 'Loading ...'
 
 
   return (
@@ -281,9 +297,29 @@ export default function App () {
               placeholder="username" 
               value={username} 
               onChange={(e) => setUsername(e.target.value)} 
-              style={{ textAlign : 'left' }}
+              //style={{ textAlign : 'left' }}
             />
           </Form.Item>
+
+
+
+          <Form.Item label="نقش">
+            {/* <InputNumber placeholder="والد" value={parent} onChange={(value) => setParent(Number(value))} /> */}
+              <RightToLeft>
+              <Select
+                allowClear
+                style={{ width: '100%'  }}
+                placeholder="نقش را انتخاب کنید"
+                value={role == '' ? null : role}
+                onChange={(value) => {
+                  console.log(value);
+                  setRole(value);
+                }}
+                options={roleOptions}
+              />
+              </RightToLeft>
+          </Form.Item>
+
 
 
           <Form.Item label="رمز عبور">
@@ -291,7 +327,7 @@ export default function App () {
               placeholder="password" 
               value={password} 
               onChange={(e) => setPassword(e.target.value)} 
-              style={{ textAlign : 'left' }}
+              //style={{ textAlign : 'left' }}
             />
           </Form.Item>
 

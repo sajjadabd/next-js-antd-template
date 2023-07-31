@@ -1,6 +1,6 @@
 "use client"
 
-import React , { useState } from 'react';
+import React , { useState , useEffect } from 'react';
 
 import {
   Button,
@@ -23,10 +23,14 @@ import {
   CreateRollWrapper ,
   Preview ,
   FormItem ,
+  ContentWrapper ,
+  BreadCrumbs
 } from '../../../../components/styled/styled';
 
 
 export default function App () {
+
+  const [mounted , setMounted] = useState(false);
 
   const [rollType , setRollType] = useState(0);
   const [rollModel , setRollModel] = useState(0);
@@ -74,6 +78,7 @@ export default function App () {
   
 
   const drawRoll = () => {
+
     if(rollWidth == 0 && rollDiameter == 0 ) 
       return '';
 
@@ -122,8 +127,50 @@ export default function App () {
   }
 
 
+
+
+  useEffect( () => {
+    //console.log(`running useEffect ...`);
+    //getAllRollers();
+    
+    setMounted(true);
+
+
+    return () => {
+      // Clean up resources or cancel any pending operations.
+    };
+
+  } , [] );
+
+
+
+  if(mounted == false) return 'loadin...'
+
+
   return (
-    <CreateRollWrapper>
+    <ContentWrapper>
+
+
+
+
+        <BreadCrumbs>
+          <span>
+            ایجاد غلطک
+          </span>
+          <span>
+            &gt;
+          </span>
+          <span>
+            سکشن
+          </span>
+        </BreadCrumbs>
+
+
+
+
+
+        <CreateRollWrapper>
+
         <Form
           layout="horizontal"
           className='createRollFormClass'
@@ -245,13 +292,22 @@ export default function App () {
 
         </Form>
 
-        <Preview>
-          {
-            drawRoll()
-          }
-        </Preview>
+        {/* <Preview>
+          {drawRoll()}
+        </Preview> */}
+
+
+
 
     </CreateRollWrapper>
+
+
+
+
+    
+    </ContentWrapper>
+
+    
   );
 };
 

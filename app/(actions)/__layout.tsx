@@ -166,8 +166,8 @@ export default function MainLayout({
 
   const [routeLinks , setRouteLinks] = useState([
     "/admin/menus" ,
-    "/admin/users" ,
     "/admin/roles" ,
+    "/admin/users" ,
     "/admin/permissions" ,
   ]);
 
@@ -175,8 +175,8 @@ export default function MainLayout({
   const [menuItemLinks , setMenuItemList]  = useState([
     getItem('ادمین', 'sub00', <SettingOutlined />, [
       getItem(<Link href={routeLinks[0]}>مدیریت منوها</Link>, '00'),
-      getItem(<Link href={routeLinks[1]}>مدیریت کاربران</Link>, '01'),
-      getItem(<Link href={routeLinks[2]}>مدیریت نقش ها</Link>, '02'),
+      getItem(<Link href={routeLinks[1]}>مدیریت نقش ها</Link>, '01'),
+      getItem(<Link href={routeLinks[2]}>مدیریت کاربران</Link>, '02'),
       getItem(<Link href={routeLinks[3]}>مدیریت دسترسی ها</Link>, '03'),
     ]),
   ]);

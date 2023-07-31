@@ -106,7 +106,7 @@ interface User {
 export default function App () {
 
 
-
+  const [mounted , setMounted] = useState(false);
   const [users , setUsers] = useState<User[]>([]);
 
 
@@ -127,24 +127,10 @@ export default function App () {
   }
 
 
-  useEffect( () => {
-    //console.log(`running useEffect ...`);
-    getAllUsers();
-    
-
-
-    return () => {
-      // Clean up resources or cancel any pending operations.
-    };
-
-  } , [] );
 
 
 
-
-
-  const [username , setUsername] = useState("");
-  const [password , setPassword] = useState("");
+  const [role , setRole] = useState("");
 
 
   const [form] = Form.useForm();
@@ -217,17 +203,17 @@ export default function App () {
     setCreateLoading(true);
 
     console.log({
-      username ,
+      role ,
     });
 
     axios.post(MenuCreationPath, {
-      username: username,
+      role: role,
     })
     .then(function (response) {
       console.log(response);
       //getAllUsers();
 
-      setUsername("");
+      setRole("");
 
       successUserCreation();
       setCreateLoading(false);
@@ -240,7 +226,18 @@ export default function App () {
   }
 
 
+  useEffect( () => {
+    
+    setMounted(true);
 
+    return () => {
+      // Clean up resources or cancel any pending operations.
+    };
+
+  } , [] );
+
+
+  if(mounted == false) return 'Loading ...';
 
 
   return (
@@ -260,7 +257,7 @@ export default function App () {
 
 
 
-{/* 
+
         <MenuCreationFormWrapper>
 
           <Form
@@ -275,25 +272,14 @@ export default function App () {
 
 
 
-            <Form.Item label="نام کاربری">
+            <Form.Item label="نام نقش">
               <Input 
-                placeholder="username" 
-                value={username} 
-                onChange={(e) => setUsername(e.target.value)} 
-                style={{ textAlign : 'left' }}
+                placeholder="role" 
+                value={role} 
+                onChange={(e) => setRole(e.target.value)} 
               />
             </Form.Item>
 
-
-            <Form.Item label="رمز عبور">
-              <Input 
-                placeholder="password" 
-                type="password"
-                value={password} 
-                onChange={(e) => setPassword(e.target.value)} 
-                style={{ textAlign : 'left' }}
-              />
-            </Form.Item>
 
 
 
@@ -305,7 +291,7 @@ export default function App () {
                 disabled={createLoading}
                 type="primary"
               >
-                ایجاد کاربر
+                ایجاد نقش
               </Button>
             </Form.Item>
 
@@ -313,7 +299,7 @@ export default function App () {
           </Form>
 
         </MenuCreationFormWrapper>
- */}
+
 
 
         
