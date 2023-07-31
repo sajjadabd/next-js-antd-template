@@ -173,7 +173,7 @@ export default function MainLayout({
 
   
   const [menuItemLinks , setMenuItemList]  = useState([
-    getItem('ادمین', 'sub01', <SettingOutlined />, [
+    getItem('ادمین', 'sub00', <SettingOutlined />, [
       getItem(<Link href={routeLinks[0]}>مدیریت منوها</Link>, '00'),
       getItem(<Link href={routeLinks[1]}>مدیریت کاربران</Link>, '01'),
       getItem(<Link href={routeLinks[2]}>مدیریت نقش ها</Link>, '02'),
@@ -277,7 +277,7 @@ export default function MainLayout({
 
 
   const queryMenuItems = () => {
-    if( routeLinks.length == 1 ) {
+    if(routeLinks.length == 4) {
       axios.get(getAllMenusPath)
       .then(function (response) {
 
@@ -328,6 +328,8 @@ export default function MainLayout({
   useEffect( () => {
     
     queryMenuItems();
+    
+    
 
     fetchTheme();
 
@@ -349,7 +351,7 @@ export default function MainLayout({
   const router = useRouter();
   const routePath = usePathname();
 
-  console.log(routePath);
+  //console.log(routePath);
   
 
   const [collapsed, setCollapsed] = useState(false);
@@ -463,4 +465,3 @@ export default function MainLayout({
     </Wrapper>
   );
 };
-

@@ -1,6 +1,6 @@
 "use client"
 
-import React , { useEffect, useState } from 'react';
+import React , { useEffect, useState , useId } from 'react';
 
 import {  useQuery } from 'react-query';
 
@@ -100,9 +100,9 @@ type LayoutType = Parameters<typeof Form>[0]['layout'];
 
 
 const columns = [
-  {
-    key: 'sort',
-  },
+  // {
+  //   key: 'sort',
+  // },
   {
     title: 'شماره',
     dataIndex: 'id',
@@ -239,6 +239,11 @@ export default function Body () {
 
 
 
+
+  const [ mounted , setMounted ] = useState(false);
+
+
+
   //const data : string = useSelector((state : any) => state.data);
 
   let menuItemList = useSelector((state : StateType) => state.menuItems);
@@ -346,7 +351,7 @@ export default function Body () {
 
       setMenus(response.data);
 
-      setTreeData(response.data);
+      //setTreeData(response.data);
 
       //dispatch(updateMenuItems({ payload : response.data }))
 
@@ -366,6 +371,7 @@ export default function Body () {
     //console.log(`running useEffect ...`);
     getAllMenus();
     
+    setMounted(true);
 
 
     return () => {
@@ -374,6 +380,8 @@ export default function Body () {
 
   } , [] );
 
+
+  const dndID = useId();
 
   /*
     form
@@ -405,7 +413,6 @@ export default function Body () {
 
   const [form] = Form.useForm();
   const [formLayout, setFormLayout] = useState<LayoutType>('horizontal');
-
 
 
   const[createLoading , setCreateLoading] = useState(false);
@@ -455,7 +462,6 @@ export default function Body () {
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
     console.log('selectedRowKeys changed: ', newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
-    
   };
 
   const rowSelection = {
@@ -473,11 +479,13 @@ export default function Body () {
     )
   )
   
-  if (isLoading) return 'Loading...'
+  
 
   if (error) return 'An error has occurred: ' + error
 
   */
+
+  if (mounted == false) return 'Loading...'
 
 
   const sendDeleteRequest = () : void => {
@@ -501,14 +509,14 @@ export default function Body () {
 
   }
 
+
+
+
   const handleDelete = () => {
-
     setDeleteLoading(true);
-
     setTimeout( () => {
       sendDeleteRequest()
     } , 1000 )
-
   }
 
 
@@ -637,7 +645,13 @@ export default function Body () {
     };
   
     return (
-      <tr {...props} ref={setNodeRef} style={style} {...attributes}>
+      <tr 
+      {...props} 
+      ref={setNodeRef} 
+      style={style} 
+      { ...attributes  }
+      aria-describedby={""}
+      >
         {React.Children.map(children, (child) => {
         
 
@@ -771,7 +785,7 @@ export default function Body () {
             <Button 
             onClick={handleForm} 
             loading={createLoading}
-            disabled={createLoading}
+            //disabled={createLoading}
             type="primary"
             >
               ایجاد منو
@@ -814,7 +828,8 @@ export default function Body () {
 
 
 
-          <DndContext 
+          {/* <DndContext 
+            id={dndID}
             modifiers={[restrictToVerticalAxis]} 
             onDragEnd={onDragEnd}
           >
@@ -822,15 +837,15 @@ export default function Body () {
               // rowKey array
               items={menus.map((i) => i.key)}
               strategy={verticalListSortingStrategy}
-            >
+            > */}
 
               <Table 
-                rowKey="id"
-                components={{
-                  body: {
-                    row: Row,
-                  },
-                }}
+                //rowKey="id"
+                // components={{
+                //   body: {
+                //     row: Row,
+                //   },
+                // }}
                 rowSelection={rowSelection} 
                 dataSource={menus}
                 columns={columns} 
@@ -839,8 +854,8 @@ export default function Body () {
                 //onChange={handleTableChange}
               />
             
-            </SortableContext>
-          </DndContext>
+            {/* </SortableContext>
+          </DndContext> */}
 
           
         </div>
@@ -856,7 +871,7 @@ export default function Body () {
               style={{ marginRight : '20px' , marginLeft : '20px' }}
               danger={!deleteLoading}
               loading={deleteLoading}
-              disabled={deleteLoading}
+              //disabled={deleteLoading}
               >
                 حذف
               </Button>
