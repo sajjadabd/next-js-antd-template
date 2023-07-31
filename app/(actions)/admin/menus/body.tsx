@@ -100,9 +100,9 @@ type LayoutType = Parameters<typeof Form>[0]['layout'];
 
 
 const columns = [
-  // {
-  //   key: 'sort',
-  // },
+  {
+    key: 'sort',
+  },
   {
     title: 'شماره',
     dataIndex: 'id',
@@ -828,7 +828,7 @@ export default function Body () {
 
 
 
-          {/* <DndContext 
+          <DndContext 
             id={dndID}
             modifiers={[restrictToVerticalAxis]} 
             onDragEnd={onDragEnd}
@@ -837,15 +837,15 @@ export default function Body () {
               // rowKey array
               items={menus.map((i) => i.key)}
               strategy={verticalListSortingStrategy}
-            > */}
+            >
 
               <Table 
-                //rowKey="id"
-                // components={{
-                //   body: {
-                //     row: Row,
-                //   },
-                // }}
+                rowKey="id"
+                components={{
+                  body: {
+                    row: Row,
+                  },
+                }}
                 rowSelection={rowSelection} 
                 dataSource={menus}
                 columns={columns} 
@@ -854,8 +854,8 @@ export default function Body () {
                 //onChange={handleTableChange}
               />
             
-            {/* </SortableContext>
-          </DndContext> */}
+            </SortableContext>
+          </DndContext>
 
           
         </div>
