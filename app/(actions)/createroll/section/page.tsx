@@ -16,7 +16,6 @@ import {
 } from 'antd';
 
 
-
 import { section , barmill } from '../../../../components/lines/page';
 
 
@@ -54,16 +53,16 @@ export default function App () {
 
       return (
         <div
-		key={index}
-        style={{
-          'width' : `${calibrWidthVariable}px` ,
-          'height' : `${rollDiameter+40}px` ,
-          borderWidth : `1` ,
-          borderColor : 'black' ,
-          borderStyle : 'solid' ,
-          zIndex : 10,
-          backgroundColor : 'white',
-        }}
+		      key={index}
+          style={{
+            'width' : `${calibrWidthVariable}px` ,
+            'height' : `${rollDiameter+40}px` ,
+            borderWidth : `1` ,
+            borderColor : 'black' ,
+            borderStyle : 'solid' ,
+            zIndex : 10,
+            backgroundColor : 'white',
+          }}
         >
 
         </div>
@@ -81,7 +80,7 @@ export default function App () {
     return (
       <>
           { /* head */  } 
-          <div 
+          <div
           style={{ 
             'width' : `${rollWidth/6}px` ,
             'height' : `${rollDiameter/3}px` ,
@@ -126,15 +125,14 @@ export default function App () {
   return (
     <CreateRollWrapper>
         <Form
-          labelCol={{ span: 4 }}
-          wrapperCol={{ span: 14 }}
           layout="horizontal"
-          style={{ maxWidth: 600 }}
+          className='createRollFormClass'
         >
+
             <FormItem>
                 <label htmlFor="">تیپ غلطک : </label>
                 <Form.Item>
-                    <Select onChange={(value) => setRollType(value)}>
+                    <Select onChange={(value) => setRollType(value)} >
                         <Select.Option value="section">{section}</Select.Option>
                         <Select.Option value="barmill">{barmill}</Select.Option>
                     </Select>
@@ -145,6 +143,7 @@ export default function App () {
                 <label>کد غلطک : </label>
                 <Form.Item>
                     <Input 
+                    
                     onChange={(e) => setRollCode(e.target.value)}
                     placeholder='کد'
                      />
@@ -222,11 +221,11 @@ export default function App () {
             <FormItem>
                 <label htmlFor="">عرض کالیبر : </label>
                 <Form.Item>
-                    <InputNumber 
-                    onChange={ (value) => setCalibreWidth(Number(value)) } 
-                    placeholder='عرض' 
-                    dir="ltr" 
-                    style={{ paddingLeft : '15px' }} 
+                    <InputNumber
+                      onChange={ (value) => setCalibreWidth(Number(value)) }
+                      placeholder='عرض'
+                      dir="ltr"
+                      style={{ paddingLeft : '15px' }}
                     />
                 </Form.Item>
             </FormItem>

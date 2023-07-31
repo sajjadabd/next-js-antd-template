@@ -143,7 +143,9 @@ export const MainContent = styled.div`
 
 
 export const CreateRollWrapper = styled.div`
+  margin : 30px;
   display : flex;
+  flex-direction : column;
 `
 
 export const Preview = styled.div`
@@ -152,14 +154,17 @@ export const Preview = styled.div`
   align-items : center;
   flex : 1;
   max-height : 100vh;
-  position : fixed;
-  left : 30%;
-  top : 50%;
-  transform : translate(-50% , -50%);
+  margin-top : 100px;
+  //position : fixed;
+  //left : 30%;
+  //top : 50%;
+  //transform : translate(-50% , -50%);
 `
 
 export const FormItem = styled.div`
-  margin-bottom : 30px;
+  margin-left : 30px;
+  margin-right : 30px;
+  min-width : 130px;
 `
 
 

@@ -178,6 +178,14 @@ a {
   color : #ae2012 !important;
 }
 
+
+.createRollFormClass {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
 ul {
     margin-top : 20px;
     list-style-type: none;
