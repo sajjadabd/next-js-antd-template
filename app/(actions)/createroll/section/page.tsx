@@ -16,7 +16,7 @@ import {
 } from 'antd';
 
 
-import { section , barmill } from '../../../../components/lines/page';
+import { due , universal } from '../../../../components/lines/page';
 
 
 import {
@@ -100,7 +100,7 @@ export default function App () {
 
   const [mounted , setMounted] = useState(false);
 
-  const [rollType , setRollType] = useState(0);
+  const [rollType , setRollType] = useState(-1);
   const [rollModel , setRollModel] = useState(0);
   const [rollCode , setRollCode] = useState("");
   const [rollPosition , setRollPosition] = useState("");
@@ -187,7 +187,7 @@ export default function App () {
       console.log(response);
       getAllRollers();
 
-      setRollType(0);
+      setRollType(-1);
       setRollCode("");
       setRollPosition("");
       setRollGender("");
@@ -297,6 +297,21 @@ export default function App () {
 
 
 
+  const handleRollType = (value : any) => {
+
+    console.log(value);
+
+    if( value == universal ) {
+      setNumberOfCalibres(1) ;
+    } else {
+      setNumberOfCalibres(0) ;
+    }
+
+    setRollType(value)
+  }
+
+
+
 
 
 
@@ -367,10 +382,11 @@ export default function App () {
                 <label htmlFor="text">تیپ غلطک : </label>
                 <Form.Item>
                     <Select 
-                    onChange={(value) => setRollType(value)} 
+                    onChange={(value) => handleRollType(value)} 
+                    value={rollType == -1 ? null : rollType}
                     >
-                        <Select.Option value="section">{section}</Select.Option>
-                        <Select.Option value="barmill">{barmill}</Select.Option>
+                        <Select.Option value={due}>{due}</Select.Option>
+                        <Select.Option value={universal}>{universal}</Select.Option>
                     </Select>
                 </Form.Item>
             </FormItem>
@@ -382,6 +398,7 @@ export default function App () {
                     name="code"
                     onChange={(e) => setRollCode(e.target.value)}
                     placeholder='کد'
+                    value={rollCode}
                      />
                 </Form.Item>
             </FormItem>
@@ -392,7 +409,9 @@ export default function App () {
                 <Radio.Group  
                 name="size"
                 onChange={(e) => setRollPosition(e.target.value)}
-                style={{ display : 'flex' , flexDirection : 'row'}}>
+                style={{ display : 'flex' , flexDirection : 'row'}}
+                value={rollPosition}
+                >
                     <Radio.Button value="roughing">Roughing</Radio.Button>
                     <Radio.Button value="intermediate">Intermediate</Radio.Button>
                     <Radio.Button value="finishing">Finishing</Radio.Button>
@@ -406,6 +425,7 @@ export default function App () {
                 <Form.Item>
                     <Select 
                     onChange={(value) => setRollGender(value)}
+                    value={rollGender}
                     >
                         <Select.Option value="male">نری</Select.Option>
                         <Select.Option value="female">مادگی</Select.Option>
@@ -424,6 +444,7 @@ export default function App () {
                     placeholder='قطر' 
                     dir="ltr" 
                     style={{ paddingLeft : '15px' }} 
+                    value={rollDiameter == 0 ? null : rollDiameter}
                     />
                 </Form.Item>
             </FormItem>
@@ -438,6 +459,7 @@ export default function App () {
                     placeholder='عرض' 
                     dir="ltr" 
                     style={{ paddingLeft : '15px' }} 
+                    value={rollWidth == 0 ? null : rollWidth}
                     />
                 </Form.Item>
             </FormItem>
@@ -452,6 +474,7 @@ export default function App () {
                     placeholder='تعداد' 
                     dir="ltr" 
                     style={{ paddingLeft : '15px' }} 
+                    value={numberOfCalibres == 0 ? null : numberOfCalibres}
                     />
                 </Form.Item>
             </FormItem>
@@ -467,6 +490,7 @@ export default function App () {
                       placeholder='عرض'
                       dir="ltr"
                       style={{ paddingLeft : '15px' }}
+                      value={calibreWidth == 0 ? null : calibreWidth}
                     />
                 </Form.Item>
             </FormItem>
@@ -493,6 +517,14 @@ export default function App () {
         </CreateRollWrapper>
 
 
+        {/*       
+        <Preview style={{marginBottom : '100px'}}>
+          {drawRoll()}
+        </Preview> 
+        */}
+
+
+
 
         <Table 
           rowSelection={rowSelection} 
@@ -505,11 +537,7 @@ export default function App () {
 
 
 
-        {/* <Preview>
-          {drawRoll()}
-        </Preview> */}
-
-
+        
 
 
     
