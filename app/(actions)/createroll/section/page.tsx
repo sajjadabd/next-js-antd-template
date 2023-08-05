@@ -359,7 +359,7 @@ export default function App () {
                 name="size"
                 onChange={(e) => setRollPosition(e.target.value)}
                 style={{ display : 'flex' , flexDirection : 'row'}}>
-                    <Radio.Button value="beginning">مقدماتی</Radio.Button>
+                    <Radio.Button value="roughing">مقدماتی</Radio.Button>
                     <Radio.Button value="intermediate">میانی</Radio.Button>
                     <Radio.Button value="finishing">پایانی</Radio.Button>
                 </Radio.Group>

@@ -14,9 +14,9 @@ let deleteMenuPath = URL + "/menu/delete"
 let getAllUsersPath = URL + "/users/getall"
 
 
-let RollerCreationPath = "/rollers/create";
-let getAllRollersPath = "/rollers/getall";
-let deleteRollerPath = "/rollers/delete";
+let RollerCreationPath = URL + "/rollers/create";
+let getAllRollersPath = URL + "/rollers/getall";
+let deleteRollerPath = URL + "/rollers/delete";
 
 export default URL;
 
