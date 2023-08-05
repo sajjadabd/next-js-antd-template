@@ -58,10 +58,9 @@ import { updateMenuItems } from '../../../../store/reducers';
 
 
 import URL , { 
-  MenuCreationPath , 
-  getAllMenusPath ,
-  deleteMenuPath ,
-  getAllUsersPath
+  RoleCreationPath ,
+  getAllRolesPath ,
+  deleteRolePath
 } from '../../../../api/request';
 
 
@@ -75,6 +74,7 @@ import {
   LeftToRight ,
   BreadCrumbs ,
   EditButton ,
+  RoleCreationFormWrapper ,
 } from '../../../../components/styled/styled' ;
 
 
@@ -103,18 +103,42 @@ interface User {
 }
 
 
+
+
+
+const roleColumns = [
+  // {
+  //   key: 'sort',
+  // },
+  {
+    title: 'شماره',
+    dataIndex: 'id',
+    key: 'id',
+    width : 100 ,
+  },
+  {
+    title: 'عنوان منو',
+    dataIndex: 'title',
+    key: 'title',
+    width : 300 ,
+  },
+];
+
+
+
+
 export default function App () {
 
 
   const [mounted , setMounted] = useState(false);
-  const [users , setUsers] = useState<User[]>([]);
+  const [roles , setRoles] = useState<User[]>([]);
 
 
-  const getAllUsers = () => {
-    axios.get(getAllUsersPath)
+  const getAllRoles = () => {
+    axios.get(getAllRolesPath)
     .then(function (response) {
 
-      setUsers(response.data);
+      setRoles(response.data);
 
     })
     .catch(function (error) {
@@ -206,7 +230,7 @@ export default function App () {
       role ,
     });
 
-    axios.post(MenuCreationPath, {
+    axios.post(RoleCreationPath, {
       role: role,
     })
     .then(function (response) {
@@ -226,7 +250,27 @@ export default function App () {
   }
 
 
+  const [pageSize , setPageSize] = useState(3);
+
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+
+  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+
+  const rowSelection = {
+    selectedRowKeys ,
+    onChange: onSelectChange ,
+  };
+
+  const hasSelected = selectedRowKeys.length > 0;
+
+
+
   useEffect( () => {
+    
+    getAllRoles(); 
     
     setMounted(true);
 
@@ -258,7 +302,7 @@ export default function App () {
 
 
 
-        <MenuCreationFormWrapper>
+        <RoleCreationFormWrapper>
 
           <Form
             {...formItemLayout}
@@ -298,7 +342,24 @@ export default function App () {
 
           </Form>
 
-        </MenuCreationFormWrapper>
+        </RoleCreationFormWrapper>
+
+
+
+        <Table 
+          // rowKey="id"
+          // components={{
+          //   body: {
+          //     row: Row,
+          //   },
+          // }}
+          rowSelection={rowSelection} 
+          dataSource={roles}
+          columns={roleColumns} 
+          pagination={{ pageSize: pageSize }}
+          scroll={{ x: 500 }}
+          //onChange={handleTableChange}
+        />
 
 
 

@@ -30,6 +30,16 @@ export const MenuCreationFormWrapper = styled.div`
 `
 
 
+export const RoleCreationFormWrapper = styled.div`
+  background-color : white;
+  padding-top : 10px;
+  padding-bottom : 10px;
+  border-radius : 10px;
+  background-color : #e0e1dd;
+  margin-bottom : 30px;
+`
+
+
 export const MarginBottomDIV = styled.div`
   margin-bottom : 6em;
 `
