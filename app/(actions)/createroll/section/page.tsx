@@ -51,7 +51,7 @@ const rollerColumns = [
     title: 'شماره',
     dataIndex: 'id',
     key: 'id',
-    width: 50,
+    width: 10,
   },
   {
     title: 'جنس غلطک',
@@ -143,6 +143,8 @@ export default function App () {
     axios.get(getAllRollersPath)
     .then(function (response) {
       setRollers(response.data);
+
+      setMounted(true);
     })
     .catch(function (error) {
       // handle error
@@ -302,7 +304,7 @@ export default function App () {
     //console.log(`running useEffect ...`);
     getAllRollers();
     
-    setMounted(true);
+    
 
 
     return () => {
@@ -391,9 +393,9 @@ export default function App () {
                 name="size"
                 onChange={(e) => setRollPosition(e.target.value)}
                 style={{ display : 'flex' , flexDirection : 'row'}}>
-                    <Radio.Button value="roughing">مقدماتی</Radio.Button>
-                    <Radio.Button value="intermediate">میانی</Radio.Button>
-                    <Radio.Button value="finishing">پایانی</Radio.Button>
+                    <Radio.Button value="roughing">Roughing</Radio.Button>
+                    <Radio.Button value="intermediate">Intermediate</Radio.Button>
+                    <Radio.Button value="finishing">Finishing</Radio.Button>
                 </Radio.Group>
             </Form.Item> 
             </FormItem>

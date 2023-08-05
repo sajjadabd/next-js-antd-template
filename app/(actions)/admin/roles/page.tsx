@@ -117,7 +117,7 @@ const roleColumns = [
     width : 100 ,
   },
   {
-    title: 'عنوان منو',
+    title: 'عنوان نقش',
     dataIndex: 'title',
     key: 'title',
     width : 300 ,
@@ -139,6 +139,8 @@ export default function App () {
     .then(function (response) {
 
       setRoles(response.data);
+
+      setMounted(true);
 
     })
     .catch(function (error) {
@@ -183,15 +185,15 @@ export default function App () {
 
   
 
-  const successUserCreation = () => {
+  const successRoleCreation = () => {
     Modal.success({
-      title : 'ایجاد منوی جدید' ,
-      content: 'منوی جدید با موفقیت ایجاد شد',
+      title : 'ایجاد نقش جدید' ,
+      content: 'نقش جدید با موفقیت ایجاد شد',
       okText:"مرسی"
     });
   };
   
-  const errorUserCreation = () => {
+  const errorRoleCreation = () => {
     Modal.error({
       title: 'خطا',
       content: 'لطفاً فیلد ها را به درستی پر کنید' ,
@@ -201,18 +203,18 @@ export default function App () {
 
 
 
-  const successUserDeletion = () => {
+  const successRoleDeletion = () => {
     Modal.success({
-      title : 'حذف منو' ,
-      content: 'منو با موفقیت حذف شد',
+      title : 'حذف نقش' ,
+      content: 'نقش با موفقیت حذف شد',
       okText:"مرسی"
     });
   };
   
-  const errorUserDeletion = () => {
+  const errorRoleDeletion = () => {
     Modal.error({
       title: 'خطا',
-      content: 'مشکلی در حذف منو به وجود آمد',
+      content: 'مشکلی در حذف نقش به وجود آمد',
       okText:"مرسی"
     });
   };
@@ -227,24 +229,24 @@ export default function App () {
     setCreateLoading(true);
 
     console.log({
-      role ,
+      title : role ,
     });
 
     axios.post(RoleCreationPath, {
-      role: role,
+      title : role,
     })
     .then(function (response) {
       console.log(response);
-      //getAllUsers();
+      getAllRoles();
 
       setRole("");
 
-      successUserCreation();
+      successRoleCreation();
       setCreateLoading(false);
     })
     .catch(function (error) {
       console.log(error);
-      errorUserCreation();
+      errorRoleCreation();
       setCreateLoading(false);
     });
   }
@@ -271,8 +273,8 @@ export default function App () {
   useEffect( () => {
     
     getAllRoles(); 
+
     
-    setMounted(true);
 
     return () => {
       // Clean up resources or cancel any pending operations.
@@ -281,7 +283,7 @@ export default function App () {
   } , [] );
 
 
-  if(mounted == false) return 'Loading ...';
+  if(mounted == false) return 'loading ...';
 
 
   return (

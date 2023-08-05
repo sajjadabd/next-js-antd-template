@@ -372,18 +372,7 @@ export default function Body () {
   }
 
 
-  useEffect( () => {
-    //console.log(`running useEffect ...`);
-    getAllMenus();
-    
-    setMounted(true);
-
-
-    return () => {
-      // Clean up resources or cancel any pending operations.
-    };
-
-  } , [] );
+  
 
 
   const dndID = useId();
@@ -490,7 +479,7 @@ export default function Body () {
 
   */
 
-  if (mounted == false) return 'Loading...'
+  
 
 
   const sendDeleteRequest = () : void => {
@@ -690,6 +679,29 @@ export default function Body () {
       });
     }
   };
+
+
+
+
+
+
+  useEffect( () => {
+    //console.log(`running useEffect ...`);
+    getAllMenus();
+    
+    setMounted(true);
+
+
+    return () => {
+      // Clean up resources or cancel any pending operations.
+    };
+
+  } , [] );
+
+
+
+
+  if (mounted == false) return 'loading...'
 
 
 

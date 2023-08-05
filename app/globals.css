@@ -137,10 +137,21 @@ a {
 
 /* .ant-form-item {
   margin-bottom : 0 !important;
-} */
+} 
 
 .ant-table-row .ant-table-cell:last-child {
   direction : ltr;
+}
+*/
+
+.ant-table-cell-with-append {
+  display : flex;
+  flex-direction : row-reverse;
+}
+
+.ant-table-row-expand-icon {
+  margin-left : 20px;
+  margin-right : 20px;
 }
 
 .ant-select-item-option-content {
