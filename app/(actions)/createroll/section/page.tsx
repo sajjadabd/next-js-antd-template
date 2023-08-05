@@ -54,17 +54,17 @@ const rollerColumns = [
   },
   {
     title: 'تیپ غلطک',
-    dataIndex: 'rollerType',
+    dataIndex: 'type',
     key: 'type',
   },
   {
     title: 'کد غلطک',
-    dataIndex: 'rollCode',
+    dataIndex: 'roller_code',
     key: 'roller_code',
   },
   {
     title: 'جایگاه غلطک',
-    dataIndex: 'rollPosition',
+    dataIndex: 'position',
     key: 'position',
   },
 ];
