@@ -196,6 +196,7 @@ export default function App () {
       setNumberOfCalibres(0);
       setCalibreWidth(0);
 
+      form.resetFields();
 
       successRollerCreation();
       setCreateLoading(false);
@@ -346,6 +347,11 @@ export default function App () {
 
 
 
+  const [form] = Form.useForm();
+
+
+
+
   if(mounted == false) return 'loading...'
 
 
@@ -376,11 +382,24 @@ export default function App () {
         <Form
           layout="horizontal"
           className='createRollFormClass'
+          form={form}
+          initialValues={{ 
+            type: null ,
+            code : null ,
+            position : null ,
+            gender : null ,
+            calibreDiameter : null ,
+            RollWidth : null ,
+            numberOfCalibr : null ,
+            calibrWidth : null ,
+          }}
         >
 
             <FormItem>
                 <label htmlFor="text">تیپ غلطک : </label>
-                <Form.Item>
+                <Form.Item
+                name="type"
+                >
                     <Select 
                     onChange={(value) => handleRollType(value)} 
                     value={rollType == -1 ? null : rollType}
@@ -393,9 +412,11 @@ export default function App () {
 
             <FormItem>
                 <label htmlFor='code'>کد غلطک : </label>
-                <Form.Item>
+                <Form.Item
+                name="code"
+                >
                     <Input 
-                    name="code"
+                    
                     onChange={(e) => setRollCode(e.target.value)}
                     placeholder='کد'
                     value={rollCode}
@@ -404,13 +425,16 @@ export default function App () {
             </FormItem>
 
             <FormItem>
-            <label htmlFor='size'>جایگاه غلطک : </label>
-            <Form.Item name="size">
+            <label htmlFor='position'>جایگاه غلطک : </label>
+            <Form.Item 
+            name="position"
+            >
                 <Radio.Group  
-                name="size"
-                onChange={(e) => setRollPosition(e.target.value)}
-                style={{ display : 'flex' , flexDirection : 'row'}}
-                value={rollPosition}
+                  
+                  onChange={(e) => setRollPosition(e.target.value)}
+                  style={{ display : 'flex' , flexDirection : 'row'}}
+                  value={rollPosition == "" ? null : rollPosition}
+                  buttonStyle="solid"
                 >
                     <Radio.Button value="roughing">Roughing</Radio.Button>
                     <Radio.Button value="intermediate">Intermediate</Radio.Button>
@@ -422,7 +446,9 @@ export default function App () {
 
             <FormItem>
                 <label htmlFor="text">جنسیت غلطک : </label>
-                <Form.Item>
+                <Form.Item
+                name="gender"
+                >
                     <Select 
                     onChange={(value) => setRollGender(value)}
                     value={rollGender}
@@ -437,9 +463,11 @@ export default function App () {
 
             <FormItem>
                 <label htmlFor="calibreDiameter">قطر غلطک : </label>
-                <Form.Item>
+                <Form.Item
+                name="calibreDiameter"
+                >
                     <InputNumber 
-                    name="calibreDiameter"
+                    
                     onChange={ (value) => setRollDiameter(Number(value)) } 
                     placeholder='قطر' 
                     dir="ltr" 
@@ -452,9 +480,11 @@ export default function App () {
 
             <FormItem>
                 <label htmlFor="calibrWidth">عرض غلطک : </label>
-                <Form.Item>
+                <Form.Item
+                name="RollWidth"
+                >
                     <InputNumber 
-                    name="calibrWidth"
+                    
                     onChange={ (value) => setRollWidth(Number(value)) } 
                     placeholder='عرض' 
                     dir="ltr" 
@@ -467,9 +497,11 @@ export default function App () {
             
             <FormItem>
                 <label htmlFor="numberOfCalibr">تعداد کالیبر : </label>
-                <Form.Item>
+                <Form.Item
+                name="numberOfCalibr"
+                >
                     <InputNumber 
-                    name="numberOfCalibr"
+                    
                     onChange={(value) => setNumberOfCalibres(Number(value))} 
                     placeholder='تعداد' 
                     dir="ltr" 
@@ -483,9 +515,11 @@ export default function App () {
 
             <FormItem>
                 <label htmlFor="calibrWidth">عرض کالیبر : </label>
-                <Form.Item>
+                <Form.Item
+                name="calibrWidth"
+                >
                     <InputNumber
-                      name="calibrWidth"
+                      
                       onChange={ (value) => setCalibreWidth(Number(value)) }
                       placeholder='عرض'
                       dir="ltr"
@@ -507,6 +541,15 @@ export default function App () {
                 ایجاد غلطک
               </Button>
             </Form.Item>
+
+
+            {/* <Form.Item>
+              <Button 
+                htmlType='reset'
+              >
+                reset form
+              </Button>
+            </Form.Item> */}
 
 
         </Form>
