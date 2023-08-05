@@ -24,7 +24,8 @@ import {
   Preview ,
   FormItem ,
   ContentWrapper ,
-  BreadCrumbs
+  BreadCrumbs , 
+  Center
 } from '../../../../components/styled/styled';
 
 
@@ -39,6 +40,9 @@ import URL , {
 } from '../../../../api/request';
 
 import { Modal } from 'antd';
+
+
+import { Space, Spin } from 'antd';
 
 
 
@@ -345,14 +349,13 @@ export default function App () {
   const hasSelected = selectedRowKeys.length > 0;
 
 
-
-
   const [form] = Form.useForm();
 
 
 
-
-  if(mounted == false) return 'loading...'
+  if(mounted == false) return (
+      <Spin size="large" />
+  ) ;
 
 
   return (

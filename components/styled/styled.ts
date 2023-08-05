@@ -190,3 +190,15 @@ export const Column = styled.div`
     display : flex;
     flex-direction : column;
 `
+
+
+export const Center = styled.div`
+    display : flex;
+    justify-content : center;
+    align-items : center;
+    flex-direction : column;
+    height : 100vh;
+    width : 100vw;
+    box-sizing : border-box;
+    position : relative;
+`

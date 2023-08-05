@@ -54,6 +54,9 @@ import { updateMenuItems } from '../../store/reducers';
 
 import styles from './page.module.css';
 
+import { Space, Spin } from 'antd';
+
+
 
 import {
   Wrapper ,
@@ -61,7 +64,8 @@ import {
   Content ,
   Gadgets ,
   NavigationResponsiveButton ,
-  MainContent
+  MainContent , 
+  Center
 } from '../../components/styled/styled'
 
 
@@ -321,24 +325,15 @@ export default function MainLayout({
     const themeJson = JSON.parse(themeString);
     setLayoutTheme(themeJson.darkMode);
 
+
+    setMounted(true);
     //console.log(themeJson);
   }
 
+
   
-  useEffect( () => {
-    
-    queryMenuItems();
-    
-    
 
-    fetchTheme();
 
-    return () => {
-      // Clean up resources or cancel any pending operations.
-    };
-
-  } , []);
-  
 
   
 
@@ -420,6 +415,34 @@ export default function MainLayout({
     }
   };
   */
+
+
+
+
+  const [ mounted , setMounted ] = useState(false);
+
+  
+  useEffect( () => {
+    
+    queryMenuItems();
+    fetchTheme();
+
+
+
+    return () => {
+      // Clean up resources or cancel any pending operations.
+    };
+
+  } , []);
+  
+
+
+  if( mounted == false ) return (
+    <Center>
+      <Spin size="large" />
+    </Center>
+  ) ;
+
 
 
   return (

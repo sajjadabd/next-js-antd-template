@@ -9,7 +9,7 @@ import type { ColumnsType } from 'antd/es/table';
 
 import { Button, Form, Input, Radio , InputNumber } from 'antd';
 
-import { Modal, Space } from 'antd';
+import { Modal } from 'antd';
 
 import { AutoComplete } from 'antd';
 
@@ -73,6 +73,7 @@ import {
   LeftToRight ,
   BreadCrumbs ,
   EditButton ,
+  Center
 } from '../../../../components/styled/styled' ;
 
 
@@ -89,6 +90,12 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+
+
+
+import { Space, Spin } from 'antd';
+
+
 
 
 
@@ -701,7 +708,9 @@ export default function Body () {
 
 
 
-  if (mounted == false) return 'loading...'
+  if (mounted == false) return (
+      <Spin size="large" />
+  ) ;
 
 
 

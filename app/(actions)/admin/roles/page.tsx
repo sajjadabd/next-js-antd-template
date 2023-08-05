@@ -10,7 +10,7 @@ import type { ColumnsType } from 'antd/es/table';
 
 import { Button, Form, Input, Radio , InputNumber } from 'antd';
 
-import { Modal, Space } from 'antd';
+import { Modal } from 'antd';
 
 import { AutoComplete } from 'antd';
 
@@ -75,6 +75,7 @@ import {
   BreadCrumbs ,
   EditButton ,
   RoleCreationFormWrapper ,
+  Center
 } from '../../../../components/styled/styled' ;
 
 
@@ -92,6 +93,8 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
+
+import { Space, Spin } from 'antd';
 
 type LayoutType = Parameters<typeof Form>[0]['layout'];
 
@@ -274,8 +277,6 @@ export default function App () {
     
     getAllRoles(); 
 
-    
-
     return () => {
       // Clean up resources or cancel any pending operations.
     };
@@ -283,7 +284,9 @@ export default function App () {
   } , [] );
 
 
-  if(mounted == false) return 'loading ...';
+  if(mounted == false) return (
+      <Spin size="large" />
+  ) ;
 
 
   return (
