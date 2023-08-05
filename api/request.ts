@@ -13,11 +13,19 @@ let deleteMenuPath = URL + "/menu/delete"
 
 let getAllUsersPath = URL + "/users/getall"
 
+
+let RollerCreationPath = "/rollers/create";
+let getAllRollersPath = "/rollers/getall";
+let deleteRollerPath = "/rollers/delete";
+
 export default URL;
 
 export { 
   MenuCreationPath , 
   getAllMenusPath ,
   deleteMenuPath ,
-  getAllUsersPath
+  getAllUsersPath ,
+  RollerCreationPath ,
+  getAllRollersPath ,
+  deleteRollerPath
 } ;

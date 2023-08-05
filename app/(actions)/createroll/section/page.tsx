@@ -28,6 +28,52 @@ import {
 } from '../../../../components/styled/styled';
 
 
+import axios, {isCancel, AxiosError} from 'axios';
+
+import { Table } from 'antd';
+
+import URL , { 
+  RollerCreationPath , 
+  getAllRollersPath ,
+  deleteRollerPath ,
+} from '../../../../api/request';
+
+import { Modal } from 'antd';
+
+
+
+
+const rollerColumns = [
+  // {
+  //   key: 'sort',
+  // },
+  {
+    title: 'شماره',
+    dataIndex: 'id',
+    key: 'id',
+  },
+  {
+    title: 'تیپ غلطک',
+    dataIndex: 'rollerType',
+    key: 'type',
+  },
+  {
+    title: 'کد غلطک',
+    dataIndex: 'rollCode',
+    key: 'roller_code',
+  },
+  {
+    title: 'جایگاه غلطک',
+    dataIndex: 'rollPosition',
+    key: 'position',
+  },
+];
+
+
+
+
+
+
 export default function App () {
 
   const [mounted , setMounted] = useState(false);
@@ -42,6 +88,93 @@ export default function App () {
   const [rollWidth , setRollWidth] = useState(0);
   const [numberOfCalibres , setNumberOfCalibres] = useState(0);
   const [calibreWidth , setCalibreWidth] = useState(0);
+
+  const[createLoading , setCreateLoading] = useState(false);
+  const[deleteLoading , setDeleteLoading] = useState(false);
+
+
+
+  const [ rollers , setRollers ] = useState([]);
+
+
+  const [pageSize , setPageSize] = useState(3);
+
+
+  const successRollerCreation = () => {
+    Modal.success({
+      title : 'ایجاد غلطک جدید' ,
+      content: 'غلطک جدید با موفقیت ایجاد شد',
+      okText:"مرسی"
+    });
+  };
+  
+  const errorRollerCreation = () => {
+    Modal.error({
+      title: 'خطا',
+      content: 'لطفاً فیلد ها را به درستی پر کنید' ,
+      okText:"مرسی"
+    });
+  };
+
+
+  const getAllRollers = () => {
+    axios.get(getAllRollersPath)
+    .then(function (response) {
+      setRollers(response.data);
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+    .finally(function () {
+      // always executed
+    });
+  }
+
+  const handleForm = () => {
+
+    setCreateLoading(true);
+
+    console.log({
+      rollType ,
+      rollModel ,
+      rollCode ,
+      rollPosition ,
+      rollGender ,
+      rollDiameter ,
+      rollWidth ,
+      numberOfCalibres ,
+      calibreWidth ,
+    });
+
+    
+    axios.post(RollerCreationPath, {
+      rollType ,
+      rollModel ,
+      rollCode ,
+      rollPosition ,
+      rollGender ,
+      rollDiameter ,
+      rollWidth ,
+      numberOfCalibres ,
+      calibreWidth ,
+    })
+    .then(function (response) {
+      console.log(response);
+      getAllRollers();
+
+      successRollerCreation();
+      setCreateLoading(false);
+    })
+    .catch(function (error) {
+      console.log(error);
+      errorRollerCreation();
+      setCreateLoading(false);
+    });
+    
+
+
+  }
 
 
 
@@ -129,6 +262,10 @@ export default function App () {
 
 
 
+
+
+
+
   useEffect( () => {
     //console.log(`running useEffect ...`);
     //getAllRollers();
@@ -141,6 +278,22 @@ export default function App () {
     };
 
   } , [] );
+
+
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+
+  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+
+  const rowSelection = {
+    selectedRowKeys ,
+    onChange: onSelectChange ,
+  };
+
+  const hasSelected = selectedRowKeys.length > 0;
+
 
 
 
@@ -177,9 +330,11 @@ export default function App () {
         >
 
             <FormItem>
-                <label htmlFor="">تیپ غلطک : </label>
+                <label htmlFor="text">تیپ غلطک : </label>
                 <Form.Item>
-                    <Select onChange={(value) => setRollType(value)} >
+                    <Select 
+                    onChange={(value) => setRollType(value)} 
+                    >
                         <Select.Option value="section">{section}</Select.Option>
                         <Select.Option value="barmill">{barmill}</Select.Option>
                     </Select>
@@ -187,10 +342,10 @@ export default function App () {
             </FormItem>
 
             <FormItem>
-                <label>کد غلطک : </label>
+                <label htmlFor='code'>کد غلطک : </label>
                 <Form.Item>
                     <Input 
-                    
+                    name="code"
                     onChange={(e) => setRollCode(e.target.value)}
                     placeholder='کد'
                      />
@@ -198,9 +353,10 @@ export default function App () {
             </FormItem>
 
             <FormItem>
-            <label>جایگاه غلطک : </label>
+            <label htmlFor='size'>جایگاه غلطک : </label>
             <Form.Item name="size">
                 <Radio.Group  
+                name="size"
                 onChange={(e) => setRollPosition(e.target.value)}
                 style={{ display : 'flex' , flexDirection : 'row'}}>
                     <Radio.Button value="beginning">مقدماتی</Radio.Button>
@@ -212,7 +368,7 @@ export default function App () {
 
 
             <FormItem>
-                <label htmlFor="">جنسیت غلطک : </label>
+                <label htmlFor="text">جنسیت غلطک : </label>
                 <Form.Item>
                     <Select 
                     onChange={(value) => setRollGender(value)}
@@ -226,9 +382,10 @@ export default function App () {
 
 
             <FormItem>
-                <label htmlFor="">قطر غلطک : </label>
+                <label htmlFor="calibreDiameter">قطر غلطک : </label>
                 <Form.Item>
                     <InputNumber 
+                    name="calibreDiameter"
                     onChange={ (value) => setRollDiameter(Number(value)) } 
                     placeholder='قطر' 
                     dir="ltr" 
@@ -239,9 +396,10 @@ export default function App () {
 
 
             <FormItem>
-                <label htmlFor="">عرض غلطک : </label>
+                <label htmlFor="calibrWidth">عرض غلطک : </label>
                 <Form.Item>
                     <InputNumber 
+                    name="calibrWidth"
                     onChange={ (value) => setRollWidth(Number(value)) } 
                     placeholder='عرض' 
                     dir="ltr" 
@@ -252,9 +410,10 @@ export default function App () {
 
             
             <FormItem>
-                <label htmlFor="">تعداد کالیبر : </label>
+                <label htmlFor="numberOfCalibr">تعداد کالیبر : </label>
                 <Form.Item>
                     <InputNumber 
+                    name="numberOfCalibr"
                     onChange={(value) => setNumberOfCalibres(Number(value))} 
                     placeholder='تعداد' 
                     dir="ltr" 
@@ -266,9 +425,10 @@ export default function App () {
 
 
             <FormItem>
-                <label htmlFor="">عرض کالیبر : </label>
+                <label htmlFor="calibrWidth">عرض کالیبر : </label>
                 <Form.Item>
                     <InputNumber
+                      name="calibrWidth"
                       onChange={ (value) => setCalibreWidth(Number(value)) }
                       placeholder='عرض'
                       dir="ltr"
@@ -282,7 +442,8 @@ export default function App () {
 
             <Form.Item>
               <Button 
-              onClick={() => console.log('clicked')} 
+              onClick={() => handleForm()} 
+              loading={createLoading}
               type="primary"
               >
                 ایجاد غلطک
@@ -292,6 +453,24 @@ export default function App () {
 
         </Form>
 
+
+
+
+        </CreateRollWrapper>
+
+
+
+        <Table 
+          rowSelection={rowSelection} 
+          dataSource={rollers}
+          columns={rollerColumns} 
+          pagination={{ pageSize: pageSize }}
+          
+          //onChange={handleTableChange}
+        />
+
+
+
         {/* <Preview>
           {drawRoll()}
         </Preview> */}
@@ -299,7 +478,7 @@ export default function App () {
 
 
 
-    </CreateRollWrapper>
+    
 
 
 
