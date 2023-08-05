@@ -51,21 +51,43 @@ const rollerColumns = [
     title: 'شماره',
     dataIndex: 'id',
     key: 'id',
+    width: 100,
+  },
+  {
+    title: 'جنس غلطک',
+    dataIndex: 'gender',
+    key: 'gender',
+    width: 100,
+  },
+  {
+    title: 'عرض غلطک',
+    dataIndex: 'width',
+    key: 'width',
+    width: 100,
+  },
+  {
+    title: 'قطر غلطک',
+    dataIndex: 'diameter',
+    key: 'diameter',
+    width: 100,
   },
   {
     title: 'تیپ غلطک',
     dataIndex: 'type',
     key: 'type',
+    width: 100,
   },
   {
     title: 'کد غلطک',
     dataIndex: 'roller_code',
     key: 'roller_code',
+    width: 100,
   },
   {
     title: 'جایگاه غلطک',
     dataIndex: 'position',
     key: 'position',
+    width: 100,
   },
 ];
 
@@ -465,7 +487,7 @@ export default function App () {
           dataSource={rollers}
           columns={rollerColumns} 
           pagination={{ pageSize: pageSize }}
-          
+          scroll={{ x: 1500 }}
           //onChange={handleTableChange}
         />
 

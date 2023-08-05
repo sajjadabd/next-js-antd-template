@@ -107,26 +107,31 @@ const columns = [
     title: 'شماره',
     dataIndex: 'id',
     key: 'id',
+    width : 100 ,
   },
   {
     title: 'والد',
     dataIndex: 'parent',
     key: 'parent',
+    width : 200 ,
   },
   {
     title: 'عنوان منو',
     dataIndex: 'title',
     key: 'title',
+    width : 300 ,
   },
   {
     title: 'نمایه',
     dataIndex: 'iconXML',
     key: 'icon',
+    width : 100 ,
   },
   {
     title: 'مسیر',
     dataIndex: 'path',
     key: 'path',
+    width : 300 ,
   },
 ];
 
@@ -850,7 +855,7 @@ export default function Body () {
                 dataSource={menus}
                 columns={columns} 
                 pagination={{ pageSize: pageSize }}
-                
+                scroll={{ x: 500 }}
                 //onChange={handleTableChange}
               />
             
