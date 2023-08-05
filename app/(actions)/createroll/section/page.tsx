@@ -51,43 +51,43 @@ const rollerColumns = [
     title: 'شماره',
     dataIndex: 'id',
     key: 'id',
-    width: 100,
+    width: 50,
   },
   {
     title: 'جنس غلطک',
     dataIndex: 'gender',
     key: 'gender',
-    width: 100,
+    width: 70,
   },
   {
     title: 'عرض غلطک',
     dataIndex: 'width',
     key: 'width',
-    width: 100,
+    width: 70,
   },
   {
     title: 'قطر غلطک',
     dataIndex: 'diameter',
     key: 'diameter',
-    width: 100,
+    width: 70,
   },
   {
     title: 'تیپ غلطک',
     dataIndex: 'type',
     key: 'type',
-    width: 100,
+    width: 70,
   },
   {
     title: 'کد غلطک',
     dataIndex: 'roller_code',
     key: 'roller_code',
-    width: 100,
+    width: 70,
   },
   {
     title: 'جایگاه غلطک',
     dataIndex: 'position',
     key: 'position',
-    width: 100,
+    width: 70,
   },
 ];
 
@@ -184,6 +184,16 @@ export default function App () {
     .then(function (response) {
       console.log(response);
       getAllRollers();
+
+      setRollType(0);
+      setRollCode("");
+      setRollPosition("");
+      setRollGender("");
+      setRollDiameter(0);
+      setRollWidth(0);
+      setNumberOfCalibres(0);
+      setCalibreWidth(0);
+
 
       successRollerCreation();
       setCreateLoading(false);
@@ -290,7 +300,7 @@ export default function App () {
 
   useEffect( () => {
     //console.log(`running useEffect ...`);
-    //getAllRollers();
+    getAllRollers();
     
     setMounted(true);
 
@@ -319,7 +329,7 @@ export default function App () {
 
 
 
-  if(mounted == false) return 'loadin...'
+  if(mounted == false) return 'loading...'
 
 
   return (
@@ -487,7 +497,7 @@ export default function App () {
           dataSource={rollers}
           columns={rollerColumns} 
           pagination={{ pageSize: pageSize }}
-          scroll={{ x: 1500 }}
+          scroll={{ x: 1000 }}
           //onChange={handleTableChange}
         />
 
