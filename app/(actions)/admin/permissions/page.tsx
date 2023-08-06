@@ -93,6 +93,11 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 
 
+
+
+import Loader from '../../../../components/loader/loader';
+
+
 type LayoutType = Parameters<typeof Form>[0]['layout'];
 
 
@@ -109,12 +114,15 @@ export default function App () {
 
   const [users , setUsers] = useState<User[]>([]);
 
+  const [mounted , setMounted] = useState(false);
+
 
   const getAllUsers = () => {
     axios.get(getAllUsersPath)
     .then(function (response) {
 
       setUsers(response.data);
+      setMounted(true);
 
     })
     .catch(function (error) {
@@ -127,17 +135,7 @@ export default function App () {
   }
 
 
-  useEffect( () => {
-    //console.log(`running useEffect ...`);
-    getAllUsers();
-    
-
-
-    return () => {
-      // Clean up resources or cancel any pending operations.
-    };
-
-  } , [] );
+  
 
 
 
@@ -241,6 +239,24 @@ export default function App () {
 
 
 
+
+  useEffect( () => {
+    //console.log(`running useEffect ...`);
+    getAllUsers();
+    
+
+
+    return () => {
+      // Clean up resources or cancel any pending operations.
+    };
+
+  } , [] );
+
+
+
+  if (mounted == false) return (
+    <Loader />
+  ) ;
 
 
   return (

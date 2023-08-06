@@ -96,6 +96,13 @@ import { CSS } from '@dnd-kit/utilities';
 
 import { Space, Spin } from 'antd';
 
+
+
+import Loader from '../../../../components/loader/loader';
+
+
+
+
 type LayoutType = Parameters<typeof Form>[0]['layout'];
 
 
@@ -285,7 +292,7 @@ export default function App () {
 
 
   if(mounted == false) return (
-      <Spin size="large" />
+      <Loader />
   ) ;
 
 

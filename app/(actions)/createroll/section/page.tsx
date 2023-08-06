@@ -45,6 +45,9 @@ import { Modal } from 'antd';
 import { Space, Spin } from 'antd';
 
 
+import Loader from '../../../../components/loader/loader';
+
+
 
 
 const rollerColumns = [
@@ -320,20 +323,6 @@ export default function App () {
 
 
 
-  useEffect( () => {
-    //console.log(`running useEffect ...`);
-    getAllRollers();
-    
-    
-
-
-    return () => {
-      // Clean up resources or cancel any pending operations.
-    };
-
-  } , [] );
-
-
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
@@ -353,8 +342,23 @@ export default function App () {
 
 
 
+  
+
+
+  useEffect( () => {
+    //console.log(`running useEffect ...`);
+    getAllRollers();
+
+    return () => {
+      // Clean up resources or cancel any pending operations.
+    };
+
+  } , [] );
+
+  
+
   if(mounted == false) return (
-      <Spin size="large" />
+      <Loader />
   ) ;
 
 

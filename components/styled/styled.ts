@@ -197,8 +197,7 @@ export const Center = styled.div`
     justify-content : center;
     align-items : center;
     flex-direction : column;
-    height : 100vh;
-    width : 100vw;
+    flex : 1;
     box-sizing : border-box;
     position : relative;
 `

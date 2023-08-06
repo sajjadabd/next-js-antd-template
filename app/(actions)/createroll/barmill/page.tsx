@@ -42,6 +42,9 @@ import { Modal } from 'antd';
 
 
 
+import Loader from '../../../../components/loader/loader'
+
+
 
 const rollerColumns = [
   // {
@@ -95,12 +98,13 @@ const rollerColumns = [
 
 export default function App () {
 
+
   const [mounted , setMounted] = useState(false);
+
 
   useEffect( () => {
 
-    setMounted(true);
-
+    //setMounted(true);
 
     return () => {
       // Clean up resources or cancel any pending operations.
@@ -109,7 +113,13 @@ export default function App () {
   } , [] ) ;
 
 
-  if(mounted == false) return 'loading...'
+
+
+  if(mounted == false) return (
+    <Loader />
+  )
+
+
 
   return (
     <ContentWrapper>

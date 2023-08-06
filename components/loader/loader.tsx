@@ -5,12 +5,17 @@ import React , { useState } from 'react';
 
 import { Space, Spin } from 'antd';
 
-import Loader from '../../components/loader/loader';
+
+import {
+  Center
+} from '../../components/styled/styled'
 
 
 export default function App () {
   return (
-    <Loader />
+    <Center>
+        <Spin size="large" />
+    </Center>
   );
 };
 

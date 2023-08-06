@@ -96,7 +96,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { Space, Spin } from 'antd';
 
 
-
+import Loader from '../../../../components/loader/loader';
 
 
 
@@ -709,7 +709,7 @@ export default function Body () {
 
 
   if (mounted == false) return (
-      <Spin size="large" />
+      <Loader />
   ) ;
 
 
