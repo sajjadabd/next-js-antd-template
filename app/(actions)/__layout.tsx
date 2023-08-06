@@ -333,6 +333,8 @@ export default function MainLayout({
         
         dispatch(updateMenuItems({ payload : response.data }));
 
+        setMounted(true);
+
       })
       .catch(function (error) {
         // handle error
@@ -351,7 +353,6 @@ export default function MainLayout({
     setLayoutTheme(themeJson.darkMode);
 
 
-    setMounted(true);
     //console.log(themeJson);
   }
 
@@ -379,8 +380,12 @@ export default function MainLayout({
 
 
   const toggleCollapsed = () => {
+
     setCollapsed(!collapsed);
+
     {collapsed ? setMenuWidth(256) : setMenuWidth(56)}
+
+
   };
 
 
@@ -452,7 +457,6 @@ export default function MainLayout({
   
 
   const onOpenChange = (keys : string[]) => {
-    console.log();
     setOpenKeys(keys);
   }
 
@@ -486,6 +490,8 @@ export default function MainLayout({
     queryMenuItems();
     fetchTheme();
 
+    //setTimeout(() => setMounted(true) , 2000);
+
     return () => {
       // Clean up resources or cancel any pending operations.
     };
@@ -509,10 +515,10 @@ export default function MainLayout({
             <Menu
               onClick={onClick}
               style={{ width : menuWidth , minHeight : '100vh' }}
-              openKeys={openKeys.length > 0 ? openKeys : [ findOpenKeys(routePath) ]}
-              selectedKeys={selectedKeys.length > 0 ? selectedKeys : [ findRouteMatch(routePath) ]}
-              onSelect={onSelectCapture}
-              onOpenChange={onOpenChange}
+              //openKeys={openKeys.length > 0 && !collapsed ? openKeys : [ findOpenKeys(routePath) ]}
+              //selectedKeys={selectedKeys.length > 0 && !collapsed ? selectedKeys : [ findRouteMatch(routePath) ]}
+              //onSelect={onSelectCapture}
+              //onOpenChange={onOpenChange}
               defaultSelectedKeys={[ findRouteMatch( routePath ) ]}
               defaultOpenKeys={[ findOpenKeys(routePath)  ]}
               mode="inline"
