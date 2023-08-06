@@ -661,7 +661,7 @@ export default function Body () {
               children: (
                 <MenuOutlined
                   ref={setActivatorNodeRef}
-                  style={{ touchAction: 'none', cursor: 'move' }}
+                  style={{ touchAction: 'none', cursor: 'move' , paddingRight : '5px' }}
                   {...listeners}
                 />
               ),

@@ -153,6 +153,16 @@ a {
   margin-left : 20px;
   margin-right : 20px;
 }
+/*.ant-table-row-indent*/
+
+.ant-table-row-expand-icon-spaced {
+  margin : 0;
+  padding : 0;
+}
+/*
+.ant-table-row-level-1 .anticon-menu {
+  padding-right : 80px !important;
+}*/
 
 .ant-select-item-option-content {
   direction : ltr;

@@ -104,7 +104,7 @@ export default function App () {
 
   useEffect( () => {
 
-    //setMounted(true);
+    setMounted(true);
 
     return () => {
       // Clean up resources or cancel any pending operations.
