@@ -100,6 +100,7 @@ function getItem(
 
 
 import { AppState , eachItem } from '../../store/reducers';
+import { cornersOfRectangle } from '@dnd-kit/core/dist/utilities/algorithms/helpers';
 
 interface StateType {
   menuItems : eachItem[]
@@ -267,26 +268,26 @@ export default function MainLayout({
           subcategory.push( 
             getItem(<Link href={value.path}> {value.title} </Link> , 'sub' + value.id , returnIcon(value.icon) , [...children])
           )
-          addedSubs.push('' + value.id)
+          addedSubs.push('sub' + value.id)
         }
         else {
           subcategory.push( 
             getItem(<Link href={value.path}> {value.title} </Link> , 'sub' + value.id , returnIcon(value.icon) )
           )
-          addedSubs.push('' + value.id)
+          addedSubs.push('sub' + value.id)
         }
       } else {
         if(children.length > 0) {
           subcategory.push( 
             getItem(value.title , 'sub' + value.id  , returnIcon(value.icon) , [...children])
           )
-          addedSubs.push('' + value.id)
+          addedSubs.push('sub' + value.id)
         }
         else {
           subcategory.push( 
             getItem(value.title , 'sub' + value.id  , returnIcon(value.icon) )
           )
-          addedSubs.push('' + value.id)
+          addedSubs.push('sub' + value.id)
         }
       }
       
@@ -317,7 +318,11 @@ export default function MainLayout({
         createSubCategoriesRecursively(response.data);
 
         
-        addedSubs = addedSubs.sort();
+        addedSubs = addedSubs.sort( (a,b) => {
+          if (a.replace('sub','') > b.replace('sub','') ) return 1 ;
+          else return -1
+          return 0
+        } );
       
         setRouteLinks([ ...routeLinks , ...addedRoutes ]);
         setMenuItemList([ ...menuItemLinks , ...subcategory ]);
@@ -366,7 +371,7 @@ export default function MainLayout({
   const router = useRouter();
   const routePath = usePathname();
 
-  console.log(routePath);
+  //console.log(routePath);
   
 
   const [collapsed, setCollapsed] = useState(false);
@@ -406,15 +411,15 @@ export default function MainLayout({
 
   const findOpenKeys = (route : string) : any => {
 
-    console.log(routeLinks)
-    console.log(subs)
-    console.log(menuItemLinks);
+    //console.log(routeLinks)
+    //console.log(subs)
+    //console.log(menuItemLinks);
 
     for(let i=0;i<routeLinks.length;i++) {
 
         if(routeLinks[i] == route) {
-            console.log('sub' + subs[i].charAt(0));
-            return 'sub' + subs[i].charAt(0) ;
+            //console.log('sub' + subs[i].replace('sub','').charAt(0));
+            return 'sub' + subs[i].replace('sub','').charAt(0) ;
         }
         //} else if ( "children" in menusArray[i] ) {
             //return menusArray[i].id.toString() + findRouteMatch( menusArray[i].children , route)
@@ -430,7 +435,6 @@ export default function MainLayout({
     for(let i=0;i<routeLinks.length;i++) {
 
         if(routeLinks[i] == route) {
-            console.log(subs[i]);
             return subs[i] ;
         }
         //} else if ( "children" in menusArray[i] ) {
@@ -443,29 +447,42 @@ export default function MainLayout({
   
 
 
-  /*
-  const [openKeys, setOpenKeys] = useState(['sub1']);
   
-  const rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
+  const [openKeys, setOpenKeys] = useState<string[]>([]);
+  
 
+  const onOpenChange = (keys : string[]) => {
+    console.log();
+    setOpenKeys(keys);
+  }
+
+
+  const [selectedKeys , setSelectedKeys] = useState<string[]>([]);
+
+  const onSelectCapture = (key : any) => {
+    setSelectedKeys(key.key);
+  }
+
+  /*
   const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
-    if (rootSubmenuKeys.indexOf(latestOpenKey!) === -1) {
-      setOpenKeys(keys);
+    if (subs.indexOf(latestOpenKey!) === -1) {
+      setOpenKeys([ ...openKeys , ...latestOpenKey ]);
     } else {
       setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
     }
   };
   */
+  
 
-
+  
 
 
   const [ mounted , setMounted ] = useState(false);
 
   
   useEffect( () => {
-    
+
     queryMenuItems();
     fetchTheme();
 
@@ -492,9 +509,10 @@ export default function MainLayout({
             <Menu
               onClick={onClick}
               style={{ width : menuWidth , minHeight : '100vh' }}
-              openKeys={[ findOpenKeys(routePath)  ]}
-              selectedKeys={[ findRouteMatch( routePath ) ]}
-              //onOpenChange={onOpenChange}
+              openKeys={openKeys.length > 0 ? openKeys : [ findOpenKeys(routePath) ]}
+              selectedKeys={selectedKeys.length > 0 ? selectedKeys : [ findRouteMatch(routePath) ]}
+              onSelect={onSelectCapture}
+              onOpenChange={onOpenChange}
               defaultSelectedKeys={[ findRouteMatch( routePath ) ]}
               defaultOpenKeys={[ findOpenKeys(routePath)  ]}
               mode="inline"
