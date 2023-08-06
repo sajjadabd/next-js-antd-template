@@ -17,10 +17,12 @@ export const ContentWrapper = styled.div`
 
 
 export const LoginWrapper = styled.div`
-  margin-top : 1em;
-  margin-bottom : 6em;
-  margin-right : 3em;
-  margin-left : 3em;
+  display : flex;
+  flex-direction : column;
+  justify-content : center;
+  align-items : center;
+  min-height : 100vh;
+  
 `
 
 
@@ -215,6 +217,16 @@ export const CenterForLayout = styled.div`
 `
 
 
+export const CenterForLogin = styled.div`
+    display : flex;
+    justify-content : center;
+    align-items : center;
+    flex : 1;
+    position : relative;
+    min-width : 100vw;
+    min-height : 100vh;
+    box-sizing : border-box;
+`
 
 export const Center = styled.div`
     display : flex;

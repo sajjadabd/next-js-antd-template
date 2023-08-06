@@ -1,9 +1,9 @@
 "use client"
 
-import React , { useState } from 'react';
+import React , { useState , useEffect } from 'react';
 import { Button, Checkbox, Form, Input } from 'antd';
 
-import { useRouter } from 'next/router';
+import { useRouter , usePathname } from 'next/navigation';
 
 import styles from './page.module.css';
 
@@ -13,12 +13,22 @@ import axios from 'axios';
 
 import {
   UserLoginPath ,
+  CheckUserAuthentication
 } from '../../api/request';
 
 
 import {
-  LoginWrapper
+  LoginWrapper ,
+  CenterForLayout ,
+  CenterForLogin ,
+  Center ,
 } from '../../components/styled/styled';
+
+
+import { Space, Spin } from 'antd';
+import { Modal } from 'antd';
+
+
 
 const Header = styled.h1`
     margin-bottom : 2em;
@@ -32,12 +42,77 @@ const onFinishFailed = (errorInfo: any) => {
   console.log('Failed:', errorInfo);
 };
 
+
+enum LoginState {
+  Waiting = 'Waiting',
+  Success = "Success",
+  Failure = "Failure",
+};
+
+
 export default function Login() {
+
+
+    const [mounted , setMounted] = useState(false);
 
     const [username , setUsername] = useState("");
     const [password , setPassword] = useState("");
 
+    const [success , setSuccess] = useState<LoginState>(LoginState.Waiting);
+
     const router = useRouter();
+
+
+    const errorAuth = () => {
+      Modal.error({
+        title: 'خطا',
+        content: 'لطفاً فیلد ها را به درستی پر کنید' ,
+        okText:"مرسی"
+      });
+    };
+
+
+
+    const checkUserAuthentication = () => {
+
+      let user = localStorage.getItem('user') ?? "{}";
+      console.log(user);
+      let userJson = JSON.parse(user);
+      console.log(user);
+      axios.post(CheckUserAuthentication, {
+        username : userJson.username ?? "" ,
+        password : userJson.password ?? "" ,
+        token : userJson.token ?? "" ,
+      })
+      .then(function (response) {
+
+        const { success } = response.data;
+        console.log(success);
+
+        if(success) {
+          router.replace('/');
+          setTimeout(() => setSuccess(LoginState.Success), 2000)
+        } else {
+          setSuccess(LoginState.Failure);
+        }
+
+        
+        //router.replace('/')
+
+        //getAllUsers();
+        //setCreateLoading(false);
+        
+      })
+      .catch(function (error) {
+        console.log(error);
+
+        
+        //setCreateLoading(false);
+      })
+      .finally(function() {
+        
+      }) ;
+    }
 
 
 
@@ -56,19 +131,51 @@ export default function Login() {
       })
       .then(function (response) {
         console.log(response);
-        console.log(response.data);
+        console.log(response.data.token);
+
+        localStorage.setItem('user', JSON.stringify({ 
+          username : username ,
+          password : password ,
+          token : response.data.token ,
+        }));
+
+        router.push('/')
+
         //getAllUsers();
         //setCreateLoading(false);
       })
       .catch(function (error) {
         console.log(error);
 
-        //errorUserCreation();
+        errorAuth();
         //setCreateLoading(false);
       });
       
 
     }
+
+
+
+    checkUserAuthentication();
+
+
+    useEffect(() => {
+        
+      setMounted(true);
+
+      return () => {
+        // Clean up resources or cancel any pending operations.
+      };
+
+
+    }, []);
+
+
+    if( success == LoginState.Waiting ) return (
+      <CenterForLogin>
+        <Spin size="large" />
+      </CenterForLogin>
+    );
 
 
     return (

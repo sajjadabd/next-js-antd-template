@@ -13,6 +13,7 @@ let UserCreationPath = URL + "/users/create"
 let getAllUsersPath = URL + "/users/getall"
 let deleteUserPath = URL + "/users/delete"
 
+
 let RollerCreationPath = URL + "/rollers/create";
 let getAllRollersPath = URL + "/rollers/getall";
 let deleteRollerPath = URL + "/rollers/delete";
@@ -23,6 +24,7 @@ let getAllRolesPath = URL + "/roles/getall";
 let deleteRolePath = URL + "/roles/delete";
 
 let UserLoginPath = URL + "/api/login";
+let CheckUserAuthentication = URL + "/api/checkauth"
 
 export default URL;
 
@@ -35,6 +37,7 @@ export {
   getAllUsersPath ,
   deleteUserPath ,
   UserLoginPath ,
+  CheckUserAuthentication ,
 
   RollerCreationPath ,
   getAllRollersPath ,

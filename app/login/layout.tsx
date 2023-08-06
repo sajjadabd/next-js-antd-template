@@ -21,12 +21,14 @@ export default function LoginLayout({
   children: React.ReactNode
 }) {
   return (
-    <div style={{ 
-        position : 'absolute' , 
-        top : '50%' ,  
-        //right : '10%' , 
-        transform : 'translate(-50%,-50%)' ,
-    }}>
+    /*
+    style={{ 
+      position : 'absolute' , 
+      top : '50%' ,  
+      //right : '10%' , 
+      transform : 'translate(-50%,-50%)' ,
+   }}*/
+    <div >
         {children}
     </div>
   )

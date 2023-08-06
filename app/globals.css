@@ -173,6 +173,14 @@ a {
 }
 
 
+.ant-menu-title-content {
+  color : lightsteelblue !important;
+}
+
+.ant-menu-title-content a {
+  color : lightsteelblue !important;
+}
+
 .anticon {
   padding-top: 3px;
 }
