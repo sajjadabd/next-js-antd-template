@@ -27,6 +27,7 @@ export const MenuCreationFormWrapper = styled.div`
   padding-bottom : 10px;
   border-radius : 10px;
   background-color : #e0e1dd;
+  margin-bottom : 30px;
 `
 
 
@@ -190,6 +191,19 @@ export const Column = styled.div`
     display : flex;
     flex-direction : column;
 `
+
+
+export const CenterForLayout = styled.div`
+    display : flex;
+    justify-content : center;
+    align-items : center;
+    flex-direction : column;
+    min-width : 100vw;
+    min-height : 100vh;
+    box-sizing : border-box;
+    position : relative;
+`
+
 
 
 export const Center = styled.div`

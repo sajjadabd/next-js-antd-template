@@ -234,6 +234,46 @@ export default function App () {
 
 
 
+
+
+  const sendDeleteRequest = () : void => {
+    
+    axios.post(deleteRolePath, {
+      array : selectedRowKeys
+    })
+    .then(function (response) {
+      console.log(response);
+      getAllRoles();
+      setDeleteLoading(false);
+      successRoleDeletion();
+      // dispatch(updateMenu(''));
+    })
+    .catch(function (error) {
+      console.log(error);
+      setDeleteLoading(false);
+      errorRoleDeletion();
+    });
+
+
+  }
+
+
+
+
+  const handleDelete = () => {
+    setDeleteLoading(true);
+    setTimeout( () => {
+      sendDeleteRequest()
+    } , 1000 )
+  }
+
+
+
+
+
+
+
+
   const handleForm = () => {
 
     setCreateLoading(true);
@@ -263,6 +303,14 @@ export default function App () {
 
 
   const [pageSize , setPageSize] = useState(3);
+
+
+  const handleTablePageSizeChange = (value : string) => {
+    setPageSize(Number(value));
+    //console.log(value);
+  }
+
+
 
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
@@ -358,20 +406,97 @@ export default function App () {
 
 
 
-        <Table 
-          // rowKey="id"
-          // components={{
-          //   body: {
-          //     row: Row,
-          //   },
-          // }}
-          rowSelection={rowSelection} 
-          dataSource={roles}
-          columns={roleColumns} 
-          pagination={{ pageSize: pageSize }}
-          scroll={{ x: 500 }}
-          //onChange={handleTableChange}
-        />
+
+
+        <div>
+
+
+
+          <div style={{ marginBottom: 16 , marginTop : 16 , justifyContent : 'flex-start'  }}>
+            {/* <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading}>
+              Reload
+            </Button> */}
+            {/* <span style={{ marginLeft: 8 }}>
+              {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
+            </span> */}
+            <Select
+              labelInValue
+              defaultValue={{ value: '3', label: 'صفحه / 3' }}
+              style={{ width: 120 }}
+              onChange={(e) => handleTablePageSizeChange(e.value)}
+              options={[
+                {
+                  value: '3',
+                  label: 'صفحه / 3',
+                },
+                {
+                  value: '6',
+                  label: 'صفحه / 6',
+                },
+              ]}
+            />
+          </div>
+
+
+
+          <Table 
+            // rowKey="id"
+            // components={{
+            //   body: {
+            //     row: Row,
+            //   },
+            // }}
+            rowSelection={rowSelection} 
+            dataSource={roles}
+            columns={roleColumns} 
+            pagination={{ pageSize: pageSize }}
+            scroll={{ x: 500 }}
+            //onChange={handleTableChange}
+          />
+
+
+
+        </div>
+
+
+
+
+        {
+          selectedRowKeys.length > 0 ?
+          <FormWrapper>
+            <div className="deleteForm">
+              <Button 
+              onClick={() => handleDelete()}
+              type={"primary"}  
+              style={{ marginRight : '20px' , marginLeft : '20px' }}
+              danger={!deleteLoading}
+              loading={deleteLoading}
+              //disabled={deleteLoading}
+              >
+                حذف
+              </Button>
+            </div>
+
+            {
+             selectedRowKeys.length == 1 ?
+            <div className="editForm">
+              <Button 
+              onClick={ () => {} }
+              type={"primary"}  
+              //loading={deleteLoading}
+            >
+                ویرایش
+              </Button>
+            </div> : "" 
+            }
+
+          </FormWrapper>
+          : ""
+        }
+
+
+
+        
 
 
 

@@ -58,10 +58,13 @@ import { updateMenuItems } from '../../../../store/reducers';
 
 
 import URL , { 
-  MenuCreationPath , 
-  getAllMenusPath ,
-  deleteMenuPath ,
-  getAllUsersPath
+
+  getAllRolesPath ,
+  
+  UserCreationPath ,
+  deleteUserPath ,
+  getAllUsersPath ,
+
 } from '../../../../api/request';
 
 
@@ -108,6 +111,39 @@ interface User {
 }
 
 
+
+
+const userColumns = [
+  // {
+  //   key: 'sort',
+  // },
+  {
+    title: 'شماره',
+    dataIndex: 'id',
+    key: 'id',
+    width : 100 ,
+  },
+  {
+    title: 'نام کاربری',
+    dataIndex: 'username',
+    key: 'username',
+    width : 100 ,
+  },
+  {
+    title: 'نقش',
+    dataIndex: 'role',
+    key: 'role',
+    width : 100 ,
+  },
+];
+
+
+
+
+
+
+
+
 export default function App () {
 
 
@@ -118,6 +154,13 @@ export default function App () {
   const getAllUsers = () => {
     axios.get(getAllUsersPath)
     .then(function (response) {
+
+      console.log(response.data);
+
+      response.data.forEach( (value : any , index : number) => {
+        value.role = value.role.title;
+        value.value = index + 1;
+      })
 
       setUsers(response.data);
 
@@ -139,25 +182,58 @@ export default function App () {
 
   const [role , setRole] = useState("");
 
+  const [roles , setRoles] = useState<User[]>([]);
 
-  const roleOptions = [
-    {
-      label : "ادمین",
-      value : "1"
-    },
-    {
-      label : "مدیر سکشن",
-      value : "2"
-    },
-    {
-      label : "مدیر بارمیل",
-      value : "3"
-    },
-    {
-      label : "تراشکاری",
-      value : "4"
-    },
-  ]
+
+  const getAllRoles = () => {
+    axios.get(getAllRolesPath)
+    .then(function (response) {
+
+      response.data.forEach( (value : any , index : number) => {
+        value.label = value.title;
+        value.value = index + 1;
+      })
+
+      //console.log(response.data);
+
+      setRoles(response.data);
+
+
+
+      setMounted(true);
+
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+    .finally(function () {
+      // always executed
+    });
+  }
+
+
+  // const roleOptions = [
+  //   {
+  //     label : "ادمین",
+  //     value : "1"
+  //   },
+  //   {
+  //     label : "مدیر سکشن",
+  //     value : "2"
+  //   },
+  //   {
+  //     label : "مدیر بارمیل",
+  //     value : "3"
+  //   },
+  //   {
+  //     label : "تراشکاری",
+  //     value : "4"
+  //   },
+  // ]
+
+
+
 
   const [form] = Form.useForm();
   const [formLayout, setFormLayout] = useState<LayoutType>('horizontal');
@@ -230,16 +306,25 @@ export default function App () {
 
     console.log({
       username ,
+      password ,
+      role ,
     });
 
-    axios.post(MenuCreationPath, {
-      username: username,
+
+
+    axios.post(UserCreationPath, {
+      username: username ,
+      password : password ,
+      role_id : role ,
     })
     .then(function (response) {
       console.log(response);
-      //getAllUsers();
+      
+      getAllUsers();
 
       setUsername("");
+      setRole("");
+      setPassword("");
 
       successUserCreation();
       setCreateLoading(false);
@@ -249,12 +334,50 @@ export default function App () {
       errorUserCreation();
       setCreateLoading(false);
     });
+
+
+
   }
+
+
+
+
+
+  const [pageSize , setPageSize] = useState(3);
+
+
+  const handleTablePageSizeChange = (value : string) => {
+    setPageSize(Number(value));
+    //console.log(value);
+  }
+
+
+
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+
+  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+
+  const rowSelection = {
+    selectedRowKeys ,
+    onChange: onSelectChange ,
+  };
+
+  const hasSelected = selectedRowKeys.length > 0;
+
+
+
 
 
   useEffect( () => {
     
-    setMounted(true);
+
+    getAllUsers();
+    getAllRoles();
+
+    
 
     return () => {
       // Clean up resources or cancel any pending operations.
@@ -322,7 +445,7 @@ export default function App () {
                   console.log(value);
                   setRole(value);
                 }}
-                options={roleOptions}
+                options={roles}
               />
               </RightToLeft>
           </Form.Item>
@@ -356,6 +479,32 @@ export default function App () {
         </Form>
 
         </MenuCreationFormWrapper>
+
+
+
+
+
+
+
+
+        <Table 
+          // rowKey="id"
+          // components={{
+          //   body: {
+          //     row: Row,
+          //   },
+          // }}
+          rowSelection={rowSelection} 
+          dataSource={users}
+          columns={userColumns} 
+          pagination={{ pageSize: pageSize }}
+          scroll={{ x: 500 }}
+          //onChange={handleTableChange}
+        />
+
+
+
+
 
 
 

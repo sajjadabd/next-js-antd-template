@@ -65,7 +65,8 @@ import {
   Gadgets ,
   NavigationResponsiveButton ,
   MainContent , 
-  Center
+  Center , 
+  CenterForLayout
 } from '../../components/styled/styled'
 
 
@@ -438,9 +439,9 @@ export default function MainLayout({
 
 
   if( mounted == false ) return (
-    <Center>
+    <CenterForLayout>
       <Spin size="large" />
-    </Center>
+    </CenterForLayout>
   ) ;
 
 
