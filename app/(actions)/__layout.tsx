@@ -6,7 +6,7 @@ import React , { useEffect, useState  } from 'react';
 
 import { createContext, useContext } from 'react';
 
-
+import natsort from 'natsort';
 
 import { 
   AppstoreOutlined ,
@@ -169,6 +169,8 @@ export default function MainLayout({
 
   const [menus , setMenus] = useState<eachItem[]>([]);
 
+
+
   const [routeLinks , setRouteLinks] = useState([
     "/admin/menus" ,
     "/admin/roles" ,
@@ -176,9 +178,18 @@ export default function MainLayout({
     "/admin/permissions" ,
   ]);
 
+  const [subs , setSubs] = useState([
+    "00" ,
+    "01" ,
+    "02" ,
+    "03" ,
+  ]);
+
+  
+
   
   const [menuItemLinks , setMenuItemList]  = useState([
-    getItem('ادمین', 'sub00', <SettingOutlined />, [
+    getItem('ادمین', 'sub0', <SettingOutlined />, [
       getItem(<Link href={routeLinks[0]}>مدیریت منوها</Link>, '00'),
       getItem(<Link href={routeLinks[1]}>مدیریت نقش ها</Link>, '01'),
       getItem(<Link href={routeLinks[2]}>مدیریت کاربران</Link>, '02'),
@@ -208,6 +219,7 @@ export default function MainLayout({
 
   let addedRoutes : string[] = [];
   let addedMenuLinks : any = [];
+  let addedSubs : string[] = [];
 
   
   let subcategory : any[] = [];
@@ -231,12 +243,14 @@ export default function MainLayout({
 
           if(child.path != null) {
             children.push(
-              getItem(<Link href={child.path}> {child.title} </Link> , 'sub' + value.id + child.id  , returnIcon(child.icon) )
+              getItem(<Link href={child.path}> {child.title} </Link> , '' +  value.id + child.id  , returnIcon(child.icon) )
             );
+            addedSubs.push('' + value.id + child.id)
           } else {
             children.push(
-              getItem(child.title , 'sub' + value.id + child.id , returnIcon(child.icon) )
+              getItem(child.title , '' +  value.id + child.id , returnIcon(child.icon) )
             );
+            addedSubs.push('' + value.id + child.id)
           }
 
         }) 
@@ -253,22 +267,26 @@ export default function MainLayout({
           subcategory.push( 
             getItem(<Link href={value.path}> {value.title} </Link> , 'sub' + value.id , returnIcon(value.icon) , [...children])
           )
+          addedSubs.push('' + value.id)
         }
         else {
           subcategory.push( 
             getItem(<Link href={value.path}> {value.title} </Link> , 'sub' + value.id , returnIcon(value.icon) )
           )
+          addedSubs.push('' + value.id)
         }
       } else {
         if(children.length > 0) {
           subcategory.push( 
             getItem(value.title , 'sub' + value.id  , returnIcon(value.icon) , [...children])
           )
+          addedSubs.push('' + value.id)
         }
         else {
           subcategory.push( 
             getItem(value.title , 'sub' + value.id  , returnIcon(value.icon) )
           )
+          addedSubs.push('' + value.id)
         }
       }
       
@@ -299,13 +317,14 @@ export default function MainLayout({
         createSubCategoriesRecursively(response.data);
 
         
-      
+        addedSubs = addedSubs.sort();
       
         setRouteLinks([ ...routeLinks , ...addedRoutes ]);
         setMenuItemList([ ...menuItemLinks , ...subcategory ]);
+        setSubs([ ...subs , ...addedSubs ]);
 
 
-        //console.log(menuItemLinks);
+        
         
         dispatch(updateMenuItems({ payload : response.data }));
 
@@ -347,7 +366,7 @@ export default function MainLayout({
   const router = useRouter();
   const routePath = usePathname();
 
-  //console.log(routePath);
+  console.log(routePath);
   
 
   const [collapsed, setCollapsed] = useState(false);
@@ -384,17 +403,39 @@ export default function MainLayout({
   };
 
 
-  
-  
-  const findRouteMatch = (menusArray : eachItem[] , route : string) : any => {
 
-    for(let i=0;i<menusArray.length;i++) {
-        if(menusArray[i].path == route) {
-            //console.log('route : ' ,  i);
-            return menusArray[i].id.toString();
-        } else if ( "children" in menusArray[i] ) {
-            //return menusArray[i].id.toString() + findRouteMatch( menusArray[i].children , route)
+  const findOpenKeys = (route : string) : any => {
+
+    console.log(routeLinks)
+    console.log(subs)
+    console.log(menuItemLinks);
+
+    for(let i=0;i<routeLinks.length;i++) {
+
+        if(routeLinks[i] == route) {
+            console.log('sub' + subs[i].charAt(0));
+            return 'sub' + subs[i].charAt(0) ;
         }
+        //} else if ( "children" in menusArray[i] ) {
+            //return menusArray[i].id.toString() + findRouteMatch( menusArray[i].children , route)
+        //}
+    }
+
+    return '1';
+  }
+  
+  
+  const findRouteMatch = (route : string) : any => {
+
+    for(let i=0;i<routeLinks.length;i++) {
+
+        if(routeLinks[i] == route) {
+            console.log(subs[i]);
+            return subs[i] ;
+        }
+        //} else if ( "children" in menusArray[i] ) {
+            //return menusArray[i].id.toString() + findRouteMatch( menusArray[i].children , route)
+        //}
     }
 
     return '1';
@@ -428,8 +469,6 @@ export default function MainLayout({
     queryMenuItems();
     fetchTheme();
 
-
-
     return () => {
       // Clean up resources or cancel any pending operations.
     };
@@ -453,10 +492,11 @@ export default function MainLayout({
             <Menu
               onClick={onClick}
               style={{ width : menuWidth , minHeight : '100vh' }}
-              //openKeys={openKeys}
+              openKeys={[ findOpenKeys(routePath)  ]}
+              selectedKeys={[ findRouteMatch( routePath ) ]}
               //onOpenChange={onOpenChange}
-              //defaultSelectedKeys={[findRouteMatch(routePath.toString())]}
-              //defaultOpenKeys={['sub' + findRouteMatch(routePath)  ]}
+              defaultSelectedKeys={[ findRouteMatch( routePath ) ]}
+              defaultOpenKeys={[ findOpenKeys(routePath)  ]}
               mode="inline"
               theme={theme}
               inlineCollapsed={collapsed}

@@ -59,6 +59,9 @@ export default function App () {
     //console.log(`running useEffect ...`);
     //getAllRollers();
 
+
+    setMounted(true);
+
     return () => {
       // Clean up resources or cancel any pending operations.
     };
@@ -74,9 +77,29 @@ export default function App () {
 
 
   return (
-    <div>
-        create stand / section
-    </div>
+    <ContentWrapper>
+
+
+
+
+        <BreadCrumbs>
+          <span>
+            ایجاد استند
+          </span>
+          <span>
+            &gt;
+          </span>
+          <span>
+            سکشن
+          </span>
+        </BreadCrumbs>
+
+
+
+
+
+
+    </ContentWrapper>
   );
 };
 
