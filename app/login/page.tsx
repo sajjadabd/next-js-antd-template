@@ -3,9 +3,22 @@
 import React , { useState } from 'react';
 import { Button, Checkbox, Form, Input } from 'antd';
 
+import { useRouter } from 'next/router';
+
 import styles from './page.module.css';
 
 import styled from 'styled-components'
+
+import axios from 'axios';
+
+import {
+  UserLoginPath ,
+} from '../../api/request';
+
+
+import {
+  LoginWrapper
+} from '../../components/styled/styled';
 
 const Header = styled.h1`
     margin-bottom : 2em;
@@ -24,12 +37,45 @@ export default function Login() {
     const [username , setUsername] = useState("");
     const [password , setPassword] = useState("");
 
+    const router = useRouter();
+
+
+
+    const handleSubmit = () => {
+
+
+      console.log({
+        username,
+        password
+      });
+
+
+      axios.post(UserLoginPath, {
+        username: username ,
+        password : password ,
+      })
+      .then(function (response) {
+        console.log(response);
+        console.log(response.data);
+        //getAllUsers();
+        //setCreateLoading(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+
+        //errorUserCreation();
+        //setCreateLoading(false);
+      });
+      
+
+    }
+
 
     return (
-        <>
+        <LoginWrapper>
 
           <Header>
-              نرم افزار مدیریت غلطک ها
+                مدیریت غلطک ها
           </Header>
 
           <Form
@@ -54,6 +100,7 @@ export default function Login() {
                   <Input 
                     placeholder="نام کاربری"
                     style={{ minWidth : '20vw' }} 
+                    onChange={(e) => setUsername(e.target.value)}
                   />
               
               </Form.Item>
@@ -69,6 +116,7 @@ export default function Login() {
               <Input.Password 
                 placeholder="رمز عبور"
                 style={{ minWidth : '20vw' }} 
+                onChange={(e) => setPassword(e.target.value)}
               />
               </Form.Item>
       
@@ -77,12 +125,14 @@ export default function Login() {
               </Form.Item>
       
               <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                  <Button type="primary" htmlType="submit">
+                  <Button 
+                  onClick={() => handleSubmit()}
+                  type="primary" >
                       ورود
                   </Button>
               </Form.Item>
           </Form>
-        </>
+        </LoginWrapper>
     )
 };
 

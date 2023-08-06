@@ -8,9 +8,19 @@ import {Button} from 'antd';
  admin / menus / body
 */
 
+
+
 export const ContentWrapper = styled.div`
   margin-top : 1em;
   margin-bottom : 6em;
+`
+
+
+export const LoginWrapper = styled.div`
+  margin-top : 1em;
+  margin-bottom : 6em;
+  margin-right : 3em;
+  margin-left : 3em;
 `
 
 

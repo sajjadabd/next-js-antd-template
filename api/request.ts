@@ -22,6 +22,8 @@ let RoleCreationPath = URL + "/roles/create";
 let getAllRolesPath = URL + "/roles/getall";
 let deleteRolePath = URL + "/roles/delete";
 
+let UserLoginPath = URL + "/api/login";
+
 export default URL;
 
 export { 
@@ -32,6 +34,7 @@ export {
   UserCreationPath ,
   getAllUsersPath ,
   deleteUserPath ,
+  UserLoginPath ,
 
   RollerCreationPath ,
   getAllRollersPath ,
