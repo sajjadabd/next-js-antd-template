@@ -212,6 +212,13 @@ a {
   flex-direction : row-reverse ;
 }
 
+.ant-notification-notice {
+  margin-right : 15px !important;
+  margin-left : 15px !important;
+  left : 15px !important;
+}
+
+ /* ant-notification-notice-success css-dev-only-do-not-override-1wazalj ant-notification-notice-closable */
 
 .createRollFormClass {
   display: flex;
