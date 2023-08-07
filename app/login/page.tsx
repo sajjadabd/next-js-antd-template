@@ -75,10 +75,28 @@ export default function Login() {
 
     const checkUserAuthentication = () => {
 
-      let user = localStorage.getItem('user') ?? "{}";
-      console.log(user);
-      let userJson = JSON.parse(user);
-      console.log(user);
+      let user = "{}";
+      let userJson : {
+        username ?: string ,
+        password ?: string ,
+        token ?: string ,
+      } = {};
+
+      if (typeof window !== 'undefined') {
+        //console.log('You are on the browser')
+        // can use localStorage here
+        user = localStorage.getItem('user') ?? "{}";
+        console.log(user);
+        userJson = JSON.parse(user);
+        console.log(user);
+      } else {
+        //console.log('You are on the server')
+        // can't use localStorage
+      }
+
+      
+      
+      
       axios.post(CheckUserAuthentication, {
         username : userJson.username ?? "" ,
         password : userJson.password ?? "" ,
@@ -91,7 +109,7 @@ export default function Login() {
 
         if(success) {
           router.replace('/');
-          setTimeout(() => setSuccess(LoginState.Success), 2000)
+          setSuccess(LoginState.Success)
         } else {
           setSuccess(LoginState.Failure);
         }
@@ -132,6 +150,7 @@ export default function Login() {
       .then(function (response) {
         console.log(response);
         console.log(response.data.token);
+        
 
         localStorage.setItem('user', JSON.stringify({ 
           username : username ,
@@ -140,6 +159,10 @@ export default function Login() {
         }));
 
         router.push('/')
+        
+        
+
+        
 
         //getAllUsers();
         //setCreateLoading(false);
@@ -171,7 +194,7 @@ export default function Login() {
     }, []);
 
 
-    if( success == LoginState.Waiting ) return (
+    if( success != LoginState.Failure ) return (
       <CenterForLogin>
         <Spin size="large" />
       </CenterForLogin>
