@@ -23,7 +23,7 @@ import {
   RadiusUprightOutlined,
 } from '@ant-design/icons';
 
-import { Divider, notification } from 'antd';
+import { Divider, notification , message } from 'antd';
 
 import type { NotificationPlacement } from 'antd/es/notification/interface';
 
@@ -279,6 +279,10 @@ export default function Body () {
     }
     return originalElement;
   };
+
+
+
+  const [messageApi, messageContextHolder] = message.useMessage();
 
 
 
@@ -625,7 +629,15 @@ export default function Body () {
 
 
   const successMenuCreation = () => {
-    openNotification('topLeft');
+
+    messageApi.open({
+      type: 'success',
+      content: 'منوی جدید با موفقیت ایجاد شد',
+    });
+
+    //openNotification('topLeft');
+
+
     // Modal.success({
     //   title : 'ایجاد منوی جدید' ,
     //   content: 'منوی جدید با موفقیت ایجاد شد',
@@ -766,7 +778,7 @@ export default function Body () {
 
     <Context.Provider value={contextValue}>
       {contextHolder}
-
+      {messageContextHolder}
 
     <ContentWrapper>
         
