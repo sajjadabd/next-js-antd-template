@@ -16,6 +16,8 @@ import { AutoComplete } from 'antd';
 import type { PaginationProps } from 'antd';
 
 
+import { Popconfirm } from 'antd';
+
 import {
   RadiusBottomleftOutlined,
   RadiusBottomrightOutlined,
@@ -267,6 +269,40 @@ const Context = React.createContext({ name: 'Default' });
 
 
 export default function Body () {
+
+  // =============================
+
+
+
+  const [open, setOpen] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+
+  const showPopconfirm = () => {
+    setOpen(true);
+  };
+
+  const handleOk = () => {
+
+
+    //setConfirmLoading(true);
+
+    // setTimeout(() => {
+    //   setOpen(false);
+    //   setConfirmLoading(false);
+    // }, 2000);
+
+    handleDelete();
+  };
+
+  const handleCancel = () => {
+    console.log('Clicked cancel button');
+    setOpen(false);
+  };
+
+
+
+
+  // ============================
 
 
 
@@ -549,6 +585,8 @@ export default function Body () {
       console.log(response);
       getAllMenus();
       setDeleteLoading(false);
+      setOpen(false);
+      setSelectedRowKeys([]);
       successMenuDeletion();
       // dispatch(updateMenu(''));
     })
@@ -964,8 +1002,19 @@ export default function Body () {
           selectedRowKeys.length > 0 ?
           <FormWrapper>
             <div className="deleteForm">
+            <Popconfirm
+              title="حذف منو"
+              description="آیا برای حذف مطمئن هستید ؟"
+              okText="مطمئنم"
+              cancelText="انصراف"
+              open={open}
+              onConfirm={handleOk}
+              okButtonProps={{ loading: deleteLoading }}
+              onCancel={handleCancel}
+            >
               <Button 
-                onClick={() => handleDelete()}
+                //onClick={() => handleDelete()}
+                onClick={showPopconfirm}
                 type={"primary"}  
                 style={{ marginRight : '20px' , marginLeft : '20px' }}
                 danger={!deleteLoading}
@@ -974,6 +1023,8 @@ export default function Body () {
               >
                 حذف
               </Button>
+            </Popconfirm>
+              
             </div>
 
             {
