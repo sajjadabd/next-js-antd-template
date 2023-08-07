@@ -3,7 +3,7 @@ let baseUrl : string = "http://127.0.0.1:8000"
 let baseServer : string = "https://site.sjabd.ir"
 
 
-let URL = baseServer;
+let URL = baseUrl;
 
 let MenuCreationPath = URL + "/menu/create"
 let getAllMenusPath = URL + "/menu/getall"

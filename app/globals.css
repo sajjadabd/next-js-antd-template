@@ -207,6 +207,11 @@ a {
   color : #ae2012 !important;
 }
 
+.ant-pagination {
+  justify-content: flex-start !important;
+  flex-direction : row-reverse ;
+}
+
 
 .createRollFormClass {
   display: flex;

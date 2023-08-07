@@ -1,6 +1,6 @@
 "use client"
 
-import React , { useEffect, useState , useId } from 'react';
+import React , { useEffect, useState , useId , useMemo } from 'react';
 
 import {  useQuery } from 'react-query';
 
@@ -12,6 +12,21 @@ import { Button, Form, Input, Radio , InputNumber } from 'antd';
 import { Modal } from 'antd';
 
 import { AutoComplete } from 'antd';
+
+import type { PaginationProps } from 'antd';
+
+
+import {
+  RadiusBottomleftOutlined,
+  RadiusBottomrightOutlined,
+  RadiusUpleftOutlined,
+  RadiusUprightOutlined,
+} from '@ant-design/icons';
+
+import { Divider, notification } from 'antd';
+
+import type { NotificationPlacement } from 'antd/es/notification/interface';
+
 
 
 import { 
@@ -32,6 +47,7 @@ import {
   CloudDownloadOutlined ,
   GlobalOutlined ,
   LeftOutlined ,
+  RightOutlined ,
 } from '@ant-design/icons';
 
 
@@ -247,7 +263,38 @@ interface TableParams {
 }
 
 
+const Context = React.createContext({ name: 'Default' });
+
+
 export default function Body () {
+
+
+
+  const itemRender: PaginationProps['itemRender'] = (_, type, originalElement) => {
+    if (type === 'prev') {
+      return <RightOutlined />; 
+    }
+    if (type === 'next') {
+      return <LeftOutlined />;
+    }
+    return originalElement;
+  };
+
+
+
+  const [api, contextHolder] = notification.useNotification();
+
+  const openNotification = (placement: NotificationPlacement) => {
+    api.success({
+      message: `ساخت منوی جدید`,
+      description: <Context.Consumer>{({ name }) => `منوی جدید با موفقیت ایجاد شد`}</Context.Consumer>,
+      placement,
+    });
+  };
+
+  const contextValue = useMemo(() => ({ name: 'Ant Design' }), []);
+  
+
 
 
 
@@ -578,11 +625,12 @@ export default function Body () {
 
 
   const successMenuCreation = () => {
-    Modal.success({
-      title : 'ایجاد منوی جدید' ,
-      content: 'منوی جدید با موفقیت ایجاد شد',
-      okText:"مرسی"
-    });
+    openNotification('topLeft');
+    // Modal.success({
+    //   title : 'ایجاد منوی جدید' ,
+    //   content: 'منوی جدید با موفقیت ایجاد شد',
+    //   okText:"مرسی"
+    // });
   };
   
   const errorMenuCreation = () => {
@@ -715,6 +763,11 @@ export default function Body () {
 
 
   return (
+
+    <Context.Provider value={contextValue}>
+      {contextHolder}
+
+
     <ContentWrapper>
         
 
@@ -877,7 +930,13 @@ export default function Body () {
                 rowSelection={rowSelection} 
                 dataSource={menus}
                 columns={columns} 
-                pagination={{ pageSize: pageSize }}
+                pagination={{ 
+                  pageSize: pageSize ,
+                  //showSizeChanger: true,
+                  //showQuickJumper: true, 
+                  itemRender : itemRender ,
+                }}
+                
                 scroll={{ x: 500 }}
                 //onChange={handleTableChange}
               />
@@ -894,12 +953,12 @@ export default function Body () {
           <FormWrapper>
             <div className="deleteForm">
               <Button 
-              onClick={() => handleDelete()}
-              type={"primary"}  
-              style={{ marginRight : '20px' , marginLeft : '20px' }}
-              danger={!deleteLoading}
-              loading={deleteLoading}
-              //disabled={deleteLoading}
+                onClick={() => handleDelete()}
+                type={"primary"}  
+                style={{ marginRight : '20px' , marginLeft : '20px' }}
+                danger={!deleteLoading}
+                loading={deleteLoading}
+                //disabled={deleteLoading}
               >
                 حذف
               </Button>
@@ -942,5 +1001,7 @@ export default function Body () {
 
 
     </ContentWrapper>
+
+    </Context.Provider>
   );
 };
