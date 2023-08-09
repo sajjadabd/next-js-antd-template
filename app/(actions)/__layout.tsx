@@ -514,7 +514,7 @@ export default function MainLayout({
         <Navigation>
             <Menu
               onClick={onClick}
-              style={{ width : menuWidth , minHeight : '100vh' }}
+              style={{ width : menuWidth }}
               //openKeys={openKeys.length > 0 && !collapsed ? openKeys : [ findOpenKeys(routePath) ]}
               //selectedKeys={selectedKeys.length > 0 && !collapsed ? selectedKeys : [ findRouteMatch(routePath) ]}
               //onSelect={onSelectCapture}
