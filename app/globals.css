@@ -202,6 +202,16 @@ a {
   padding-left : 0 !important;
 }
 
+.ant-menu::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.ant-menu {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
 
 .ant-form-item-explain-error {
   color : #ae2012 !important;
