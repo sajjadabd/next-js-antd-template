@@ -121,7 +121,13 @@ import Loader from '../../../../components/loader/loader';
 type LayoutType = Parameters<typeof Form>[0]['layout'];
 
 
-
+interface DataType {
+  key : string;
+  title ?: string;
+  dataIndex ?: string;
+  address ?: string;
+  width ?: number;
+}
 
 
 const columns = [
@@ -932,14 +938,22 @@ export default function Body () {
         <div>
 
           
-          <div style={{ marginBottom: 16 , marginTop : 16 , justifyContent : 'flex-start'  }}>
+            <div 
+              style={{
+              marginBottom: 16 , 
+              marginTop : 16 , 
+              justifyContent : 'flex-start'  
+              }}
+            >
             {/* <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading}>
               Reload
             </Button> */}
             {/* <span style={{ marginLeft: 8 }}>
               {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
             </span> */}
-            <Select
+
+
+            {/* <Select
               labelInValue
               defaultValue={{ value: '3', label: 'صفحه / 3' }}
               style={{ width: 120 }}
@@ -954,7 +968,9 @@ export default function Body () {
                   label: 'صفحه / 6',
                 },
               ]}
-            />
+            /> */}
+
+
           </div>
 
 
@@ -981,12 +997,12 @@ export default function Body () {
                 dataSource={menus}
                 columns={columns} 
                 pagination={{ 
-                  pageSize: pageSize ,
-                  //showSizeChanger: true,
+                  //pageSize: pageSize ,
+                  //current :  2 ,
+                  showSizeChanger: true,
                   //showQuickJumper: true, 
                   itemRender : itemRender ,
                 }}
-                
                 scroll={{ x: 500 }}
                 //onChange={handleTableChange}
               />

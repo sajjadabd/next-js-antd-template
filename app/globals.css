@@ -222,6 +222,10 @@ a {
   flex-direction : row-reverse ;
 }
 
+.ant-pagination-options:last-child {
+  margin-right : auto;
+}
+
 .ant-notification-notice {
   margin-right : 15px !important;
   margin-left : 15px !important;
