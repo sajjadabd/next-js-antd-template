@@ -139,8 +139,10 @@ export const Content = styled.div`
 export const Gadgets = styled.div`
     display : flex;
     flex-direction: row;
+    justify-content : space-between ;
     align-items: center;
-    margin : 10px;
+    padding : 10px;
+    padding-left : 15px;
 `
 
 export const NavigationResponsiveButton = styled.div`

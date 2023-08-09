@@ -25,10 +25,13 @@ import {
   CalculatorOutlined ,
   CloudDownloadOutlined ,
   GlobalOutlined ,
+  UserOutlined ,
+  SmileOutlined ,
+  PoweroffOutlined ,
 } from '@ant-design/icons';
 
-import { UserOutlined } from '@ant-design/icons';
 import { Avatar } from 'antd';
+import { Dropdown } from 'antd';
 
 import type { MenuProps, MenuTheme } from 'antd';
 import { Button, Menu, Switch } from 'antd';
@@ -173,6 +176,44 @@ export default function MainLayout({
   const [darkMode, setDarkMode] = useState(false);
 
   const [menus , setMenus] = useState<eachItem[]>([]);
+
+
+
+  const settingsMenu: MenuProps['items'] = [
+    // {
+    //   key: '1',
+    //   label: (
+    //     <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+    //       1st menu item
+    //     </a>
+    //   ),
+    // },
+    {
+      key: '1',
+      label: (
+        <a>
+          خروج
+        </a>
+      ),
+      danger: true,
+      icon: <PoweroffOutlined /> ,
+    },
+    // {
+    //   key: '3',
+    //   label: (
+    //     <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
+    //       3rd menu item (disabled)
+    //     </a>
+    //   ),
+    //   disabled: true,
+    // },
+    // {
+    //   key: '4',
+    //   danger: true,
+    //   label: 'a danger item',
+    // },
+  ];
+
 
 
 
@@ -395,7 +436,7 @@ export default function MainLayout({
 
   
 
-  const [theme, setTheme] = useState<MenuTheme>('light');
+  const [theme, setTheme] = useState<MenuTheme>('dark');
 
   const changeTheme = (value: boolean) => {
     setTheme(value ? 'dark' : 'light');
@@ -516,12 +557,19 @@ export default function MainLayout({
     <Wrapper>
         {/*  */}
         <Navigation>
-            <AvatarContainer>
-              <AvatarImage>
+            <AvatarContainer
+            style={{ 
+              display : collapsed ? 'none' : 'block' ,
+              backgroundColor : theme == 'dark' ? '#001529' : '#FFFFFF' 
+            }}
+            >
+              <AvatarImage
+              style={{ backgroundColor : theme == 'dark' ? '#001529' : '#FFFFFF' }}
+              >
                 <Avatar 
                 size={128} 
-                style={{ backgroundColor : '#475059' }}
                 icon={<UserOutlined />} 
+                style={{ backgroundColor : theme == 'dark' ? '#475059' : '#242d36' }}
                 />
               </AvatarImage>
             </AvatarContainer>
@@ -542,19 +590,46 @@ export default function MainLayout({
         </Navigation>
 
         <Content>
-            <Gadgets>
+            <Gadgets
+            style={{ 
+              backgroundColor : theme == 'dark' ? '#001529' : '#FFFFFF' 
+            }}
+            >
                 <NavigationResponsiveButton>
-                    <Button type={"text"} onClick={toggleCollapsed} >
-                    {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                    <Button 
+                    type={"text"} 
+                    onClick={toggleCollapsed} 
+                    >
+                    {collapsed ? 
+                    <MenuUnfoldOutlined 
+                      style={{ color : '#fff'}}
+                    /> : 
+                    <MenuFoldOutlined 
+                      style={{ color : '#fff'}}
+                    />}
                     </Button>
                 </NavigationResponsiveButton>
-                <Switch
+
+
+
+                <Dropdown 
+                menu={{ items : settingsMenu }}
+                >
+                  <a onClick={(e) => e.preventDefault()}>
+                    <Space
+                    style={{ color : '#fff' }}
+                    >
+                      <SettingOutlined />
+                    </Space>
+                  </a>
+                </Dropdown>
+                {/* <Switch
                   checked={theme === 'dark'}
                   onChange={changeTheme}
                   checkedChildren="Dark"
                   unCheckedChildren="Light"
                   className={styles.switch}
-                />
+                /> */}
             </Gadgets>
             <MainContent>
                 {children}
