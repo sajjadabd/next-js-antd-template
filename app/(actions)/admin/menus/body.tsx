@@ -853,11 +853,11 @@ export default function Body () {
                 defaultValue={"horizontal"}
                 >
                   <Radio.Button value="horizontal">
-                    <InsertRowBelowOutlined />
+                    <InsertRowRightOutlined />
                   </Radio.Button>
                   {/* <Radio.Button value="vertical">Vertical</Radio.Button> */}
                   <Radio.Button value="inline">
-                    <InsertRowRightOutlined />
+                    <InsertRowBelowOutlined />
                   </Radio.Button>
                 </Radio.Group>
               </Form.Item>
