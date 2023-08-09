@@ -118,7 +118,7 @@ import { Space, Spin } from 'antd';
 
 import Loader from '../../../../components/loader/loader';
 
-
+const { Search } = Input;
 
 type LayoutType = Parameters<typeof Form>[0]['layout'];
 
@@ -457,6 +457,7 @@ export default function Body () {
 
 
       setMenus(response.data);
+      setTempMenus(response.data)
 
       //setTreeData(response.data);
 
@@ -494,6 +495,8 @@ export default function Body () {
   const [menuPath , setMenuPath] = useState("");
 
   const [menus , setMenus] = useState<eachItem[]>(menuItemList);
+  const [tempMenus , setTempMenus] = useState<eachItem[]>(menuItemList);
+
   const [treeData , setTreeData] = useState<eachItem[]>(menuItemList);
 
   const [pageSize , setPageSize] = useState(3);
@@ -797,6 +800,21 @@ export default function Body () {
 
 
 
+  const onSearch = (value: string) => {
+    //console.log(value);
+    if (value.trim() == '') {
+      setMenus(tempMenus);
+    } else {
+      let temp = tempMenus.filter((item , index) => {
+        console.log(item.title.includes(value))
+        return item.title.includes(value);
+      })
+      setMenus(temp);
+    }
+  };
+
+
+
 
   useEffect( () => {
     //console.log(`running useEffect ...`);
@@ -964,9 +982,10 @@ export default function Body () {
           
             <div 
               style={{
-              marginBottom: 16 , 
-              marginTop : 16 , 
-              justifyContent : 'flex-start'  
+                marginBottom: 16 , 
+                marginTop : 16 , 
+                justifyContent : 'flex-start' ,
+                
               }}
             >
             {/* <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading}>
@@ -993,6 +1012,19 @@ export default function Body () {
                 },
               ]}
             /> */}
+
+
+            <Search 
+              style={{
+                alignSelf : 'flex-end' ,
+                justifyContent : 'flex-end'
+              }}
+              placeholder="جستجوی منو"
+              onSearch={(value) => onSearch(value)}
+              //onKeyUp={(e) => console.log(e.target)}
+              onChange={(e) => onSearch(e.target.value)}
+              enterButton
+            />
 
 
           </div>
