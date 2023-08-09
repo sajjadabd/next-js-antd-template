@@ -33,6 +33,7 @@ import {
   CloudDownloadOutlined ,
   GlobalOutlined ,
   LeftOutlined ,
+  RightOutlined ,
 } from '@ant-design/icons';
 
 
@@ -98,6 +99,8 @@ import { CSS } from '@dnd-kit/utilities';
 
 import Loader from '../../../../components/loader/loader';
 
+import type { PaginationProps } from 'antd';
+
 
 
 
@@ -145,6 +148,18 @@ const userColumns = [
 
 
 export default function App () {
+
+
+
+  const itemRender: PaginationProps['itemRender'] = (_, type, originalElement) => {
+    if (type === 'prev') {
+      return <RightOutlined />; 
+    }
+    if (type === 'next') {
+      return <LeftOutlined />;
+    }
+    return originalElement;
+  };
 
 
   const [mounted , setMounted] = useState(false);
@@ -497,7 +512,11 @@ export default function App () {
           rowSelection={rowSelection} 
           dataSource={users}
           columns={userColumns} 
-          pagination={{ pageSize: pageSize }}
+          pagination={{ 
+            //pageSize: pageSize ,
+            showSizeChanger: true,
+            itemRender : itemRender ,
+           }}
           scroll={{ x: 500 }}
           //onChange={handleTableChange}
         />

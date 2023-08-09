@@ -33,6 +33,7 @@ import {
   CloudDownloadOutlined ,
   GlobalOutlined ,
   LeftOutlined ,
+  RightOutlined ,
 } from '@ant-design/icons';
 
 
@@ -101,6 +102,9 @@ import { Space, Spin } from 'antd';
 import Loader from '../../../../components/loader/loader';
 
 
+import type { PaginationProps } from 'antd';
+
+
 
 
 type LayoutType = Parameters<typeof Form>[0]['layout'];
@@ -138,6 +142,18 @@ const roleColumns = [
 
 
 export default function App () {
+
+
+
+  const itemRender: PaginationProps['itemRender'] = (_, type, originalElement) => {
+    if (type === 'prev') {
+      return <RightOutlined />; 
+    }
+    if (type === 'next') {
+      return <LeftOutlined />;
+    }
+    return originalElement;
+  };
 
 
   const [mounted , setMounted] = useState(false);
@@ -419,7 +435,9 @@ export default function App () {
             {/* <span style={{ marginLeft: 8 }}>
               {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
             </span> */}
-            <Select
+
+
+            {/* <Select
               labelInValue
               defaultValue={{ value: '3', label: 'صفحه / 3' }}
               style={{ width: 120 }}
@@ -434,7 +452,9 @@ export default function App () {
                   label: 'صفحه / 6',
                 },
               ]}
-            />
+            /> */}
+
+
           </div>
 
 
@@ -449,7 +469,11 @@ export default function App () {
             rowSelection={rowSelection} 
             dataSource={roles}
             columns={roleColumns} 
-            pagination={{ pageSize: pageSize }}
+            pagination={{ 
+              //pageSize: pageSize ,
+              showSizeChanger: true,
+              itemRender : itemRender ,
+            }}
             scroll={{ x: 500 }}
             //onChange={handleTableChange}
           />
