@@ -27,6 +27,8 @@ import {
   GlobalOutlined ,
 } from '@ant-design/icons';
 
+import { UserOutlined } from '@ant-design/icons';
+import { Avatar } from 'antd';
 
 import type { MenuProps, MenuTheme } from 'antd';
 import { Button, Menu, Switch } from 'antd';
@@ -66,7 +68,9 @@ import {
   NavigationResponsiveButton ,
   MainContent , 
   Center , 
-  CenterForLayout
+  CenterForLayout ,
+  AvatarContainer ,
+  AvatarImage ,
 } from '../../components/styled/styled'
 
 
@@ -512,6 +516,15 @@ export default function MainLayout({
     <Wrapper>
         {/*  */}
         <Navigation>
+            <AvatarContainer>
+              <AvatarImage>
+                <Avatar 
+                size={128} 
+                style={{ backgroundColor : '#475059' }}
+                icon={<UserOutlined />} 
+                />
+              </AvatarImage>
+            </AvatarContainer>
             <Menu
               onClick={onClick}
               style={{ width : menuWidth , minHeight : '100vh' , overflowY : 'scroll' }}

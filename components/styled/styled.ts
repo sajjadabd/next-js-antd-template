@@ -237,3 +237,20 @@ export const Center = styled.div`
     box-sizing : border-box;
     position : relative;
 `
+
+
+export const AvatarContainer = styled.div`
+  background-color : #001427;
+  color : white;
+  display : flex;
+  justify-content : center;
+`
+
+export const AvatarImage = styled.div`
+  background-color : #001427;
+  color : white;
+  display : flex;
+  justify-content : center;
+  padding-top : 2em;
+  padding-bottom : 2em;
+`
