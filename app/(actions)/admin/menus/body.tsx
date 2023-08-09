@@ -50,6 +50,8 @@ import {
   GlobalOutlined ,
   LeftOutlined ,
   RightOutlined ,
+  InsertRowBelowOutlined ,
+  InsertRowRightOutlined  ,
 } from '@ant-design/icons';
 
 
@@ -842,15 +844,36 @@ export default function Body () {
 
         <MenuCreationFormWrapper>
 
+        <div>
+          <Form>
+            <Form.Item name="layout">
+                <Radio.Group
+                onChange={(e) => setFormLayout(e.target.value)}
+                value={formLayout}
+                >
+                  <Radio.Button value="horizontal">
+                    <InsertRowBelowOutlined />
+                  </Radio.Button>
+                  {/* <Radio.Button value="vertical">Vertical</Radio.Button> */}
+                  <Radio.Button value="inline">
+                    <InsertRowRightOutlined />
+                  </Radio.Button>
+                </Radio.Group>
+              </Form.Item>
+          </Form>
+        </div>
+
         <Form
           {...formItemLayout}
           layout={formLayout}
           form={form}
           initialValues={{ layout: formLayout }}
-          onValuesChange={onFormLayoutChange}
+          //onValuesChange={onFormLayoutChange}
           style={{ maxWidth: formLayout === 'inline' ? 'none' : 600 , marginTop : '20px' }}
           autoComplete="off"
         >
+
+
 
 
 

@@ -35,8 +35,7 @@ export const FormWrapper = styled.div`
 
 export const MenuCreationFormWrapper = styled.div`
   background-color : white;
-  padding-top : 10px;
-  padding-bottom : 10px;
+  padding : 20px;
   border-radius : 10px;
   background-color : #e0e1dd;
   margin-bottom : 30px;

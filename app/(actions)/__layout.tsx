@@ -617,7 +617,11 @@ export default function MainLayout({
                 >
                   <a onClick={(e) => e.preventDefault()}>
                     <Space
-                    style={{ color : '#fff' }}
+                      style={{ 
+                        color : '#fff' , 
+                        paddingRight : '30px' , 
+                        paddingLeft : '5px' 
+                      }}
                     >
                       <SettingOutlined />
                     </Space>
